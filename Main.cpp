@@ -12,6 +12,7 @@
 #include "Ball.h"
 #include "Card.h"
 #include "SkyCube.h"
+#include"Hud.h"
 #include "Win.h"
 
 #define SPEED 0.3
@@ -28,6 +29,7 @@ int lastCheckPointKey;
 std::vector<Building> buildings;
 bool canWin;
 Win win;
+Hud hud;
 void initGL() 
 {
  	
@@ -44,9 +46,10 @@ void initGL()
 		
 		brasovMap = Map("Map.xml");
 		ball = new Ball(BALL_RADIUS / 8, Point(0, 0, 0));
-		Point checkPointPosition = brasovMap.GetPoint(CHECKPOINT).getCenter();
+		Point checkPointPosition = brasovMap.GetPoint(4).getCenter();
 		card = Card(Point(checkPointPosition.x, checkPointPosition.y + 0.5, checkPointPosition.z),false);
 		miniCard=Card(Point(0.95,0.55,-2),true);
+		hud=Hud(Point(0,0,0)); //Point(0.95,0.55,-2));
 		lastCheckPointKey = STARTPOINT;
 		canWin = false;
 		Point endPoint = brasovMap.GetPoint(ENDPOINT).getCenter();
@@ -70,19 +73,21 @@ void display(void)
    glMatrixMode(GL_MODELVIEW);     // To operate on model-view matrix
    
    glLoadIdentity();                 // Reset the model-view matrix
-
+ 
    if(canWin)
+   {
       miniCard.Draw();
-  
+		
+   }
+	hud.Draw();   
    glTranslatef(0.0f, -1.0f, -10.0f); 
-   glRotatef(5.0,1,0,0);
+    glRotatef(5.0,1,0,0);
 	
-  
    ball->SetTexNr(texNr);
    ball->Draw();
    cam.Render();
    skyCube.Draw();
-   win.Draw();
+   //win.Draw();
    brasovMap.Draw();
    
    if(!canWin)
@@ -93,7 +98,7 @@ void display(void)
    glPushMatrix();
    glTranslated(endPos.x - startPos.x, startPos.y, endPos.z - startPos.z);
    for(int i=0;i<buildings.size();i++) {
-	   buildings[i].Draw();
+	   ;//buildings[i].Draw();
    }
    glPopMatrix();
   

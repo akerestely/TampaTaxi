@@ -1,6 +1,7 @@
 #pragma once
 #include "Point.h"
 
+
 //! An abstanct class that can be drawn on screen
 class Drawable
 {

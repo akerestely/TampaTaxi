@@ -2,7 +2,7 @@
 #include "glut.h"  /*!< OpenGL Utility Toolkit. */
 #include "Point.h"  /*!< Used to manipulate point 2D objects. */
 #include "Drawable.h"  /*!< Base abstract class. */
-
+#include "Hud.h"
 /**
 * Class used to draw and design a pass card on a support made by 3 spheres. The pass card is represented by a rectangle with the logo of Route66 as a texture.
 */

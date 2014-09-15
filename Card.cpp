@@ -2,7 +2,8 @@
 #include "Card.h"
 #define CARD_WIDTH 1.5
 #define CARD_HEIGHT 2.5
-
+#define PI 3.14672
+#include"math.h"
 Card::Card(Point center,bool isMiniCard)
 :Drawable(center)
 {
@@ -25,6 +26,25 @@ void Card::Draw()
 
 void Card::DrawBigCard()
 {
+	/*glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().hudText);
+	double r=0.5;
+	glPushMatrix();
+	glTranslatef(center.x,center.y,center.z);
+	glBegin(GL_TRIANGLE_FAN);
+	
+	glTexCoord2f(0.5,0.5);glVertex3f( 0,0,0. ); 
+	for(double t = 0; t<=360;t+=1)
+	{	
+		glTexCoord2d(r * cos(2 * PI - t * PI / 180) + 0.5, r * sin(2 * PI - t * PI / 180) + 0.5);
+		glVertex3d(r * cos(t * PI / 180),r * sin(t * PI / 180), 0.);
+	}
+	glEnd();
+
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+*/
+	
 	angle+=1;
 	Texture tex=Texture::GetInstance();
     glMatrixMode(GL_MODELVIEW);
