@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<map description="Brasov">
+  <nodes>
+    <node id="0" longitude="39.05166" latitude="36.32833"/>
+    <node id="1" longitude="39.06833" latitude="36.32333"/>
+    <node id="2" longitude="39.05833" latitude="36.26333"/>
+    <node id="3" longitude="39.07166" latitude="36.26000"/>
+    <node id="4" longitude="39.07666" latitude="36.27833"/>
+    <node id="5" longitude="39.06916" latitude="36.28083"/>
+    <node id="6" longitude="39.09000" latitude="36.35666"/>
+    <node id="7" longitude="39.03333" latitude="36.36835"/>
+    <node id="8" longitude="39.01333" latitude="36.24833"/>
+    <node id="9" longitude="39.03166" latitude="36.22333"/>
+    <node id="10" longitude="39.07000" latitude="36.24833"/>
+    <node id="11" longitude="39.13166" latitude="36.34833"/>
+    <node id="12" longitude="39.14666" latitude="36.34333"/>
+    <node id="13" longitude="39.15666" latitude="36.34500"/>
+    <node id="14" longitude="39.16000" latitude="36.32666"/>
+    <node id="15" longitude="39.13666" latitude="36.38833"/>
+    <node id="16" longitude="39.13833" latitude="36.40500"/>
+    <node id="17" longitude="39.13166" latitude="36.41833"/>
+    <node id="18" longitude="39.12833" latitude="36.44166"/>
+    <node id="19" longitude="39.13000" latitude="36.45166"/>
+    <node id="20" longitude="39.12500" latitude="36.47000"/>
+    <node id="21" longitude="39.11333" latitude="36.46833"/>
+	<node id="22" longitude="39.10833" latitude="36.45666"/>
+	<node id="23" longitude="39.05500" latitude="36.47833"/>
+	<node id="24" longitude="39.09833" latitude="36.39666"/>
+	<node id="25" longitude="39.04500" latitude="36.42333"/>
+  </nodes>
+  <arcs>
+    <arc from="0" to="1" />
+    <arc from="1" to="2" />
+    <arc from="2" to="3" />
+    <arc from="3" to="4" />
+    <arc from="4" to="5" />
+    <arc from="4" to="6" />
+    <arc from="6" to="7" />
+    <arc from="6" to="11" />
+	<arc from="6" to="24" />
+    <arc from="7" to="8" />
+    <arc from="8" to="9" />
+    <arc from="9" to="10" />
+    <arc from="10" to="3" />
+    <arc from="11" to="6" />
+    <arc from="11" to="12" />
+    <arc from="11" to="15" />
+    <arc from="12" to="13" />
+    <arc from="12" to="15" />
+    <arc from="13" to="14" />
+    <arc from="15" to="16" />
+    <arc from="16" to="17" />
+    <arc from="17" to="18" />
+    <arc from="18" to="19" />
+    <arc from="19" to="20" />
+    <arc from="20" to="21" />
+    <arc from="21" to="22" />
+	<arc from="22" to="23" />
+	<arc from="23" to="25" />
+	<arc from="24" to="22" />
+	<arc from="24" to="25" />
+	<arc from="25" to="7" />
+   </arcs>
+  <buildings>
+    <builduing X="" Y="" Z="" size="" type="" angle=""/>
+    <builduing X="" Y="" Z="" size="" type="" angle=""/>
+    <builduing X="" Y="" Z="" size="" type="" angle=""/>
+    <builduing X="" Y="" Z="" size="" type="" angle=""/>
+  </buildings>
+</map>
