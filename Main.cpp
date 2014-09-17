@@ -13,8 +13,9 @@
 #include "Card.h"
 #include "SkyCube.h"
 #include "Win.h"
+#include "Human.h"
 
-#define SPEED 0.3
+#define SPEED 0.01
 #define ROTATION 3
 
 CCamera cam;
@@ -28,6 +29,7 @@ int lastCheckPointKey;
 std::vector<Building> buildings;
 bool canWin;
 Win win;
+Human human;
 void initGL() 
 {
  	
@@ -51,6 +53,7 @@ void initGL()
 		canWin = false;
 		Point endPoint = brasovMap.GetPoint(ENDPOINT).getCenter();
 		win = Win(Point(endPoint.x, endPoint.y + 2, endPoint.z));
+		human=Human(Point(endPoint.x, endPoint.y, endPoint.z+6));
 	}
 	catch(char* message)
 	{
@@ -71,18 +74,19 @@ void display(void)
    
    glLoadIdentity();                 // Reset the model-view matrix
 
-   if(canWin)
-      miniCard.Draw();
   
-   glTranslatef(0.0f, -1.0f, -10.0f); 
+   glTranslatef(0.0f, -1.0f, -15.0f); 
    glRotatef(5.0,1,0,0);
+
 	
   
-   ball->SetTexNr(texNr);
-   ball->Draw();
+   
    cam.Render();
+   human.setWalk(true);
+   human.Draw();
+   
+  // human.Walk(-0.000005);
    skyCube.Draw();
-   win.Draw();
    brasovMap.Draw();
    
    if(!canWin)
@@ -111,47 +115,55 @@ void timer(int value)
 	}
 	if (left)
 	{
-		cam.MoveX(-SPEED); 
+		human.Turn(ROTATION);
+
+		//cam.MoveX(-SPEED); 
 		ball->MoveX(-SPEED);
-		center = cam.GetPosition();
+		/*center = cam.GetPosition();
 		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
 		{
 			cam.MoveX(SPEED); 
 			ball->MoveX(SPEED);
-		}		
+		}*/		
 	}
 	if (right)
 	{
-		cam.MoveX(SPEED); 
+		//cam.MoveX(SPEED); 
 		ball->MoveX(SPEED);
-		center = cam.GetPosition();
+
+		human.Turn(-ROTATION);
+
+		/*center = cam.GetPosition();
 		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
 		{
 			cam.MoveX(-SPEED);
 			ball->MoveX(-SPEED);
-		}
+		}*/
 	}
 	if (up)
 	{
-		cam.MoveZ(-SPEED); 
+		//cam.MoveZ(-SPEED); 
 		ball->MoveZ(SPEED);
-		center = cam.GetPosition();
+		human.Walk(-SPEED);
+		/*center = cam.GetPosition();
 		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
 		{
 			cam.MoveZ(SPEED);
 			ball->MoveZ(-SPEED);
-		}
+		}*/
 	}
 	if (down)
 	{
-		cam.MoveZ(SPEED); 
+		//cam.MoveZ(SPEED); 
 		ball->MoveZ(-SPEED);
-		center = cam.GetPosition();
+		human.Walk(SPEED);
+
+		/*center = cam.GetPosition();
 		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
 		{
 			cam.MoveZ(-SPEED);
 			ball->MoveZ(SPEED);
-		}
+		}*/
 	}
 	if(rotLeft)
 	{
@@ -160,6 +172,7 @@ void timer(int value)
 	if(rotRight)
 	{
 		cam.RotateY(-ROTATION);
+		human.Turn(-ROTATION);
 	}
 	skyCube.SetPoz(Point(cam.GetPosition().x,0,cam.GetPosition().z));
 	for(int i=0;i<buildings.size();i++) 
