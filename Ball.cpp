@@ -105,9 +105,9 @@ void Ball::MoveZ(double dz)
 		boolX=true;
 		boolZ=false;
 		if(dz>0)
-			alphaX-=10;
+			alphaX-=(dz/0.3)*10;
 		else
-			alphaX+=10;
+			alphaX+=(dz/0.3)*10;
 }
 
 void Ball::Jump(bool &isJump)

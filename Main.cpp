@@ -15,8 +15,12 @@
 #include"Hud.h"
 #include "Win.h"
 
-#define SPEED 0.3
+#define ACCELERATION 0.007
+
 #define ROTATION 3
+#define SPEED 0.3
+
+double speed=0;
 
 CCamera cam;
 SkyCube skyCube;
@@ -49,7 +53,8 @@ void initGL()
 		Point checkPointPosition = brasovMap.GetPoint(4).getCenter();
 		card = Card(Point(checkPointPosition.x, checkPointPosition.y + 0.5, checkPointPosition.z),false);
 		miniCard=Card(Point(0.95,0.55,-2),true);
-		hud=Hud(Point(0,0,0)); //Point(0.95,0.55,-2));
+		hud=Hud(Point(0,0,0)); 
+		//presupunem ca ne am luat masina
 		lastCheckPointKey = STARTPOINT;
 		canWin = false;
 		Point endPoint = brasovMap.GetPoint(ENDPOINT).getCenter();
@@ -98,7 +103,7 @@ void display(void)
    glPushMatrix();
    glTranslated(endPos.x - startPos.x, startPos.y, endPos.z - startPos.z);
    for(int i=0;i<buildings.size();i++) {
-	   ;//buildings[i].Draw();
+	   buildings[i].Draw();
    }
    glPopMatrix();
   
@@ -113,6 +118,24 @@ void timer(int value)
 	if (jump)
 	{
 		ball->Jump(jump);
+	}
+	if(speed)
+	{
+		speed-=Tools::Sign(speed)*0.002;
+		if(abs(speed)<0.00005)
+			speed=0;
+	}
+	if(up)
+	{
+		if(speed<MAX_SPEED)
+			speed+=ACCELERATION;
+		/*if(speed>MAXSPEED)
+			speed=MAXSPEED;*/
+	}
+	if(down)
+	{
+		if(speed>-0.05)
+			speed-=ACCELERATION;
 	}
 	if (left)
 	{
@@ -136,28 +159,19 @@ void timer(int value)
 			ball->MoveX(-SPEED);
 		}
 	}
-	if (up)
+	if (speed!=0)
 	{
-		cam.MoveZ(-SPEED); 
-		ball->MoveZ(SPEED);
+		cam.MoveZ(-speed); 
+		ball->MoveZ(speed);
 		center = cam.GetPosition();
 		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
 		{
-			cam.MoveZ(SPEED);
-			ball->MoveZ(-SPEED);
+			cam.MoveZ(speed);
+			ball->MoveZ(-speed);
+			speed=0;
 		}
 	}
-	if (down)
-	{
-		cam.MoveZ(SPEED); 
-		ball->MoveZ(-SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveZ(-SPEED);
-			ball->MoveZ(SPEED);
-		}
-	}
+	hud.setSpeed(speed);
 	if(rotLeft)
 	{
 		cam.RotateY(ROTATION);

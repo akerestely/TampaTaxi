@@ -34,4 +34,5 @@ public:
 	GLuint doorTex; /*!<Public variable which represents a GLuint value containing a texture used to design the doors at the end point of the game. */
 	GLuint winTex; /*!<Public variable which represents a GLuint value containing a texture used to design the rectangle with the message "you win" behind the doors at the end point of the game. */
 	GLuint hudText;
+	GLuint hudNumbers;
 };

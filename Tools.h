@@ -32,4 +32,5 @@ public:
 	*@param buildings a vector where one should store buildings data
 	**/
 	static int ReadBuildingsFromXML(char *fileName, std::vector<Building> &buildings);
+	static int Sign(double x);
 };

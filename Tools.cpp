@@ -113,3 +113,7 @@ int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building> &buildings
 	fclose(fo);
 	return 1;
 }
+int Tools::Sign(double x)
+{
+	return x<0?-1:1;
+}

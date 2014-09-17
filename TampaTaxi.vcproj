@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HudDigit.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Map.cpp"
 				>
 			</File>
@@ -258,6 +262,10 @@
 			</File>
 			<File
 				RelativePath=".\Hud.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HudDigit.h"
 				>
 			</File>
 			<File
