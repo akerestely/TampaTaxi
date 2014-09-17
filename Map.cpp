@@ -4,6 +4,7 @@
 #include "glut.h"
 #include "Texture.h"
 Map::Map(char* fileName)
+	:Drawable(Point())
 {
 	// Try to load the intersections coordinates of the map
 	if (!Tools::ReadNodesFromXML(fileName, this->nodes))
@@ -28,7 +29,7 @@ Map::Map(char* fileName)
 
 void Map::computeStreets()
 {
-	Point first, second;
+	Point first(8,6,7), second(6,5,4);
 	for (std::map<int, Node>::iterator it = this->nodes.begin(); it != this->nodes.end(); ++it)
 	{
 
@@ -54,7 +55,7 @@ void Map::translateToCenter()
 		(*it).second.Translate(-center.x, -center.y, -center.z);
 	}
 }
-Map::Map()
+Map::Map():Drawable(Point())
 {
 }
 

@@ -1,11 +1,6 @@
 #include "Drawable.h"
 
-
 Drawable::Drawable(Point center)
-	:center(center)
+	:Object3d(center)
 {
-}
-Drawable::Drawable()
-{
-	
 }

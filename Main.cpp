@@ -10,9 +10,7 @@
 #include "Map.h"
 #include "Building.h"
 #include "Ball.h"
-#include "Card.h"
 #include "SkyCube.h"
-#include "Win.h"
 
 #define SPEED 0.3
 #define ROTATION 3
@@ -23,11 +21,8 @@ Map brasovMap;
 Ball *ball;
 bool up,down,left,right,rotLeft,rotRight, jump;
 int texNr=0;
-Card card,miniCard;
 int lastCheckPointKey;
 std::vector<Building> buildings;
-bool canWin;
-Win win;
 void initGL() 
 {
  	
@@ -45,12 +40,8 @@ void initGL()
 		brasovMap = Map("Map.xml");
 		ball = new Ball(BALL_RADIUS / 8, Point(0, 0, 0));
 		Point checkPointPosition = brasovMap.GetPoint(CHECKPOINT).getCenter();
-		card = Card(Point(checkPointPosition.x, checkPointPosition.y + 0.5, checkPointPosition.z),false);
-		miniCard=Card(Point(0.95,0.55,-2),true);
 		lastCheckPointKey = STARTPOINT;
-		canWin = false;
 		Point endPoint = brasovMap.GetPoint(ENDPOINT).getCenter();
-		win = Win(Point(endPoint.x, endPoint.y + 2, endPoint.z));
 	}
 	catch(char* message)
 	{
@@ -71,9 +62,6 @@ void display(void)
    
    glLoadIdentity();                 // Reset the model-view matrix
 
-   if(canWin)
-      miniCard.Draw();
-  
    glTranslatef(0.0f, -1.0f, -10.0f); 
    glRotatef(5.0,1,0,0);
 	
@@ -82,12 +70,8 @@ void display(void)
    ball->Draw();
    cam.Render();
    skyCube.Draw();
-   win.Draw();
    brasovMap.Draw();
    
-   if(!canWin)
-	  card.Draw();
-	
    Point startPos = brasovMap.GetPoint(STARTPOINT).getCenter();
    Point endPos = brasovMap.GetPoint(ENDPOINT).getCenter();
    glPushMatrix();
@@ -166,22 +150,6 @@ void timer(int value)
 	{
 	   buildings[i].SwitchMode(cam.GetPosition(), -cam.GetRotY());
    }
-	if (!canWin)
-	{
-		if(lastCheckPointKey == CHECKPOINT)
-			canWin = true;
-	}
-	else
-	{
-		if(lastCheckPointKey == ENDPOINT)
-		{
-			win.SetWin(true);
-		}
-		else
-		{
-			win.SetWin(false);
-		}
-	}
 }
 
 void reshape(GLsizei width, GLsizei height) {  // GLsizei for non-negative integer
@@ -264,7 +232,7 @@ int main(int argc, char** argv)
   		glutSpecialFunc(handleSpecialKeyPressed);
    		glutSpecialUpFunc(handleSpecialKeyReleased);
 		glutTimerFunc(0, timer, 0);     // First timer call immediately
-		glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
+		//glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
 		glutMainLoop();                 // Enter the infinite event-processing loop
 	}
 	catch(char* message)

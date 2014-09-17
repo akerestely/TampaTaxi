@@ -171,6 +171,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Animable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Ball.cpp"
 				>
 			</File>
@@ -187,7 +191,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Card.cpp"
+				RelativePath=".\Collidable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Collider.cpp"
 				>
 			</File>
 			<File
@@ -199,7 +207,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Movable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Node.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Object3d.cpp"
 				>
 			</File>
 			<File
@@ -218,16 +234,16 @@
 				RelativePath=".\Tools.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\Win.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Animable.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Ball.h"
 				>
@@ -245,7 +261,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Card.h"
+				RelativePath=".\Collidable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Collider.h"
 				>
 			</File>
 			<File
@@ -257,7 +277,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Movable.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Node.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Object3d.h"
 				>
 			</File>
 			<File
@@ -274,10 +302,6 @@
 			</File>
 			<File
 				RelativePath=".\Tools.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Win.h"
 				>
 			</File>
 		</Filter>

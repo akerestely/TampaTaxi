@@ -1,7 +1,7 @@
 #include "SkyCube.h"
 #include "Texture.h"
 
-SkyCube::SkyCube(void)
+SkyCube::SkyCube(void):Drawable(Point())
 {
 }
 

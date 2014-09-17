@@ -1,15 +1,11 @@
 #pragma once
-#include "Point.h"
+#include "Object3d.h"
 
 //! An abstanct class that can be drawn on screen
-class Drawable
+class Drawable : public Object3d
 {
-protected:
-	//! Center of the object
-	Point center;
 public:
 	Drawable(Point center);
-	Drawable();
 	//! The function used to draw the object on the screen
 	virtual void Draw() = 0;
 };
