@@ -21,7 +21,7 @@ CCamera cam;
 SkyCube skyCube;
 Map brasovMap;
 Ball *ball;
-bool up,down,left,right,rotLeft,rotRight, jump;
+bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight, jump;
 int texNr=0;
 Card card,miniCard;
 int lastCheckPointKey;
@@ -74,20 +74,13 @@ void display(void)
    if(canWin)
       miniCard.Draw();
   
-   glTranslatef(0.0f, -1.0f, -10.0f); 
-   glRotatef(5.0,1,0,0);
+   //glTranslatef(0.0f, -1.0f, -10.0f); 
+   //glRotatef(5.0,1,0,0);
 	
-  
-   ball->SetTexNr(texNr);
-   ball->Draw();
    cam.Render();
    skyCube.Draw();
-   win.Draw();
    brasovMap.Draw();
    
-   if(!canWin)
-	  card.Draw();
-	
    Point startPos = brasovMap.GetPoint(STARTPOINT).getCenter();
    Point endPos = brasovMap.GetPoint(ENDPOINT).getCenter();
    glPushMatrix();
@@ -104,54 +97,37 @@ void timer(int value)
 	glutPostRedisplay();
 	glutTimerFunc(15, timer, 0);
 	Point center = cam.GetPosition();
-	//Point center = ball->GetPosition();
 	if (jump)
 	{
-		ball->Jump(jump);
+		//ball->Jump(jump);
 	}
 	if (left)
 	{
 		cam.MoveX(-SPEED); 
-		ball->MoveX(-SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveX(SPEED); 
-			ball->MoveX(SPEED);
-		}		
+		ball->MoveX(-SPEED);		
 	}
 	if (right)
 	{
 		cam.MoveX(SPEED); 
 		ball->MoveX(SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveX(-SPEED);
-			ball->MoveX(-SPEED);
-		}
 	}
 	if (up)
 	{
 		cam.MoveZ(-SPEED); 
 		ball->MoveZ(SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveZ(SPEED);
-			ball->MoveZ(-SPEED);
-		}
 	}
 	if (down)
 	{
 		cam.MoveZ(SPEED); 
 		ball->MoveZ(-SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveZ(-SPEED);
-			ball->MoveZ(SPEED);
-		}
+	}
+	if(climbUp)
+	{		
+		cam.Move(SF3dVector(0,SPEED,0));
+	}
+	if(climbDown)
+	{		
+		cam.Move(SF3dVector(0,-SPEED,0));
 	}
 	if(rotLeft)
 	{
@@ -163,25 +139,7 @@ void timer(int value)
 	}
 	skyCube.SetPoz(Point(cam.GetPosition().x,0,cam.GetPosition().z));
 	for(int i=0;i<buildings.size();i++) 
-	{
 	   buildings[i].SwitchMode(cam.GetPosition(), -cam.GetRotY());
-   }
-	if (!canWin)
-	{
-		if(lastCheckPointKey == CHECKPOINT)
-			canWin = true;
-	}
-	else
-	{
-		if(lastCheckPointKey == ENDPOINT)
-		{
-			win.SetWin(true);
-		}
-		else
-		{
-			win.SetWin(false);
-		}
-	}
 }
 
 void reshape(GLsizei width, GLsizei height) {  // GLsizei for non-negative integer
@@ -198,7 +156,23 @@ void reshape(GLsizei width, GLsizei height) {  // GLsizei for non-negative integ
 	// Enable perspective projection with fovy, aspect, zNear and zFar
 	gluPerspective(45.0f, aspect, 0.1f, 300.0f);
 }
+void mouse(int button, int state, int x, int y)
+{
+	std::cout<<x<<" "<<y<<"\n";
+}
+void mouseMove(int x,int y)
+{
+	if(x!=1024/2 || y!=768/2)
+	{
+		std::cout<<x<<" "<<y<<"\n";
+		double rotY=-(x-1024/2)*0.12;
+		double rotX=-(y-768/2)*0.12;
+		cam.RotateY(rotY);
+		cam.RotateX(rotX);
 
+		glutWarpPointer( 1024/2 , 768/2 );
+	}
+}
 void keyboardPressed (unsigned char key, int x, int y)
 {
 	switch (key) 
@@ -206,24 +180,38 @@ void keyboardPressed (unsigned char key, int x, int y)
 		//  case 'w':cam.RotateX(-5);break;
 		//  case 's':cam.RotateX(5);break;
 	case 'q':exit(1);
-	case 'a':rotLeft=true; break;
-	case 'd':rotRight=true; break;
-	//case 'w':cam.RotateX(5);break;
-	//case 's':cam.RotateX(-5);break;
-	case ' ':jump=true; break;
+	//case 'a':rotLeft=true; break;
+	//case 'd':rotRight=true; break;
+	//case ' ':cam.RotateX(5);break;
+	//case ' ':jump=true; break;
 	case 't':if(texNr==4)
 				 texNr=0;
 			 else
 			     texNr++;
 			 break;
+	case 'w':up=true;break;
+	case 's':down=true;break;
+	case 'a':left=true; break;
+	case 'd':right=true; break;
+	case ' ':
+	if(!glutGetModifiers())
+		climbUp=true; 
+	else
+		climbDown=true;
+	break;
 	}
 }
 void keyboardReleased (unsigned char key, int x, int y)
 {
 	switch (key) 
 	{
-	case 'a':rotLeft=false; break;
-	case 'd':rotRight=false; break;
+	//case 'a':rotLeft=false; break;
+	//case 'd':rotRight=false; break;
+	case 'w':up=false;break;
+	case 's':down=false;break;
+	case 'a':left=false; break;
+	case 'd':right=false; break;
+	case ' ':climbUp=climbDown=false; break;
 	}
 }
 
@@ -253,8 +241,8 @@ int main(int argc, char** argv)
 	{
 		glutInit(&argc, argv);            // Initialize GLUT
 		glutInitDisplayMode(GLUT_DOUBLE); // Enable double buffered mode
-		glutInitWindowSize(640, 480);   // Set the window's initial width & height
-		glutInitWindowPosition(50, 50); // Position the window's initial top-left corner
+		glutInitWindowSize(1024, 768);   // Set the window's initial width & height
+		glutInitWindowPosition(250, 50); // Position the window's initial top-left corner
 		glutCreateWindow("Test");          // Create window with the given title
 		glutDisplayFunc(display);       // Register callback handler for window re-paint event
 		glutReshapeFunc(reshape);       // Register callback handler for window re-size event
@@ -263,8 +251,12 @@ int main(int argc, char** argv)
    		glutKeyboardUpFunc(keyboardReleased);
   		glutSpecialFunc(handleSpecialKeyPressed);
    		glutSpecialUpFunc(handleSpecialKeyReleased);
+		glutMouseFunc(mouse);
+		glutSetCursor( GLUT_CURSOR_NONE );
+		//glutMotionFunc(mouseMove);
+		glutPassiveMotionFunc(mouseMove);
 		glutTimerFunc(0, timer, 0);     // First timer call immediately
-		glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
+		//glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
 		glutMainLoop();                 // Enter the infinite event-processing loop
 	}
 	catch(char* message)

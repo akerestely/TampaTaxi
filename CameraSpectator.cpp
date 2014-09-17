@@ -50,12 +50,13 @@ void CCamera::GetViewDir( void )
 	Step1.x = cos( (RotatedY + 90.0) * PIdiv180);
 	Step1.z = -sin( (RotatedY + 90.0) * PIdiv180);
 	//Rotate around X-axis:
-	double cosX = cos (RotatedX * PIdiv180);
-	Step2.x = Step1.x * cosX;
-	Step2.z = Step1.z * cosX;
-	Step2.y = sin(RotatedX * PIdiv180);
-	//Rotation around Z-axis not yet implemented, so:
-	ViewDir = Step2;
+	ViewDir = Step1;
+	//double cosX = cos (RotatedX * PIdiv180);
+	//Step2.x = Step1.x * cosX;
+	//Step2.z = Step1.z * cosX;
+	//Step2.y = sin(RotatedX * PIdiv180);
+	////Rotation around Z-axis not yet implemented, so:
+	//ViewDir = Step2;
 }
 void CCamera::Move (SF3dVector Direction)
 {
