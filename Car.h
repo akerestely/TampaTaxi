@@ -5,7 +5,7 @@ class Car:public Drawable
 	Point position;
 	double width;
 	Wheel **w;
-	double wheelRadius;
+	GLuint side;
 public:
 	Car(Point center);
 	void Draw();
