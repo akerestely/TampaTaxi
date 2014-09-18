@@ -60,12 +60,12 @@ void Ball::SetTexNr(int nr){
 
 void Ball::Draw()
 {
+		glEnable(GL_TEXTURE_2D);
 		Texture tex=Texture::GetInstance();
         glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, tex.ballTex[texnr]);
         glPushMatrix();
-		glTranslatef(this->center.x, this->center.y - 0.5, this->center.z);
+		glTranslatef(this->center.x, this->center.y + 0.5, this->center.z);
 
 		if(this->boolZ==true)
 		{
@@ -92,22 +92,24 @@ void Ball::Draw()
 
 void Ball::MoveX(double dx)
 {
-		boolZ=true;
-		boolX=false;
-		if(dx>0)
-			alphaZ-=10;
-		else
-			alphaZ+=10;
+	center.x+=dx;
+	boolZ=true;
+	boolX=false;
+	if(dx>0)
+		alphaZ-=10*(dx/0.3);
+	else
+		alphaZ+=10*(dx/0.3);
 }
 
 void Ball::MoveZ(double dz)
 {
-		boolX=true;
-		boolZ=false;
-		if(dz>0)
-			alphaX-=10;
-		else
-			alphaX+=10;
+	center.z+=dz;
+	boolX=true;
+	boolZ=false;
+	if(dz>0)
+		alphaX-=10*(dz/0.3);
+	else
+		alphaX+=10*(dz/0.3);
 }
 
 void Ball::Jump(bool &isJump)

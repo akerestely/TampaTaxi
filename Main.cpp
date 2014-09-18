@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 		glutInitWindowPosition(250, 50); // Position the window's initial top-left corner
 		glutCreateWindow("Taxi Mania");          // Create window with the given title
 		init();
-		//glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
+		glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
 		glutMainLoop();                 // Enter the infinite event-processing loop
 	}
 	catch(char* message)

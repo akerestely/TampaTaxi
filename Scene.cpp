@@ -1,14 +1,14 @@
 #include "Scene.h"
 #include "Drawable.h"
+#include "CameraSpectator.h"
 
-Scene::Scene(Model *model,CCamera *cam)
-	:model(model),cam(cam)
+Scene::Scene(Model *model)
+	:model(model)
 {
 }
 void Scene::Render()
 {
-	if(cam)
-		cam->Render();
+	model->GetCamera().Render();
 
 	std::vector<Drawable*> *sceneObjects=model->GetSceneObjects();
 	for (std::vector<Drawable*>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); ++it)

@@ -1,12 +1,10 @@
 #pragma once
 #include "Model.h"
-#include "CameraSpectator.h"
 class Scene
 {
 	Model *model;
-	CCamera *cam;
 public:
-	Scene(Model *model,CCamera *cam=NULL);
+	Scene(Model *model);
 	void Render();
 	~Scene(void);
 };

@@ -3,7 +3,7 @@
 Controller::Controller(void)
 {
 	model = new Model;
-	scene = new Scene(model,&cam);
+	scene = new Scene(model);
 }
 
 void Controller::RenderDisplay()
@@ -26,14 +26,10 @@ void Controller::MouseClicked(int button, int state, int x, int y)
 void Controller::MouseMovedPassive(int x,int y)
 {
 	Controller *ctrl=Controller::GetInstance();
-	if(x!=1024/2 || y!=768/2)
+	if(x!=ctrl->windowWidth/2 || y!=ctrl->windowHeight/2)
 	{
-		double rotY=-(x-1024/2)*0.12;
-		double rotX=-(y-768/2)*0.12;
-		ctrl->cam.RotateY(rotY);
-		ctrl->cam.RotateX(rotX);
-
-		glutWarpPointer( 1024/2 , 768/2 );
+		ctrl->model->MouseMove(-(x-ctrl->windowWidth/2),-(y-ctrl->windowHeight/2));
+		glutWarpPointer( ctrl->windowWidth/2 , ctrl->windowHeight/2 );
 	}
 }
 void Controller::KeyPressed (unsigned char key, int x, int y)
@@ -41,13 +37,9 @@ void Controller::KeyPressed (unsigned char key, int x, int y)
 	Controller *ctrl=Controller::GetInstance();
 	switch (key) 
 	{
-		//  case 'w':cam.RotateX(-5);break;
-		//  case 's':cam.RotateX(5);break;
-	case 'q':exit(1);
-	//case 'a':rotLeft=true; break;
-	//case 'd':rotRight=true; break;
-	//case ' ':cam.RotateX(5);break;
-	//case ' ':jump=true; break;
+	case 'q':
+	case 'Q':
+	case 27:exit(1);
 	case 'w':ctrl->up=true;break;
 	case 's':ctrl->down=true;break;
 	case 'a':ctrl->left=true; break;
@@ -65,8 +57,6 @@ void Controller::KeyReleased (unsigned char key, int x, int y)
 	Controller *ctrl=Controller::GetInstance();
 	switch (key) 
 	{
-	//case 'a':rotLeft=false; break;
-	//case 'd':rotRight=false; break;
 	case 'w':ctrl->up=false;break;
 	case 's':ctrl->down=false;break;
 	case 'a':ctrl->left=false; break;
@@ -100,51 +90,35 @@ void Controller::KeyReleasedSpecial(int key, int x, int y)
 
 void Controller::Timer(int value)
 {
+	glutTimerFunc(15, Timer, 0);
 	Controller *ctrl=Controller::GetInstance();
 	ctrl->model->Update();
-	glutTimerFunc(15, Timer, 0);
-	/*if (left)
-	{
-		cam.MoveX(-SPEED); 
-		ball->MoveX(-SPEED);		
-	}
-	if (right)
-	{
-		cam.MoveX(SPEED); 
-		ball->MoveX(SPEED);
-	}
-	if (up)
-	{
-		cam.MoveZ(-SPEED); 
-		ball->MoveZ(SPEED);
-	}
-	if (down)
-	{
-		cam.MoveZ(SPEED); 
-		ball->MoveZ(-SPEED);
-	}
-	if(climbUp)
+	if (ctrl->left)
+		ctrl->model->MoveLeft();		
+	if (ctrl->right)
+		ctrl->model->MoveRight();
+	if (ctrl->up)		 
+		ctrl->model->MoveUp();
+	if (ctrl->down)		 
+		ctrl->model->MoveDown();
+	/*if(climbUp)
 	{		
 		cam.Move(SF3dVector(0,SPEED,0));
 	}
 	if(climbDown)
 	{		
 		cam.Move(SF3dVector(0,-SPEED,0));
-	}
-	if(rotLeft)
-	{
-		cam.RotateY(ROTATION);
-	}
-	if(rotRight)
-	{
-		cam.RotateY(-ROTATION);
-	}*/	
+	}*/
+	
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)
 {
 	// Compute aspect ratio of the new window
 	if (height == 0) height = 1;                // To prevent divide by 0
+	Controller *ctrl=Controller::GetInstance();
+	ctrl->windowWidth=width;
+	ctrl->windowHeight=height;
 	GLfloat aspect = (GLfloat)width / (GLfloat)height;
 
 	// Set the viewport to cover the new window

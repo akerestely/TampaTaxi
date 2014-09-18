@@ -6,8 +6,8 @@
 class Controller
 {
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
+	int windowWidth,windowHeight;
 	Model *model;
-	CCamera cam;
 	Scene *scene;
 	Controller(void);
 public:

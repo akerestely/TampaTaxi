@@ -1,17 +1,24 @@
 #pragma once
 #include <vector>
-#include "Player.h"
+#include "CameraSpectator.h"
 #include "SkyCube.h"
+#include "Ball.h"
 
 class Model
 {
 	std::vector<Drawable*> sceneObjects;
-	Player *player;
 	SkyCube skyCube;
+	CCamera camera;
+	Ball *ball;
 public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();
-	Player GetPlayer();
+	CCamera GetCamera();
 	void Update();
+	void MoveUp();
+	void MoveDown();
+	void MoveLeft();
+	void MoveRight();
+	void MouseMove(double dx,double dy);
 	~Model(void);
 };
