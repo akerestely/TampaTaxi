@@ -2,16 +2,15 @@
 #include "glut.h"
 #include "cmath"
 Node::Node(int id, Point center)
-:id(id)
+:id(id),Drawable(center)
 {
 	this->center.x = -(center.x - 36) * SCALLING;
 	this->center.y = center.y;
 	this->center.z = (center.z - 39) * SCALLING;
 }
 
-Node::Node()
+Node::Node():Drawable(Point())
 {
-	center=Point();
 	id=-1;
 }
 void Node::Draw()

@@ -22,7 +22,6 @@ public:
 	/**
 	* Empty constructor used in main.
 	*/
-	Win(){}
 	
 	/**
 	* This method sets the boolean value of the variable win to true or false. 

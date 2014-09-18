@@ -3,7 +3,7 @@
 #include "vector"
 #include "glut.h"
 #include "Texture.h"
-Map::Map(char* fileName)
+Map::Map(char* fileName):Drawable(Point())
 {
 	// Try to load the intersections coordinates of the map
 	if (!Tools::ReadNodesFromXML(fileName, this->nodes))
@@ -53,9 +53,6 @@ void Map::translateToCenter()
 	{
 		(*it).second.Translate(-center.x, -center.y, -center.z);
 	}
-}
-Map::Map()
-{
 }
 
 void Map::getIntersection(Node first, Node second, Point &firstPoint, Point &secondPoint)

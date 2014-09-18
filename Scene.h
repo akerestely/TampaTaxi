@@ -1,13 +1,12 @@
 #pragma once
-#include <vector>
-#include "Drawable.h"
+#include "Model.h"
+#include "CameraSpectator.h"
 class Scene
 {
-	std::vector<Drawable*> sceneObjects;
+	Model *model;
+	CCamera *cam;
 public:
-	Scene(void);
-	void AddObject(Drawable *obj);
+	Scene(Model *model,CCamera *cam=NULL);
 	void Render();
-	//void Update();
 	~Scene(void);
 };

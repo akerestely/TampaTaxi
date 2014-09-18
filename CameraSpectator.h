@@ -1,3 +1,4 @@
+#pragma once
 #include "Point.h"
 #include <glut.h>		// Need to include it here because the GL* types are required
 #define PIdiv180 0.01745329251

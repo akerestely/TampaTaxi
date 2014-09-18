@@ -5,7 +5,3 @@ Drawable::Drawable(Point center)
 	:center(center)
 {
 }
-Drawable::Drawable()
-{
-	
-}

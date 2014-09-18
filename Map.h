@@ -29,7 +29,6 @@ public:
 	Map(char* fileName);
 	/* Default constructor
 	**/
-	Map();
 	/* An inherit method which draws the map. To draw intersections are used circles and to draw the streets are used quads.
 	* @see Node.Draw()
 	**/

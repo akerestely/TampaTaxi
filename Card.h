@@ -35,7 +35,6 @@ public:
 	/** 
 	* The empty class constructor used in main.
 	*/ 
-	Card(){}
 
 	/** 
 	* The empty class destructor.
