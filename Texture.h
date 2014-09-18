@@ -33,4 +33,6 @@ public:
 	GLuint textures[10]; /*!<Public variable which represents a GLuint array with 10 textures used to design the buildings drawn on the map. */
 	GLuint doorTex; /*!<Public variable which represents a GLuint value containing a texture used to design the doors at the end point of the game. */
 	GLuint winTex; /*!<Public variable which represents a GLuint value containing a texture used to design the rectangle with the message "you win" behind the doors at the end point of the game. */
+	GLuint wheelBase;
+	GLuint wheelSide;
 };

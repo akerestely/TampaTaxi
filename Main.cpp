@@ -1,12 +1,14 @@
 #include <Windows.h>
 #include <ctime>
-#include "iostream"
-#include <glut.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "iostream"
+#include "vector"
+
+#include "Car.h"
+#include <glut.h>
 #include "CameraSpectator.h"
 #include "Tools.h"
-#include "vector"
 #include "Map.h"
 #include "Building.h"
 #include "Ball.h"
@@ -21,6 +23,7 @@ CCamera cam;
 SkyCube skyCube;
 Map brasovMap;
 Ball *ball;
+Car *car;
 bool up,down,left,right,rotLeft,rotRight, jump;
 int texNr=0;
 Card card,miniCard;
@@ -44,6 +47,7 @@ void initGL()
 		
 		brasovMap = Map("Map.xml");
 		ball = new Ball(BALL_RADIUS / 8, Point(0, 0, 0));
+		car = new Car(Point());
 		Point checkPointPosition = brasovMap.GetPoint(CHECKPOINT).getCenter();
 		card = Card(Point(checkPointPosition.x, checkPointPosition.y + 0.5, checkPointPosition.z),false);
 		miniCard=Card(Point(0.95,0.55,-2),true);
@@ -80,6 +84,7 @@ void display(void)
   
    ball->SetTexNr(texNr);
    ball->Draw();
+   car->Draw();
    cam.Render();
    skyCube.Draw();
    win.Draw();

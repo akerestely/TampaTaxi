@@ -2,16 +2,19 @@
 
 Car::Car(Point center) :Drawable(center)
 {
+	wheelRadius = 1.5;
 	w = new Wheel*[4];
-	w[0] = new Wheel(Point(-4, 0, 3), 1.5, 1);
-	w[1] = new Wheel(Point(4, 0, 3), 1.5, 1);
-	w[2] = new Wheel(Point(-4, 0, -3), 1.5, 1);
-	w[3] = new Wheel(Point(4, 0, -3), 1.5, 1);
+	w[0] = new Wheel(Point(-4, 0, 3), wheelRadius, 1);
+	w[1] = new Wheel(Point(4, 0, 3), wheelRadius, 1);
+	w[2] = new Wheel(Point(-4, 0, -3), wheelRadius, 1);
+	w[3] = new Wheel(Point(4, 0, -3), wheelRadius, 1);
 }
 
 void Car::Draw()
 {
 	glPushMatrix();
+	glTranslated(center.x, center.y-wheelRadius/2, center.z);
+	glScaled(0.25,0.25,0.25);
 	for (int i = 0; i < 4; i++)
 		w[i]->Draw();
 	glShadeModel(GL_SMOOTH);
