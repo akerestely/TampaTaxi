@@ -1,10 +1,6 @@
 #pragma once
 #include"Drawable.h"
 
-#define DIST_FROM_SKY 200.0f
-#define GROUND_TEXTURE_MULTIPLIER 500
-#define SIZE_OF_GROUND 1000.0f
-
 //!  A class used to draw the sky cube
 class SkyCube : public Drawable
 {
