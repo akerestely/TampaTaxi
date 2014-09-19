@@ -27,6 +27,34 @@ void CCamera::ComputeViewDir( void )
 	//ViewDir = Step2;
 }
 
+//void Building::SwitchMode(Point p,double rotY)
+//{
+//
+//	rotY += 90;
+//	Point A = Point(center.x + width*size, 0, center.z + length*size);
+//	Point D = Point(center.x - width*size, 0, center.z + length*size);
+//	Point C = Point(center.x - width*size, 0, center.z - length*size);
+//	Point B = Point(center.x + width*size, 0, center.z - length*size);
+//
+//	double cosAlfa = cos(rotY*PI / 180);
+//	double sinAlfa = sin(rotY*PI / 180);
+//	for (double r = 1; r < 15; r++)
+//	{
+//		Point M(p.x,0,p.z);
+//		M.x += r*cosAlfa;
+//		M.z += r*sinAlfa;
+//		SF3dVector AP(A, M), AB(A, B), AD(A, D);
+//		if (((0 < (AP*AB)) && ((AP*AB) < (AB*AB))) &&
+//			((0 < (AP*AD)) && ((AP*AD) < (AD*AD))))
+//		{
+//			mode = true;
+//			break;
+//		}
+//		else
+//			mode = false;
+//	}
+//}
+
 void CCamera::Render( void )
 {
 	glTranslated( 0.0, 0.0, -3.0 );

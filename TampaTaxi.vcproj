@@ -175,6 +175,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Building.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Camera.cpp"
 				>
 			</File>
@@ -191,11 +195,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Map.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Model.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Movable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Node.cpp"
 				>
 			</File>
 			<File
@@ -208,6 +220,10 @@
 			</File>
 			<File
 				RelativePath=".\Point.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\QuadTree.cpp"
 				>
 			</File>
 			<File
@@ -226,6 +242,14 @@
 				RelativePath=".\Texture.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Tools.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Way.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -234,6 +258,10 @@
 			>
 			<File
 				RelativePath=".\Ball.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Building.h"
 				>
 			</File>
 			<File
@@ -257,11 +285,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Map.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Model.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Movable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Node.h"
 				>
 			</File>
 			<File
@@ -274,6 +310,10 @@
 			</File>
 			<File
 				RelativePath=".\Point.h"
+				>
+			</File>
+			<File
+				RelativePath=".\QuadTree.h"
 				>
 			</File>
 			<File
@@ -292,6 +332,14 @@
 				RelativePath=".\Texture.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Tools.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Way.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -299,11 +347,11 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\Buildings.xml"
+				RelativePath=".\BuildingsV2.xml"
 				>
 			</File>
 			<File
-				RelativePath=".\Map.xml"
+				RelativePath=".\OnlyStreetsFinal.osm"
 				>
 			</File>
 		</Filter>
