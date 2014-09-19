@@ -8,7 +8,7 @@ Texture::Texture(void)
 	
 	//ball textures loading 
 	//football texture
-	buffer = esLoadTGA("Texture/tshirt1.tga",&tWidth,&tHeight);
+	buffer = esLoadTGA("Texture/Human/tshirt.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, tshirtTex);
 	glBindTexture ( GL_TEXTURE_2D, tshirtTex[0]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -18,7 +18,7 @@ Texture::Texture(void)
 	free ( buffer );
 	
 	//basketball texture
-	buffer = esLoadTGA("Texture/backtshirt1.tga",&tWidth,&tHeight);
+	buffer = esLoadTGA("Texture/Human/backtshirt.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, tshirtTex+1);
 	glBindTexture ( GL_TEXTURE_2D,tshirtTex[1]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -28,7 +28,7 @@ Texture::Texture(void)
 	free ( buffer );
 
 	//jeans texture
-	buffer = esLoadTGA("Texture/jeansTex.tga",&tWidth,&tHeight);
+	buffer = esLoadTGA("Texture/Human/jeans.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, &jeansTex);
 	glBindTexture ( GL_TEXTURE_2D, jeansTex);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -38,7 +38,7 @@ Texture::Texture(void)
 	free ( buffer );
 
 	//skin texture
-	buffer = esLoadTGA("Texture/skinTex.tga",&tWidth,&tHeight);
+	buffer = esLoadTGA("Texture/Human/skin.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, &skinTex);
 	glBindTexture ( GL_TEXTURE_2D, skinTex);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
