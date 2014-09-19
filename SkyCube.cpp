@@ -5,7 +5,7 @@
 #define GROUND_TEXTURE_MULTIPLIER 500.0f
 #define SIZE_OF_GROUND 1000.0f
 
-SkyCube::SkyCube(void):Drawable(Point())
+SkyCube::SkyCube(void):Object3d(Point())
 {
 }
 

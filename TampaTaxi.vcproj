@@ -191,7 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Drawable.cpp"
+				RelativePath=".\Model.cpp"
 				>
 			</File>
 			<File
@@ -200,10 +200,6 @@
 			</File>
 			<File
 				RelativePath=".\Object3d.cpp"
-				>
-			</File>	
-			<File
-				RelativePath=".\Model.cpp"
 				>
 			</File>
 			<File
@@ -215,15 +211,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Scene.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\SkyCube.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Test.cpp"
 				>
 			</File>
 			<File
@@ -261,15 +257,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Model.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Movable.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Object3d.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Model.h"
 				>
 			</File>
 			<File

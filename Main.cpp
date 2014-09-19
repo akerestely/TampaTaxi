@@ -4,10 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "CameraSpectator.h"
-#include "Tools.h"
 #include "vector"
-#include "Map.h"
-#include "Building.h"
 #include "Ball.h"
 #include "SkyCube.h"
 #include "Scene.h"

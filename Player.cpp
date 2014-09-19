@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(Point center)
-	:Drawable(center)
+	:Object3d(center)
 {
 }
 

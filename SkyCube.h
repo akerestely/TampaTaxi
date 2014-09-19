@@ -1,8 +1,9 @@
 #pragma once
 #include"Drawable.h"
+#include"Object3d.h"
 
 //!  A class used to draw the sky cube
-class SkyCube : public Drawable
+class SkyCube : public Object3d, public Drawable
 {
 public:
 	SkyCube();
