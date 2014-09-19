@@ -3,6 +3,7 @@
 #include "glut.h"   /*!< OpenGL Utility Toolkit. */
 #include "Point.h"   /*!< Used to manipulate point 2D objects. */
 #include "math.h"   /*!< Used for cos and sin math functions. */
+#include "Object3d.h"
 #include "Drawable.h"   /*!< Base abstract class. */
 
 #define POWER 0.5   /*!<The double value used to increase the y coordinate of the ball when it jumps. */
@@ -11,7 +12,7 @@
 /**
 * Class used to design and control a ball. The ball has a texture, it can rotate to right and to left, forward and backward and it can jump. 
 */
-class Ball : public Drawable
+class Ball : public Object3d, public Drawable
 {
 private:
 	std::vector<GLfloat> vertices;  /*!< A private variable which stores the sphere vertices. */

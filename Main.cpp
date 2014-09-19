@@ -5,24 +5,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "CameraSpectator.h"
-#include "Tools.h"
 #include "vector"
-#include "Map.h"
-#include "Building.h"
 #include "Ball.h"
-#include "SkyCube.h"
+#include "Test.h"
 
 #define SPEED 0.3
 #define ROTATION 3
 
 CCamera cam;
-SkyCube skyCube;
-Map brasovMap;
 Ball *ball;
 bool up,down,left,right,rotLeft,rotRight, jump;
 int texNr=0;
-int lastCheckPointKey;
-std::vector<Building> buildings;
+Test *test;
+Test *test2;
+
+std::vector<Collidable*> colliders;
+
 void initGL() 
 {
  	
@@ -37,21 +35,23 @@ void initGL()
 	try
 	{
 		
-		brasovMap = Map("Map.xml");
 		ball = new Ball(BALL_RADIUS / 8, Point(0, 0, 0));
-		Point checkPointPosition = brasovMap.GetPoint(CHECKPOINT).getCenter();
-		lastCheckPointKey = STARTPOINT;
-		Point endPoint = brasovMap.GetPoint(ENDPOINT).getCenter();
+		test=new Test(Point(1,1,1), 20,10);
+		test2=new Test(Point(1,1,12), 20,10);
+		colliders.push_back(test);
+		colliders.push_back(test2);
+		test->colliders=&colliders;
+		test2->colliders=&colliders;
 	}
 	catch(char* message)
 	{
 		throw message;
 	}
 
-	srand(time(NULL));
-	if(!Tools::ReadBuildingsFromXML("Buildings.xml", buildings))
-		throw "Invalid buildings file!";
-	
+	//srand(time(NULL));
+	//if(!Tools::ReadBuildingsFromXML("Buildings.xml", buildings))
+	//	throw "Invalid buildings file!";
+	glPolygonMode(GL_FRONT_AND_BACK,GL_LINES);
 }
 
 void display(void)
@@ -67,18 +67,17 @@ void display(void)
 	
   
    ball->SetTexNr(texNr);
-   ball->Draw();
+ //  ball->Draw();
    cam.Render();
-   skyCube.Draw();
-   brasovMap.Draw();
+   glColor3f(1,0,0);
+   test->Draw();
+   glColor3f(0,0,1);
+   test2->Draw();
    
-   Point startPos = brasovMap.GetPoint(STARTPOINT).getCenter();
-   Point endPos = brasovMap.GetPoint(ENDPOINT).getCenter();
    glPushMatrix();
-   glTranslated(endPos.x - startPos.x, startPos.y, endPos.z - startPos.z);
-   for(int i=0;i<buildings.size();i++) {
+   /*for(int i=0;i<buildings.size();i++) {
 	   buildings[i].Draw();
-   }
+   }*/
    glPopMatrix();
   
    glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
@@ -97,45 +96,26 @@ void timer(int value)
 	{
 		cam.MoveX(-SPEED); 
 		ball->MoveX(-SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveX(SPEED); 
-			ball->MoveX(SPEED);
-		}		
+		test2->setAngle(-5);			
 	}
 	if (right)
 	{
 		cam.MoveX(SPEED); 
 		ball->MoveX(SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveX(-SPEED);
-			ball->MoveX(-SPEED);
-		}
+		test2->setAngle(5);			
 	}
 	if (up)
 	{
 		cam.MoveZ(-SPEED); 
 		ball->MoveZ(SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveZ(SPEED);
-			ball->MoveZ(-SPEED);
-		}
+		test2->MoveWith(SPEED);
 	}
 	if (down)
 	{
 		cam.MoveZ(SPEED); 
 		ball->MoveZ(-SPEED);
-		center = cam.GetPosition();
-		if (brasovMap.BallCollision(lastCheckPointKey, Point(center.x, center.y, center.z)) == BallStreetPosition::Outside)
-		{
-			cam.MoveZ(-SPEED);
-			ball->MoveZ(SPEED);
-		}
+		test2->MoveWith(-SPEED);
+		
 	}
 	if(rotLeft)
 	{
@@ -145,11 +125,6 @@ void timer(int value)
 	{
 		cam.RotateY(-ROTATION);
 	}
-	skyCube.SetPoz(Point(cam.GetPosition().x,0,cam.GetPosition().z));
-	for(int i=0;i<buildings.size();i++) 
-	{
-	   buildings[i].SwitchMode(cam.GetPosition(), -cam.GetRotY());
-   }
 }
 
 void reshape(GLsizei width, GLsizei height) {  // GLsizei for non-negative integer
@@ -214,6 +189,7 @@ void handleSpecialKeyReleased(int key, int x, int y)
 	case GLUT_KEY_UP:up = false; break;
 	case GLUT_KEY_DOWN:down = false; break;
 	}
+
 }
 int main(int argc, char** argv) 
 {

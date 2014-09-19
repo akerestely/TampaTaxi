@@ -8,7 +8,7 @@ Ball::~Ball(void)
 }
 
 Ball::Ball(float radius, Point center)
-: Drawable(center)
+: Object3d(center)
 {			
 			this->boolX=false;
 			this->boolZ=false;

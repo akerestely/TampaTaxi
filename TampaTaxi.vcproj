@@ -171,15 +171,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Animable.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Ball.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Building.cpp"
 				>
 			</File>
 			<File
@@ -195,23 +187,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Collider.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Drawable.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Map.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Movable.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Node.cpp"
 				>
 			</File>
 			<File
@@ -223,15 +199,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SkyCube.cpp"
+				RelativePath=".\Test.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Texture.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tools.cpp"
 				>
 			</File>
 		</Filter>
@@ -241,15 +213,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Animable.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Ball.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Building.h"
 				>
 			</File>
 			<File
@@ -265,23 +229,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Collider.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Drawable.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Map.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Movable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Node.h"
 				>
 			</File>
 			<File
@@ -293,15 +245,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SkyCube.h"
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Test.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tools.h"
 				>
 			</File>
 		</Filter>
