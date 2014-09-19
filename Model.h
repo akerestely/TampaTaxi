@@ -3,6 +3,7 @@
 #include "CameraSpectator.h"
 #include "SkyCube.h"
 #include "Ball.h"
+#include "Map.h"
 
 class Model
 {
@@ -10,6 +11,7 @@ class Model
 	SkyCube skyCube;
 	CCamera camera;
 	Ball *ball;
+	Map *brasovMap;
 public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();

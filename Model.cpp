@@ -1,11 +1,12 @@
 #include "Model.h"
 
-#define SPEED 0.3
+#define SPEED 10
 
 Model::Model(void)
 {
 	ball=new Ball(0.5,Point(0,0,0));
 	ball->SetTexNr(0);
+	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
 }
 
 std::vector<Drawable*>* Model::GetSceneObjects()
@@ -21,7 +22,10 @@ void Model::Update()
 	sceneObjects.clear();
 	sceneObjects.push_back(&skyCube);
 	sceneObjects.push_back(ball);
+	sceneObjects.push_back(brasovMap);
+
 	skyCube.SetPoz(camera.GetPosition());
+	brasovMap->Update(camera.GetPosition());
 	/*for(int i=0;i<buildings.size();i++) 
 	   buildings[i].SwitchMode(cam.GetPosition(), -cam.GetRotY());*/
 }

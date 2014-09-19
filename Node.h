@@ -5,8 +5,8 @@
 //User defined
 #include"Object3d.h"
 #include"Drawable.h"
-#define NODE_DIAMETER 50. 
-#define SCALLING 100000
+#define NODE_DIAMETER 30. 
+#define SCALLING 10000
 
 class Node: public Object3d, public Drawable
 {

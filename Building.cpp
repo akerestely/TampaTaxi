@@ -27,7 +27,7 @@ Building::Building(std::vector<Point> buildingPoints)
 
 void Building::Draw() 
 {
-	int h = 200;
+	int h = 50;
 	glBegin(GL_POLYGON);
 	for(int i=0;i<buildingPoints.size();i++) 
 		glVertex3f( buildingPoints[i].x,h, buildingPoints[i].z);
@@ -68,7 +68,6 @@ void Building::Translate(double dx, double dy, double dz)
 		(*pointIt).x += dx;
 		(*pointIt).y += dy;
 		(*pointIt).z += dz;
-
 	}
 }
 

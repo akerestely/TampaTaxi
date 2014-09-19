@@ -1,9 +1,9 @@
 #include "SkyCube.h"
 #include "Texture.h"
 
-#define DIST_FROM_SKY 100.0f
-#define GROUND_TEXTURE_MULTIPLIER 500.0f
-#define SIZE_OF_GROUND 1000.0f
+#define DIST_FROM_SKY 10000.0f
+#define GROUND_TEXTURE_MULTIPLIER 50000.0f
+#define SIZE_OF_GROUND 100000.0f
 
 SkyCube::SkyCube(void):Object3d(Point())
 {
@@ -70,10 +70,10 @@ void SkyCube::Draw()
 		glScaled(GROUND_TEXTURE_MULTIPLIER,GROUND_TEXTURE_MULTIPLIER,1);
 			glBindTexture(GL_TEXTURE_2D,tex.skyCube[5]);
 			glBegin(GL_QUADS);
-				glTexCoord2f(0.0f, 0.0f); glVertex3f( -1.0f, 0.0f, -1.0f);
-				glTexCoord2f(0.0f, 1.0f); glVertex3f( -1.0f, 0.0f, +1.0f);
-				glTexCoord2f(1.0f, 1.0f); glVertex3f( +1.0f, 0.0f, +1.0f);
-				glTexCoord2f(1.0f, 0.0f); glVertex3f( +1.0f, 0.0f, -1.0f);
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( -1.0f, -0.10f, -1.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( -1.0f, -0.10f, +1.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( +1.0f, -0.10f, +1.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( +1.0f, -0.10f, -1.0f);
 			glEnd();
 		glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);

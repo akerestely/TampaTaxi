@@ -1,9 +1,17 @@
 #include "Map.h"
+#include "Tools.h"
+
 #include "glut.h"
 
-Map::Map(std::map<long,Node>& nodes,std::map<long,Way> ways)
-	:Object3d(nodes[756].GetCenter())
+Map::Map(char *nodesFile, char *buildingsFile)
 {
+	loadNodes(nodesFile);
+	loadBuildings(buildingsFile);
+}
+void Map::loadNodes(char *nodesFile)
+{
+	Tools::ReadNodesFromXML(nodesFile, nodes, ways);
+	center = nodes[756].GetCenter();
 	int minX = 1000000, maxX = -1000000, minZ = 1000000, maxZ = -1000000;
 	for(std::map<long, Node>::iterator nodesIt = nodes.begin(); nodesIt != nodes.end(); ++nodesIt)
 	{
@@ -21,29 +29,27 @@ Map::Map(std::map<long,Node>& nodes,std::map<long,Way> ways)
 		if (p.z > maxZ)
 			maxZ = p.z;
 	}
-	Node centerNode = nodes[756];
 	drawableQuadTree = new QuadTree(0, Rectangl(minX - 1, minZ - 1, maxX - minX + 1, maxZ - minZ + 1));
 	for(std::map<long, Node>::iterator nodesIt = nodes.begin(); nodesIt != nodes.end(); ++nodesIt)
 	{
 		drawableQuadTree->Insert(&((*nodesIt).second));
 	}
-	this->ways=ways;
 	for(std::map<long, Way>::iterator waysIt = this->ways.begin(); waysIt != this->ways.end(); ++waysIt)
 	{
 		(*waysIt).second.ComputeStreet();
 	}	
 	waysToDraw.clear();
-	buildingsToDraw.clear();
-	
 }
-void Map::AddBuildings(std::vector<Building>& buildings)
+void Map::loadBuildings(char *buildingsFile)
 {
+	Tools::ReadBuildingsFromXML(buildingsFile, buildings);
 	for(std::vector<Building>::iterator buildingIt = buildings.begin(); buildingIt != buildings.end(); ++buildingIt)
 	{
 		Building *building = &*buildingIt;
 		building->Translate(-center.x, 0, -center.z);
 		drawableQuadTree->Insert(building);
 	}
+	buildingsToDraw.clear();
 }
 
 void Map::Draw()
