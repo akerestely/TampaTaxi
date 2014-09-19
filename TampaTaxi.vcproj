@@ -187,11 +187,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Controller.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Drawable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Movable.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Object3d.cpp"
+				>
+			</File>	
+			<File
+				RelativePath=".\Model.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Player.cpp"
 				>
 			</File>
 			<File
@@ -200,6 +216,14 @@
 			</File>
 			<File
 				RelativePath=".\Test.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SkyCube.cpp"
 				>
 			</File>
 			<File
@@ -229,6 +253,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Controller.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Drawable.h"
 				>
 			</File>
@@ -241,11 +269,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Model.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Player.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Point.h"
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath=".\Scene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkyCube.h"
 				>
 			</File>
 			<File

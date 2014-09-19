@@ -1,14 +1,11 @@
+#pragma once
 #include "Point.h"
-#include <glut.h>		// Need to include it here because the GL* types are required
 #define PIdiv180 0.01745329251
 
-/////////////////////////////////
-//Note: All angles in degrees  //
-/////////////////////////////////
-
-struct SF3dVector  //Float 3d-vect, normally used
+struct SF3dVector
 {
-	GLfloat x,y,z;
+	double x,y,z;
+
 	SF3dVector(double x = 0, double y = 0, double z = 0)
 	{
 		this->x=x;
@@ -26,38 +23,42 @@ struct SF3dVector  //Float 3d-vect, normally used
 	{
 		return x*v.x + y*v.y+z*v.z;
 	}
-};
-struct SF2dVector
-{
-	GLfloat x,y;
+	SF3dVector operator*(double scalar)
+	{
+		return SF3dVector(x*scalar , y*scalar, z*scalar);
+	}
+	SF3dVector operator+(const SF3dVector &v)
+	{
+		return SF3dVector(x+v.x, y+v.y,z+v.z);
+	}
+	SF3dVector operator+=(const SF3dVector &v)
+	{
+		x+=v.x;
+		y+=v.y;
+		z+=v.z;
+		return *this;
+	}
 };
 
 class CCamera
 {
 private:
 	SF3dVector Position;
-	SF3dVector ViewDir;		/*Not used for rendering the camera, but for "moveforwards"
-							So it is not necessary to "actualize" it always. It is only
-							actualized when ViewDirChanged is true and moveforwards is called*/
-	bool ViewDirChanged;
-	GLfloat RotatedX, RotatedY, RotatedZ;	
-	void GetViewDir ( void );
+	/*Not used for rendering the camera, but for "moveforwards".*/
+	SF3dVector ViewDir;
+	double RotatedX, RotatedY, RotatedZ;	
+	void ComputeViewDir ( void );
 public:
 	CCamera();				//inits the values (Position: (0|0|0) Target: (0|0|-1) )
 	void Render ( void );	//executes some glRotates and a glTranslate command
 							//Note: You should call glLoadIdentity before using Render
 	void Move ( SF3dVector Direction );
-	void RotateX ( GLfloat Angle );
-	void RotateY ( GLfloat Angle );
-	void RotateZ ( GLfloat Angle );
+	void RotateX ( double Angle );
+	void RotateY ( double Angle );
+	void RotateZ ( double Angle );
 	void RotateXYZ ( SF3dVector Angles );
-	void MoveZ ( GLfloat Distance );
-	void MoveX ( GLfloat Distance );
+	SF3dVector& MoveX ( double Distance );
+	SF3dVector& MoveZ ( double Distance );
 	Point GetPosition();
 	double GetRotY();
 };
-
-
-SF3dVector F3dVector ( GLfloat x, GLfloat y, GLfloat z );
-SF3dVector AddF3dVectors ( SF3dVector * u, SF3dVector * v);
-void AddF3dVectorToVector ( SF3dVector * Dst, SF3dVector * V2);
