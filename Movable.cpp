@@ -26,16 +26,10 @@ Movable::Movable(Point center,double width, double height)
 	:Collidable(center,width,height)
 {
 	canMove=true;
-
-}
-
-Movable::Movable()
-{
 }
 
 bool Movable::CollidesWith()
 {
-	
 	Point M;
 	for(int j=0; j<4; j++)
 	{
@@ -101,12 +95,12 @@ bool Movable::CollidesWith()
 bool Movable::MoveWith(double speed)
 {
 	double dx,dz;
-	dx=speed*cos(angle);
-	dz=speed*sin(angle);
+	dx=-speed*cos(angle+PI/2);
+	dz=-speed* -sin(angle+PI/2);
 
 	center.x+=dx;
 	center.z+=dz;
-	if(CollidesWith())
+	if( false  /*CollidesWith()*/)
 	{
 		center.x-=dx;
 		center.z-=dz;

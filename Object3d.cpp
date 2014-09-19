@@ -3,21 +3,24 @@
 Object3d::Object3d(Point center):center(center)
 	
 {
-	angle=0;
+	angle=0*PI/180;
 }
 
-void Object3d::setAngle(double angle)
+void Object3d::IncrementAngle(double deltaAngle)
 {
-	this->angle+=angle*PI/180;
+	angle+=deltaAngle*PI/180;
 }
-Object3d::Object3d()
+
+void Object3d::SetAngle(double angle)
 {
-}
-Object3d::~Object3d(void)
-{
+	this->angle=angle*PI/180;
 }
 
 Point Object3d::GetCenter()
 {
 	return center;
+}
+
+Object3d::~Object3d(void)
+{
 }

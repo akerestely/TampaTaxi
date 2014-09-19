@@ -12,7 +12,8 @@ class Node: public Object3d, public Drawable
 {
 	std::vector<long> ways;
 public:
-	Node(){}
+	//!!!!!!!!!!!!!!!!!! Depricated. Needs refactoring
+	Node():Object3d(Point()){};
 	Node(Point center);
 	void AddWay(long id);
 	std::vector<long>& GetWays();

@@ -1,18 +1,12 @@
 #include "Human.h"
 #include "math.h"
 
-
-Human::Human(void)
-{
-	
-}
-
 Human::~Human(void)
 {
 }
 
 Human::Human(Point base)
-	:Drawable(base)
+	:Movable(base,0.55/*body_width*/,0.55/*body_width*/)
 {
 	walk=false;
 	goForward=false;
@@ -20,54 +14,52 @@ Human::Human(Point base)
 	angleRightLeg=0;
 	angleLeftArm=0;
 	angleRightArm=0;
-	turnAlpha=0;
 //	dz=0;
 }
 
-void Human::WalkLegs(double &angle)
+void Human::WalkLegs(double &angleAnim)
 {
-	if(angle>=35)
+	if(angleAnim>=35)
 		goForward=false;
-	if(angle<=-35)
+	if(angleAnim<=-35)
 		goForward=true;
 	if(walk==true)
-		if(angle<35 && goForward==true)
+		if(angleAnim<35 && goForward==true)
 		{
-			angle+=0.5;
+			angleAnim+=0.5;
 		}
 		else
-			if(angle>-35 && goForward==false)
+			if(angleAnim>-35 && goForward==false)
 			{
-				angle-=0.5;
+				angleAnim-=0.5;
 			}
 }
 
-void Human::WalkArms(double &angle)
+void Human::WalkArms(double &angleAnim)
 {
-	if(angle>=15)
+	if(angleAnim>=15)
 		goForward=false;
-	if(angle<=-15)
+	if(angleAnim<=-15)
 		goForward=true;
 	if(walk==true)
-		if(angle<15 && goForward==true)
+		if(angleAnim<15 && goForward==true)
 		{
-			angle+=0.5;
+			angleAnim+=0.5;
 		}
 		else
-			if(angle>-15 && goForward==false)
+			if(angleAnim>-15 && goForward==false)
 			{
-				angle-=0.5;
+				angleAnim-=0.5;
 			}
 }
 
 void Human::Draw()
 {
-	
     glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 
 	glTranslatef(center.x,center.y,center.z);
-	glRotatef(turnAlpha+90, 0,1,0);
+	glRotatef(angle*180/PI, 0,1,0);
 	
 	glPushMatrix();
 	WalkLegs(angleLeftLeg);
@@ -102,7 +94,6 @@ void Human::Draw()
 	glPopMatrix();
 	
 	glPopMatrix();
-
 }
 
 void Human::DrawLeftLeg(double angleRotation)
@@ -113,7 +104,6 @@ void Human::DrawLeftLeg(double angleRotation)
 
 	leg_radius=0.10;
 	leg_height=0.70;
-	
 	
 	//draw left leg
 	glPushMatrix();
@@ -150,7 +140,6 @@ void Human::DrawLeftLeg(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluQuadricTexture(quadric, GL_TRUE); 
 
-	
 	gluCylinder(quadric, feet_radius, feet_radius, feet_height, 30, 30);
 	glRotatef(180, 1,0,0);
 	gluDisk(quadric, 0.0f, feet_radius, 30,1);
@@ -159,8 +148,6 @@ void Human::DrawLeftLeg(double angleRotation)
 	gluDisk(quadric, 0.0, feet_radius, 30, 1);
 
 	glPopMatrix();
-
-	
 }
 
 void Human::DrawRightLeg(double angleRotation)
@@ -170,8 +157,7 @@ void Human::DrawRightLeg(double angleRotation)
 	glBindTexture(GL_TEXTURE_2D, tex.jeansTex);
 
 	leg_radius=0.10;
-	leg_height=0.70;
-	
+	leg_height=0.70;	
 	
 	//draw right leg
 	glPushMatrix();
@@ -207,7 +193,6 @@ void Human::DrawRightLeg(double angleRotation)
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluQuadricTexture(quadric, GL_TRUE); 
-
 	
 	gluCylinder(quadric, feet_radius, feet_radius, feet_height, 30, 30);
 	glRotatef(180, 1,0,0);
@@ -223,8 +208,7 @@ void Human::DrawBody()
 {
 	Texture tex=Texture::GetInstance();
 	//draw the body
-	glPushMatrix();
-	
+	glPushMatrix();	
 	
 	this->body_height=0.8;
 	this->body_width=0.55;
@@ -302,7 +286,6 @@ void Human::DrawBody()
 
 void Human::DrawNeck()
 {
-	
 	//draw the neck
 	Texture tex=Texture::GetInstance();
 	
@@ -321,7 +304,6 @@ void Human::DrawNeck()
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluCylinder(quadric, neck_radius, neck_radius, neck_height, 30, 30);
 	glPopMatrix();
-
 }
 
 void Human::DrawHead()
@@ -371,8 +353,6 @@ void Human::DrawLeftArm(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 30, 30);
 	glPopMatrix();
-
-
 }
 
 void Human::DrawRightArm(double angleRotation)
@@ -415,16 +395,8 @@ void Human::Walk(double speed)
 {
 	if(walk==true)
 	{
-		center.x=center.x+speed*cos(-turnAlpha*PI/180);
-		center.z=center.z+speed*sin(-turnAlpha*PI/180);
-	}
-}
-
-void Human::Turn(double alpha)
-{
-	if(walk==true)
-	{
-		turnAlpha+=alpha;
+		center.x=center.x+speed*cos(-angleAnim*PI/180);
+		center.z=center.z+speed*sin(-angleAnim*PI/180);
 	}
 }
 

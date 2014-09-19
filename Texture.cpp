@@ -6,8 +6,16 @@ Texture::Texture(void)
 	double tWidth, tHeight;
 	char* buffer ;
 	
-	//ball textures loading 
-	//football texture
+	//ball textures loading
+	buffer = esLoadTGA("Texture/football.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, ballTex);
+	glBindTexture ( GL_TEXTURE_2D, ballTex[0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	//tshirt texture
 	buffer = esLoadTGA("Texture/Human/tshirt.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, tshirtTex);
 	glBindTexture ( GL_TEXTURE_2D, tshirtTex[0]);
@@ -17,7 +25,7 @@ Texture::Texture(void)
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
 	free ( buffer );
 	
-	//basketball texture
+	//backtshirt texture
 	buffer = esLoadTGA("Texture/Human/backtshirt.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, tshirtTex+1);
 	glBindTexture ( GL_TEXTURE_2D,tshirtTex[1]);
@@ -56,7 +64,6 @@ Texture::Texture(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
 	free ( buffer );
-
 
 	//tennisball texture
 	buffer = esLoadTGA("Texture/tennisball.tga",&tWidth,&tHeight);

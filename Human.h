@@ -1,11 +1,12 @@
 #pragma once
+#include "Movable.h"
 #include "Drawable.h"
 #include "Texture.h"
  
-class Human : public Drawable
+class Human : public Movable, public Drawable
 {
 	bool walk;
-	double angle;
+	double angleAnim;
 	GLUquadricObj *quadric;
 	double feet_height, feet_radius;
 	double leg_height, leg_radius;
@@ -16,11 +17,9 @@ class Human : public Drawable
 	double distance;
 	bool goForward;
 	double angleLeftLeg, angleRightLeg, angleLeftArm, angleRightArm;
-	double  turnAlpha;
 public:
-	Human(void);
-	~Human(void);
 	Human(Point base);
+	~Human(void);
 	void Draw();
 	void DrawLeftLeg(double angleRotation);
 	void DrawRightLeg(double angleRotation);
@@ -37,5 +36,4 @@ public:
 	void setCenter(Point center);
 
 	void Walk(double speed);
-	void Turn(double alpha);
 };

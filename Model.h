@@ -3,6 +3,7 @@
 #include "CameraSpectator.h"
 #include "SkyCube.h"
 #include "Ball.h"
+#include "Human.h"
 #include "Map.h"
 
 class Model
@@ -11,6 +12,7 @@ class Model
 	SkyCube skyCube;
 	CCamera camera;
 	Ball *ball;
+	Human *human;
 	Map *brasovMap;
 public:
 	Model(void);

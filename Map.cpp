@@ -4,6 +4,7 @@
 #include "glut.h"
 
 Map::Map(char *nodesFile, char *buildingsFile)
+	:Object3d(Point())
 {
 	loadNodes(nodesFile);
 	loadBuildings(buildingsFile);
