@@ -11,5 +11,4 @@ public:
 	Point GetBottomLeft();
 	Point GetBottomRight();
 	Collidable(Point center, double width, double height);
-	Collidable();
 };

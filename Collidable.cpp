@@ -6,9 +6,6 @@ Collidable::Collidable(Point center,double width, double height)
 {
 }
 
-Collidable::Collidable()
-{
-}
 Point Collidable::GetTopLeft()
 {
 	double x0=center.x;
@@ -21,8 +18,8 @@ Point Collidable::GetTopLeft()
 	double newX=x0+(x-x0)*cos(angle)+(z-z0)*sin(angle);
  	double newZ=z0-(x-x0)*sin(angle)+(z-z0)*cos(angle);
 	return Point(newX, center.y, newZ);
-		
 }
+
 Point Collidable::GetTopRight()
 {
 	double x0=center.x;
