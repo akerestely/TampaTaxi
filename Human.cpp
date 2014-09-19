@@ -109,7 +109,7 @@ void Human::DrawLeftLeg(double angleRotation)
 {
 	Texture tex=Texture::GetInstance();
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, tex.cardTex[0]);
+	glBindTexture(GL_TEXTURE_2D, tex.jeansTex);
 
 	leg_radius=0.10;
 	leg_height=0.70;
@@ -167,7 +167,7 @@ void Human::DrawRightLeg(double angleRotation)
 {
 	Texture tex=Texture::GetInstance();
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, tex.cardTex[0]);
+	glBindTexture(GL_TEXTURE_2D, tex.jeansTex);
 
 	leg_radius=0.10;
 	leg_height=0.70;
@@ -233,19 +233,19 @@ void Human::DrawBody()
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[0]);
+	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[0]);
 	glBegin(GL_QUADS);  
-	//back face
-	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,-body_thickness);
-	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, -body_height/2,-body_thickness);
-	glTexCoord2f(1.0,1.0); glVertex3f(body_width/2, body_height/2,-body_thickness);
-	glTexCoord2f(0.0,1.0); glVertex3f(-body_width/2, body_height/2,-body_thickness);
+	//front face
+	glTexCoord2f(0.0,1.0); glVertex3f(-body_width/2, -body_height/2,-body_thickness);
+	glTexCoord2f(1.0,1.0); glVertex3f(body_width/2, -body_height/2,-body_thickness);
+	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, body_height/2,-body_thickness);
+	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, body_height/2,-body_thickness);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[1]);
-	//front face
+	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
+	//back face
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, -body_height/2,body_thickness);
@@ -255,7 +255,7 @@ void Human::DrawBody()
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[2]);
+	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	//left face
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,-body_thickness);
@@ -267,7 +267,7 @@ void Human::DrawBody()
 	//right face
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[3]);
+	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(body_width/2, -body_height/2,-body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, -body_height/2,body_thickness);
@@ -278,7 +278,7 @@ void Human::DrawBody()
 	//up face
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[4]);
+	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, body_height/2,body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, body_height/2,body_thickness);
@@ -290,7 +290,7 @@ void Human::DrawBody()
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[2]);
+	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, -body_height/2,body_thickness);
@@ -310,7 +310,7 @@ void Human::DrawNeck()
 	neck_radius=0.085;
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[4]);
+	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
 	glPushMatrix();
 	glRotatef(-90, 1,0,0);
 
@@ -333,7 +333,7 @@ void Human::DrawHead()
 	head_radius=0.22;
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[0]);
+	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
 	glPushMatrix();
 	glRotatef(-90, 1,0,0);
 
@@ -356,7 +356,7 @@ void Human::DrawLeftArm(double angleRotation)
 	arm_height=0.60;
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[4]);
+	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
 	
 	//draw left arm
 	glPushMatrix();
@@ -381,7 +381,7 @@ void Human::DrawRightArm(double angleRotation)
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[4]);
+	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
 
 	//draw right arm
 	glPushMatrix();

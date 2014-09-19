@@ -8,9 +8,9 @@ Texture::Texture(void)
 	
 	//ball textures loading 
 	//football texture
-	buffer = esLoadTGA("Texture/football.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, ballTex);
-	glBindTexture ( GL_TEXTURE_2D, ballTex[0]);
+	buffer = esLoadTGA("Texture/tshirt1.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, tshirtTex);
+	glBindTexture ( GL_TEXTURE_2D, tshirtTex[0]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
@@ -18,9 +18,29 @@ Texture::Texture(void)
 	free ( buffer );
 	
 	//basketball texture
-	buffer = esLoadTGA("Texture/basketball.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, ballTex+1);
-	glBindTexture ( GL_TEXTURE_2D, ballTex[1]);
+	buffer = esLoadTGA("Texture/backtshirt1.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, tshirtTex+1);
+	glBindTexture ( GL_TEXTURE_2D,tshirtTex[1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//jeans texture
+	buffer = esLoadTGA("Texture/jeansTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &jeansTex);
+	glBindTexture ( GL_TEXTURE_2D, jeansTex);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//skin texture
+	buffer = esLoadTGA("Texture/skinTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &skinTex);
+	glBindTexture ( GL_TEXTURE_2D, skinTex);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
