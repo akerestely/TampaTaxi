@@ -6,7 +6,9 @@ Model::Model(void)
 {
 	ball=new Ball(0.5,Point(0,0,0));
 	ball->SetTexNr(0);
-	human=new Human(Point());
+	human= new Human(Point());
+	car= new Car(Point(-3,0,-13));
+	car->SetAngle(90);
 	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
 }
 
@@ -24,9 +26,10 @@ void Model::Update()
 	sceneObjects.push_back(&skyCube);
 	//sceneObjects.push_back(ball);
 	sceneObjects.push_back(human);
-	human->setWalk(false);
+	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
 
+	human->setWalk(false);
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition());
 }

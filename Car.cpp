@@ -1,7 +1,10 @@
 #include "Texture.h"
 #include "Car.h"
 
-Car::Car(Point center) :Drawable(center)
+#define CAR_SCALE 0.35
+
+Car::Car(Point center) 
+	:Movable(center,13.5*CAR_SCALE,7*CAR_SCALE)
 {
 	w = new Wheel*[4];
 	w[0] = new Wheel(Point(-4.4, 0, 3), 1.15, 1);
@@ -15,9 +18,12 @@ Car::Car(Point center) :Drawable(center)
 void Car::Draw()
 {
 	glPushMatrix();
+	glTranslated( center.x, center.y, center.z );
+	glRotated( angle*180/PI , 0.0, 1.0, 0.0);
+	glScaled( CAR_SCALE, CAR_SCALE, CAR_SCALE);
+
 	for (int i = 0; i < 4; i++)
 		w[i]->Draw();
-	glPopMatrix();
 	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, side);
@@ -375,7 +381,9 @@ void Car::Draw()
 	//	glVertex3f(7, 1, -8);
 	//}
 	//glEnd();
-	//glPopMatrix();
+
+
+	glPopMatrix();
 }
 
 Car::~Car()

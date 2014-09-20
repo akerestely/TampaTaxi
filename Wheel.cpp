@@ -1,9 +1,10 @@
+#include "math.h"
 #include "Texture.h"
-#include <math.h>
 #include "Wheel.h"
+#include "glut.h"
 
 Wheel::Wheel(Point center, double r,double w) 
-	:Drawable(center), radius(r), width(w), angle(0)
+	:Object3d(center), radius(r), width(w), angle(0)
 {
 	Texture tex = Texture::GetInstance();
 	side = tex.wheelSide;

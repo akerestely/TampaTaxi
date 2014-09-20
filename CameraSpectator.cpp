@@ -57,7 +57,7 @@ void CCamera::ComputeViewDir( void )
 
 void CCamera::Render( void )
 {
-	glTranslated( 0.0, 0.0, -3.0 );
+	glTranslated( 0.0, 0.0, -10.0 );
 	glRotated(-RotatedX , 1.0, 0.0, 0.0);
 	glRotated(-RotatedY , 0.0, 1.0, 0.0);
 	glRotated(-RotatedZ , 0.0, 0.0, 1.0);

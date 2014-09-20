@@ -1,11 +1,12 @@
 #include "Drawable.h"
-#include <glut.h>
-class Wheel : public Drawable
+#include "Object3d.h"
+
+class Wheel : public Object3d, public Drawable
 {
 	Point position;
 	double radius,width;
-	GLuint side;
-	GLuint base;
+	unsigned int side;
+	unsigned int base;
 	double angle;
 public:
 	Wheel(Point center,double r,double w);

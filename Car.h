@@ -1,11 +1,12 @@
 #include "Wheel.h"
+#include "Movable.h"
 
-class Car:public Drawable
+class Car: public Movable, public Drawable
 {
 	Point position;
 	double width;
 	Wheel **w;
-	GLuint side;
+	unsigned int side;
 public:
 	Car(Point center);
 	void Draw();

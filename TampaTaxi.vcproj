@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Car.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Collidable.cpp"
 				>
 			</File>
@@ -254,6 +258,10 @@
 				RelativePath=".\Way.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Wheel.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -274,6 +282,10 @@
 			</File>
 			<File
 				RelativePath=".\CameraSpectator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Car.h"
 				>
 			</File>
 			<File
@@ -346,6 +358,10 @@
 			</File>
 			<File
 				RelativePath=".\Way.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Wheel.h"
 				>
 			</File>
 		</Filter>

@@ -4,6 +4,7 @@
 #include "SkyCube.h"
 #include "Ball.h"
 #include "Human.h"
+#include "Car.h"
 #include "Map.h"
 
 class Model
@@ -11,9 +12,10 @@ class Model
 	std::vector<Drawable*> sceneObjects;
 	SkyCube skyCube;
 	CCamera camera;
-	Ball *ball;
-	Human *human;
-	Map *brasovMap;
+	Ball* ball;
+	Human* human;
+	Map* brasovMap;
+	Car* car;
 public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();
