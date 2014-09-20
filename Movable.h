@@ -1,6 +1,6 @@
 #pragma once
+#include "vector"
 #include "Collidable.h"
-#include<vector>
 class Movable : public Collidable
 {
 protected:

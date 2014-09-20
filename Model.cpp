@@ -4,13 +4,10 @@
 
 Model::Model(void)
 {
-	ball=new Ball(0.5,Point(0,0,0));
-	ball->SetTexNr(0);
 	human= new Human(Point());
 	car= new Car(Point(-3,0,-13));
 	//car->SetAngle(90);
 	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
-
 
 	//to be deleted
 	collidables.push_back(car);
@@ -18,6 +15,7 @@ Model::Model(void)
 
 	human->colliders=&collidables;
 	car->colliders=&collidables;
+	//to be deleted
 }
 
 std::vector<Drawable*>* Model::GetSceneObjects()
@@ -32,7 +30,6 @@ void Model::Update()
 {
 	sceneObjects.clear();
 	sceneObjects.push_back(&skyCube);
-	//sceneObjects.push_back(ball);
 	sceneObjects.push_back(human);
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
@@ -62,15 +59,11 @@ void Model::MoveDown()
 }
 void Model::MoveLeft()
 {
-	/*SF3dVector v = camera.MoveX(-SPEED);
-	ball->MoveX(v.x);
-	ball->MoveZ(v.z);*/
+	/*SF3dVector v = camera.MoveX(-SPEED);*/
 }
 void Model::MoveRight()
 {
-	/*SF3dVector v = camera.MoveX(+SPEED);
-	ball->MoveX(v.x);
-	ball->MoveZ(v.z);*/
+	/*SF3dVector v = camera.MoveX(+SPEED);*/
 }
 void Model::MouseMove(double dx,double dy)
 {
@@ -82,5 +75,5 @@ void Model::MouseMove(double dx,double dy)
 }
 Model::~Model(void)
 {
-	delete ball;
+	delete brasovMap;
 }

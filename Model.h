@@ -2,7 +2,6 @@
 #include <vector>
 #include "CameraSpectator.h"
 #include "SkyCube.h"
-#include "Ball.h"
 #include "Human.h"
 #include "Car.h"
 #include "Map.h"
@@ -12,7 +11,6 @@ class Model
 	std::vector<Drawable*> sceneObjects;
 	SkyCube skyCube;
 	CCamera camera;
-	Ball* ball;
 	Human* human;
 	Map* brasovMap;
 	Car* car;

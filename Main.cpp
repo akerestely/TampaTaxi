@@ -1,13 +1,3 @@
-#include <Windows.h>
-#include <ctime>
-#include "iostream"
-#include <stdlib.h>
-#include <stdio.h>
-#include "CameraSpectator.h"
-#include "vector"
-#include "Ball.h"
-#include "SkyCube.h"
-#include "Scene.h"
 #include "Controller.h"
 
 void initGL() 
