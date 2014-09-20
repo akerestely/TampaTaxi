@@ -95,6 +95,13 @@ SF3dVector& CCamera::MoveZ( double Distance )
 	return MoveVector;
 }
 
+void CCamera::SetPosition(Point position)
+{
+	this->Position.x=position.x;
+	this->Position.y=position.y;
+	this->Position.z=position.z;
+}
+
 Point CCamera::GetPosition()
 {
 	return Point(Position.x, Position.y, Position.z);

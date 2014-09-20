@@ -7,7 +7,7 @@ Texture::Texture(void)
 	char* buffer ;
 	
 	//ball textures loading
-	buffer = esLoadTGA("Texture/football.tga",&tWidth,&tHeight);
+	buffer = esLoadTGA("Texture/basketball.tga",&tWidth,&tHeight);
 	glGenTextures ( 1, ballTex);
 	glBindTexture ( GL_TEXTURE_2D, ballTex[0]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);

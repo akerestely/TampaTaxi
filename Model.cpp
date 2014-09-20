@@ -33,28 +33,27 @@ void Model::Update()
 	sceneObjects.push_back(human);
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
+	
+	camera.SetPosition(human->GetCenter());
 
-	car->MoveWith(-0.2);
-	human->setWalk(false);
+	//car->MoveWith(-0.2);
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition());
 }
 void Model::MoveUp()
 {
 	human->SetAngle(camera.GetRotY());
-	if(human->MoveWith(-SPEED))
+	if(human->WalkForward())
 	{
-		camera.MoveZ(-SPEED);
-		human->setWalk(true);
+		//camera.SetPosition(car->GetCenter());
 	}
 }
 void Model::MoveDown()
 {
 	human->SetAngle(camera.GetRotY());
-	if(human->MoveWith(+SPEED))
+	if(human->WalkBackward())
 	{
-		camera.MoveZ(SPEED);
-		human->setWalk(true);
+		//camera.SetPosition(car->GetCenter());
 	}
 }
 void Model::MoveLeft()

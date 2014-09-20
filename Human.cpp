@@ -1,6 +1,9 @@
 #include "Human.h"
 #include "math.h"
 
+#define MOVE_SPEED 0.3
+#define ANIM_SPEED 2.0
+
 Human::~Human(void)
 {
 }
@@ -17,39 +20,40 @@ Human::Human(Point base)
 //	dz=0;
 }
 
-void Human::WalkLegs(double &angleAnim)
+bool Human::WalkForward()
 {
-	if(angleAnim>=35)
-		goForward=false;
-	if(angleAnim<=-35)
-		goForward=true;
-	if(walk==true)
-		if(angleAnim<35 && goForward==true)
-		{
-			angleAnim+=0.5;
-		}
-		else
-			if(angleAnim>-35 && goForward==false)
-			{
-				angleAnim-=0.5;
-			}
+	if(Movable::MoveWith(-MOVE_SPEED))
+	{
+		walk=true;
+		return true;
+	}
+	return false;
+}
+bool Human::WalkBackward()
+{
+	if(Movable::MoveWith(MOVE_SPEED))
+	{
+		walk=true;
+		return true;
+	}
+	return false;
 }
 
-void Human::WalkArms(double &angleAnim)
+void Human::Animate(double &angleAnim,const double angleLimit)
 {
-	if(angleAnim>=15)
+	if(angleAnim>=angleLimit)
 		goForward=false;
-	if(angleAnim<=-15)
+	if(angleAnim<=-angleLimit)
 		goForward=true;
 	if(walk==true)
-		if(angleAnim<15 && goForward==true)
+		if(angleAnim<angleLimit && goForward==true)
 		{
-			angleAnim+=0.5;
+			angleAnim+=ANIM_SPEED;
 		}
 		else
-			if(angleAnim>-15 && goForward==false)
+			if(angleAnim>-angleLimit && goForward==false)
 			{
-				angleAnim-=0.5;
+				angleAnim-=ANIM_SPEED;
 			}
 }
 
@@ -62,12 +66,12 @@ void Human::Draw()
 	glRotatef(angle*180/PI, 0,1,0);
 	
 	glPushMatrix();
-	WalkLegs(angleLeftLeg);
+	Animate(angleLeftLeg,35.0);
 	DrawLeftLeg(angleLeftLeg);
 	glPopMatrix();
 
 	glPushMatrix();
-	WalkLegs(angleRightLeg);
+	Animate(angleRightLeg,35.0);
 	DrawRightLeg(angleRightLeg);
 	glPopMatrix();
 
@@ -80,12 +84,12 @@ void Human::Draw()
 	glPopMatrix();
 
 	glPushMatrix();
-	WalkArms(angleLeftArm);
+	Animate(angleLeftArm,15.0);
 	DrawLeftArm(angleLeftArm);
 	glPopMatrix();
 
 	glPushMatrix();
-	WalkArms(angleRightArm);
+	Animate(angleRightArm,15.0);
 	DrawRightArm(angleRightArm);
 	glPopMatrix();
 
@@ -94,6 +98,10 @@ void Human::Draw()
 	glPopMatrix();
 	
 	glPopMatrix();
+	if(walk)
+		walk=false;
+	else
+		angleLeftArm=angleRightArm=angleLeftLeg=angleRightLeg=0;
 }
 
 void Human::DrawLeftLeg(double angleRotation)
@@ -121,7 +129,7 @@ void Human::DrawLeftLeg(double angleRotation)
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[1]);
+	glBindTexture(GL_TEXTURE_2D, tex.ballTex[0]);
 
 	//draw left foot
 	feet_radius=0.15;
@@ -175,7 +183,7 @@ void Human::DrawRightLeg(double angleRotation)
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[1]);
+	glBindTexture(GL_TEXTURE_2D, tex.ballTex[0]);
 
 	//draw right foot
 	feet_radius=0.15;
@@ -378,27 +386,3 @@ void Human::DrawRightArm(double angleRotation)
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 }
-void Human::setWalk(bool walk)
-{
-	this->walk=walk;
-}
-
-
-void Human::setCenter(Point center)
-{
-	this->center.x=center.x;
-	this->center.y=center.y;
-	this->center.z=center.z;
-}
-
-void Human::Walk(double speed)
-{
-	if(walk==true)
-	{
-		center.x=center.x+speed*cos(-angleAnim*PI/180);
-		center.z=center.z+speed*sin(-angleAnim*PI/180);
-	}
-}
-
-
-

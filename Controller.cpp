@@ -92,7 +92,6 @@ void Controller::Timer(int value)
 {
 	glutTimerFunc(15, Timer, 0);
 	Controller *ctrl=Controller::GetInstance();
-	ctrl->model->Update();
 	if (ctrl->left)
 		ctrl->model->MoveLeft();		
 	if (ctrl->right)
@@ -109,7 +108,7 @@ void Controller::Timer(int value)
 	{		
 		cam.Move(SF3dVector(0,-SPEED,0));
 	}*/
-	
+	ctrl->model->Update();
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)

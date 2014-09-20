@@ -20,6 +20,7 @@ public:
 	void RotateXYZ ( SF3dVector Angles );
 	SF3dVector& MoveX ( double Distance );
 	SF3dVector& MoveZ ( double Distance );
+	void SetPosition(Point position);
 	Point GetPosition();
 	double GetRotY();
 };

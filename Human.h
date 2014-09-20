@@ -6,7 +6,6 @@
 class Human : public Movable, public Drawable
 {
 	bool walk;
-	double angleAnim;
 	GLUquadricObj *quadric;
 	double feet_height, feet_radius;
 	double leg_height, leg_radius;
@@ -29,11 +28,8 @@ public:
 	void DrawRightArm(double angleRotation);
 	void DrawHead();
 
-	void WalkArms(double &angle);
-	void WalkLegs(double &angle);
-	void setWalk(bool walk);
-
-	void setCenter(Point center);
-
-	void Walk(double speed);
+	void Animate(double &angleAnim,const double angleLimit);
+	
+	bool WalkForward();
+	bool WalkBackward();
 };
