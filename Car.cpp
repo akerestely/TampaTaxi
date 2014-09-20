@@ -4,7 +4,7 @@
 #define CAR_SCALE 0.35
 
 Car::Car(Point center) 
-	:Movable(center,13.5*CAR_SCALE,7*CAR_SCALE)
+	:Movable(center,7*CAR_SCALE,13.5*CAR_SCALE)
 {
 	w = new Wheel*[4];
 	w[0] = new Wheel(Point(-4.4, 0, 3), 1.15, 1);

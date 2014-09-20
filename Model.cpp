@@ -8,8 +8,16 @@ Model::Model(void)
 	ball->SetTexNr(0);
 	human= new Human(Point());
 	car= new Car(Point(-3,0,-13));
-	car->SetAngle(90);
+	//car->SetAngle(90);
 	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
+
+
+	//to be deleted
+	collidables.push_back(car);
+	collidables.push_back(human);
+
+	human->colliders=&collidables;
+	car->colliders=&collidables;
 }
 
 std::vector<Drawable*>* Model::GetSceneObjects()
@@ -29,27 +37,28 @@ void Model::Update()
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
 
+	car->MoveWith(-0.2);
 	human->setWalk(false);
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition());
 }
 void Model::MoveUp()
 {
-	SF3dVector v = camera.MoveZ(-SPEED);
-	ball->MoveX(v.x);
-	ball->MoveZ(v.z);
 	human->SetAngle(camera.GetRotY());
-	human->MoveWith(-SPEED);
-	human->setWalk(true);
+	if(human->MoveWith(-SPEED))
+	{
+		camera.MoveZ(-SPEED);
+		human->setWalk(true);
+	}
 }
 void Model::MoveDown()
 {
-	SF3dVector v = camera.MoveZ(SPEED);
-	ball->MoveX(v.x);
-	ball->MoveZ(v.z);
 	human->SetAngle(camera.GetRotY());
-	human->MoveWith(+SPEED);
-	human->setWalk(true);
+	if(human->MoveWith(+SPEED))
+	{
+		camera.MoveZ(SPEED);
+		human->setWalk(true);
+	}
 }
 void Model::MoveLeft()
 {

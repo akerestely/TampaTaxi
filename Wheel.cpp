@@ -17,7 +17,7 @@ void Wheel::Draw()
 	double x, y,tx,ty;
 	glRotatef(-90, 0, 1, 0);
 	glTranslatef(center.x, center.y + radius, center.z);
-	glRotatef(angle++, 0, 0,1);
+	glRotatef(angle+=6, 0, 0,1);
 
 	//base
 	glTranslatef(0, 0, -width / 2);

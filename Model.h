@@ -16,6 +16,9 @@ class Model
 	Human* human;
 	Map* brasovMap;
 	Car* car;
+
+	std::vector<Collidable *> collidables;
+
 public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();

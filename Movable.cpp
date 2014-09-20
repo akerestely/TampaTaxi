@@ -55,20 +55,19 @@ bool Movable::CollidesWith()
 					((0 <= (AP*AD)) && ((AP*AD) <= (AD*AD))))
 				{
 					return true;
-
 				}
 			}
 		}
 	}
 	for(int j=0; j<4*(*colliders).size(); j++)
 	{
-		if(j==0)
+		if(j%4==0)
 			M=(*colliders)[j/4]->GetTopRight();
-		if(j==1)
+		if(j%4==1)
 			M=(*colliders)[j/4]->GetTopLeft();
-		if(j==2)
+		if(j%4==2)
 			M=(*colliders)[j/4]->GetBottomRight();
-		if(j==3)
+		if(j%4==3)
 			M=(*colliders)[j/4]->GetBottomLeft();
 		for(int i=0; i<4; i++)
 		{
@@ -100,7 +99,7 @@ bool Movable::MoveWith(double speed)
 
 	center.x+=dx;
 	center.z+=dz;
-	if( false  /*CollidesWith()*/)
+	if( CollidesWith() )
 	{
 		center.x-=dx;
 		center.z-=dz;
