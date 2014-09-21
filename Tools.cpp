@@ -1,6 +1,6 @@
 #include "Tools.h"
 
-int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node>& nodes,std::map<long,Way>& ways)
+int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map<long,Way*>& ways)
 {
 	
 	char *buffer = new char[200];
@@ -29,7 +29,7 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node>& nodes,std::map<
 			strcpy(buffer, strstr(buffer+2, "='"));
 			sscanf(buffer, "%*c%*c%lf", &longit);
 
-			nodes[(-id)]=Node(Point(latit,0,longit));
+			nodes[(-id)]=new Node(Point(latit,0,longit));
 			fgets(buffer, 200, fo);
 		}
 
@@ -44,8 +44,8 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node>& nodes,std::map<
 				{
 					strcpy(buffer,strstr(buffer,"='"));
 					sscanf(buffer, "%*c%*c%ld",&ref);
-					keys.push_back(&(nodes[-ref]));
-					nodes[-ref].AddWay(-id);
+					keys.push_back(nodes[-ref]);
+					nodes[-ref]->AddWay(-id);
 				}
 				else
 				{
@@ -70,7 +70,7 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node>& nodes,std::map<
 				}
 				fgets(buffer, 200, fo);
 			}
-			ways[-id]=Way(name,keys,isOneWay);
+			ways[-id]=new Way(name,keys,isOneWay);
 			keys.clear();	
 			strcpy(name,"unknown");
 			isOneWay=false;
@@ -88,7 +88,7 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node>& nodes,std::map<
 	return 1;
 }
 
-int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building> &buildings)
+int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building*> &buildings)
 {
 	std::map<long,Point> points;
 	char *buffer = new char[200];
@@ -134,8 +134,7 @@ int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building> &buildings
 
 				fgets(buffer, 200, fo);
 			}
-			Building build = Building(ways);
-			buildings.push_back(build);
+			buildings.push_back(new Building(ways));
 			ways.clear();	
 			fgets(buffer, 200, fo);
 		}

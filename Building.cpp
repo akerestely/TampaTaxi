@@ -11,18 +11,17 @@ Building::Building(std::vector<Point> buildingPoints)
 	int mytime = rand()%5;
 	Texture tex=Texture::GetInstance();
 	myTexture = tex.textures[mytime];
+	int n = buildingPoints.size();
 	for(int i=0;i<buildingPoints.size();i++) 
 	{
 		Point toPush = buildingPoints[i];
-		toPush.x = ((toPush.x - 45) * 60 - 38) * SCALLING;
+		toPush.x = ((toPush.x - 45) * 60 - 38) * SCALLING ;
 		toPush.y = 0;
 		toPush.z = ((toPush.z - 25) * 60 - 34) * SCALLING;
-		this->center.x += toPush.x;
-		this->center.z += toPush.z;
+		this->center.x += toPush.x / n;
+		this->center.z += toPush.z / n;
 		this->buildingPoints.push_back(toPush);
 	}
-	this->center.x /= buildingPoints.size();
-	this->center.z /= buildingPoints.size();
 }
 
 void Building::Draw() 
@@ -43,17 +42,17 @@ void Building::Draw()
 		{
 			if(i==0) 
 			{
-				glTexCoord2f(1.0, 1.0);glVertex3f( buildingPoints[buildingPoints.size()-1].x,0, buildingPoints[buildingPoints.size()-1].z);
-				glTexCoord2f(1.0, 0.0);glVertex3f( buildingPoints[buildingPoints.size()-1].x,h, buildingPoints[buildingPoints.size()-1].z);
-				glTexCoord2f(0.0, 0.0);glVertex3f( buildingPoints[0].x,h, buildingPoints[0].z);
-				glTexCoord2f(0.0, 1.0);glVertex3f( buildingPoints[0].x,0, buildingPoints[0].z);
+				glTexCoord2f(1.0, 1.0); glVertex3f( buildingPoints[buildingPoints.size()-1].x, 0, buildingPoints[buildingPoints.size()-1].z);
+				glTexCoord2f(1.0, 0.0); glVertex3f( buildingPoints[buildingPoints.size()-1].x, h, buildingPoints[buildingPoints.size()-1].z);
+				glTexCoord2f(0.0, 0.0); glVertex3f( buildingPoints[0].x, h, buildingPoints[0].z);
+				glTexCoord2f(0.0, 1.0); glVertex3f( buildingPoints[0].x, 0, buildingPoints[0].z);
 			}
 			else 
 			{
-				glTexCoord2f(1.0, 1.0);glVertex3f( buildingPoints[i-1].x,0, buildingPoints[i-1].z);
-				glTexCoord2f(1.0, 0.0);glVertex3f( buildingPoints[i-1].x,h, buildingPoints[i-1].z);
-				glTexCoord2f(0.0, 0.0);glVertex3f( buildingPoints[i].x,h, buildingPoints[i].z);
-				glTexCoord2f(0.0, 1.0);glVertex3f( buildingPoints[i].x,0, buildingPoints[i].z);
+				glTexCoord2f(1.0, 1.0); glVertex3f( buildingPoints[i-1].x, 0, buildingPoints[i-1].z);
+				glTexCoord2f(1.0, 0.0); glVertex3f( buildingPoints[i-1].x, h, buildingPoints[i-1].z);
+				glTexCoord2f(0.0, 0.0); glVertex3f( buildingPoints[i].x, h, buildingPoints[i].z);
+				glTexCoord2f(0.0, 1.0); glVertex3f( buildingPoints[i].x, 0, buildingPoints[i].z);
 			}
 		}
 	}
@@ -69,6 +68,9 @@ void Building::Translate(double dx, double dy, double dz)
 		(*pointIt).y += dy;
 		(*pointIt).z += dz;
 	}
+	center.x += dx;
+	center.y += dy;
+	center.z += dz;
 }
 
 Building::~Building(void)

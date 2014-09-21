@@ -8,15 +8,19 @@ class Map : public Object3d, public Drawable
 {
 private:
 	QuadTree* drawableQuadTree;
-	std::map<long,Way> ways;
-	std::map<long, Node> nodes;
-	std::vector<Building> buildings;
+	std::map<long,Way*> ways;
+	std::map<long, Node*> nodes;
+	std::vector<Building*> buildings;
 	
 	std::set<long> waysToDraw;
-	std::vector<Building*>buildingsToDraw;
+	std::set<Building*>buildingsToDraw;
+
+	Point topLeftMapPoint;
+	Point bottomRightPoint;
 	
 	void loadNodes(char* nodesFile);
 	void loadBuildings(char* buildingsFile);
+	void initQuadTree();
 public:
 	Map(char* nodesFile, char* buildingsFile);
 	void AddBuildings(std::vector<Building>& building);

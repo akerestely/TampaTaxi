@@ -1,4 +1,6 @@
 #pragma once
+#include "set"
+
 #include "Node.h"
 #include "Building.h"
 
@@ -14,8 +16,9 @@ struct Rectangl{
 class QuadTree
 {
     static const int MAX_OBJECTS = 500;
-	static const int MAX_LEVELS = 10;
+	static const int MAX_LEVELS = 4;
 	int level;
+	int nodeIndex;
 	int objectsCount;
 	std::vector<Node*> nodesObj;
 	std::vector<Building*> buildingsObj;
@@ -25,13 +28,13 @@ class QuadTree
 	
 
 public:
-	QuadTree(int pLevel, Rectangl bounds);
+	QuadTree(int pLevel, Rectangl bounds, int nodeIndex = 0);
 	void Clear();
 	void Insert(Node* node);
 	void Insert(Building* building);
-	void Retrieve(Point position, std::vector<Node*>& returnObjects);
-	void Retrieve(Point position, std::vector<Building*>& returnObjects);
+	void Retrieve(std::set<Node*>& returnObjects, Point position, double radius = 0);
+	void Retrieve(std::set<Building*>& returnObjects, Point position, double radius = 0);
 	int GetIndex(Point position);
-	//int GetLevel(Point Position);
+	int GetNodeIndex(Point position);
 	~QuadTree(void);
 };

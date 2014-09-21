@@ -26,12 +26,12 @@ public:
 	*@param nodes a map where one should store the nodes.
 	*Returns 1 if the read operation succeded, and 0 otherwise.
 	**/
-	static int ReadNodesFromXML(char *fileName, std::map<long,Node> &nodes,std::map<long,Way> &ways);
+	static int ReadNodesFromXML(char *fileName, std::map<long,Node*> &nodes,std::map<long,Way*> &ways);
 	/*
 	*Static method which read and store all buildings of the map 
 	*from an xml file.(coordonates,size,type etc)For more info go to Building Class.
 	*@param fileName name of the file which contains buildings data
 	*@param buildings a vector where one should store buildings data
 	**/
-	static int ReadBuildingsFromXML(char* fileName,std::vector<Building> &buildings);
+	static int ReadBuildingsFromXML(char* fileName,std::vector<Building*> &buildings);
 };
