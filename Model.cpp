@@ -4,12 +4,15 @@
 
 Model::Model(void)
 {
-	human= new Human(Point());
-	car= new Car(Point(-3,0,-13));
-	player = new Player(car);
-	//car->SetAngle(90);
-	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
+	human= new Human(Point(-13, 0, 13));
 	
+	//car->SetAngle(90);
+	brasovMap = new Map("OnlyStreetsFinal.osm", "BuildingsV2.osm");
+
+	car= new Car(Point());
+	player = new Player(car);
+	player->LastVisitedNodeIndex = START_NODE;
+
 	//to be deleted
 	collidables.push_back(car);
 	collidables.push_back(human);
@@ -37,24 +40,28 @@ void Model::Update()
 	
 	camera.SetPosition(player->GetPosition());
 
-	car->Update();
+	/*car->Update();*/
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition());
 }
 void Model::MoveUp()
 {
-	human->SetAngle(camera.GetRotY());
-	if(human->WalkForward())
+	car->SetAngle(camera.GetRotY());
+	if(car->MoveWith(-5))
 	{
-		//camera.SetPosition(car->GetCenter());
+		if(!playerStreetCollision())
+			car->MoveWith(5);
 	}
+	
+		
 }
 void Model::MoveDown()
 {
-	human->SetAngle(camera.GetRotY());
-	if(human->WalkBackward())
+	car->SetAngle(camera.GetRotY());
+	if(car->MoveWith(5))
 	{
-		//camera.SetPosition(car->GetCenter());
+		if(!playerStreetCollision())
+			car->MoveWith(-5);
 	}
 }
 void Model::MoveLeft()
@@ -72,6 +79,72 @@ void Model::MouseMove(double dx,double dy)
 	camera.RotateY(rotY);
 	camera.RotateX(rotX);
 	//human->IncrementAngle(rotY);
+}
+
+int Model::playerStreetCollision()
+{
+	int insidePoints = 0;
+
+	Collidable* collidable = player->GetPlayerState();
+	if(collidable == NULL)
+		return 0;
+	Node* lastVisitedNode = brasovMap->GetNode(player->LastVisitedNodeIndex);
+	std::vector<long> adjacentWays = lastVisitedNode->GetWays();
+	Point nodeCenter = lastVisitedNode->GetCenter();
+	Point M;
+	
+	for(int i = 0; i < 4; i++)
+	{
+		if(i == 0)
+			M = collidable->GetTopRight();
+		if(i == 1)
+			M = collidable->GetBottomRight();
+		if(i == 2)
+			M = collidable->GetBottomLeft();
+		if(i == 3)
+			M = collidable->GetTopLeft();
+		if(Tools::PointInsideCircle(M, nodeCenter, NODE_DIAMETER / 2))
+		{
+			insidePoints++;
+			continue;
+		}
+		for(int adjW = 0; adjW < adjacentWays.size(); adjW++)
+		{
+			Way* adjacentWay = brasovMap->GetWay(adjacentWays[adjW]);
+			int nodeWayIndex = adjacentWay->GetIndex(lastVisitedNode);
+			Street *portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex);
+			if(portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
+			{
+				insidePoints++;
+				break;
+			}
+			portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex - 1);
+			if(portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
+			{
+				insidePoints++;
+				break;
+			}
+			Node *node = adjacentWay->GetNode(nodeWayIndex - 1);
+			if(node != NULL && Tools::PointInsideCircle(M, node->GetCenter(), NODE_DIAMETER / 2))
+			{
+				insidePoints++;
+				player->LastVisitedNodeIndex = node->GetId();
+				return playerStreetCollision();
+				//break;
+			}
+			node = adjacentWay->GetNode(nodeWayIndex + 1);
+			if(node != NULL && Tools::PointInsideCircle(M, node->GetCenter(), NODE_DIAMETER / 2))
+			{
+				insidePoints++;
+				player->LastVisitedNodeIndex = node->GetId();
+				return playerStreetCollision();
+				//break;
+			}
+		}		
+	}
+	if(insidePoints == 4)
+		return 1;
+	return 0;
 }
 Model::~Model(void)
 {

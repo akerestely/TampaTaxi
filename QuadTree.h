@@ -3,15 +3,8 @@
 
 #include "Node.h"
 #include "Building.h"
+#include "Tools.h"
 
-struct Rectangl{
-	int x, y;
-	int height, width;
-	Rectangl(int x = 0,int y = 0,int height = 0,int width = 0)
-		:x(x),y(y),height(height),width(width)
-	{
-	}
-};
 
 class QuadTree
 {
@@ -32,8 +25,8 @@ public:
 	void Clear();
 	void Insert(Node* node);
 	void Insert(Building* building);
-	void Retrieve(std::set<Node*>& returnObjects, Point position, double radius = 0);
-	void Retrieve(std::set<Building*>& returnObjects, Point position, double radius = 0);
+	void Retrieve(std::set<Node*>& returnObjects, Point position);
+	void Retrieve(std::set<Building*>& returnObjects, Point position);
 	int GetIndex(Point position);
 	int GetNodeIndex(Point position);
 	~QuadTree(void);

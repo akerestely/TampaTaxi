@@ -1,4 +1,6 @@
 #include "Movable.h"
+#include "Tools.h"
+
 #include "math.h"
 
 Movable::Movable(Point center,double width, double height)
@@ -28,13 +30,10 @@ bool Movable::CollidesWith()
 				Point B=(*colliders)[i]->GetBottomRight();
 				Point C=(*colliders)[i]->GetBottomLeft();
 				Point D=(*colliders)[i]->GetTopLeft();
-		
-				SF3dVector AP(A, M), AB(A, B), AD(A, D);
-				if (((0 <=(AP*AB)) && ((AP*AB) <= (AB*AB))) &&
-					((0 <= (AP*AD)) && ((AP*AD) <= (AD*AD))))
-				{
+				
+				if (Tools::PointInsideRectangle(M, A, B, C, D))
 					return true;
-				}
+				
 			}
 		}
 	}
@@ -57,13 +56,8 @@ bool Movable::CollidesWith()
 				Point C=GetBottomLeft();
 				Point D=GetTopLeft();
 		
-				SF3dVector AP(A, M), AB(A, B), AD(A, D);
-				if (((0 <=(AP*AB)) && ((AP*AB) <= (AB*AB))) &&
-					((0 <= (AP*AD)) && ((AP*AD) <= (AD*AD))))
-				{
+				if (Tools::PointInsideRectangle(M, A, B, C, D))
 					return true;
-
-				}
 			}
 		}
 	}

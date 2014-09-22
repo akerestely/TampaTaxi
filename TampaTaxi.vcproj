@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CollidableQuadTree.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Hud.cpp"
 				>
 			</File>
@@ -281,6 +285,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CameraSpectator.h"
 				>
 			</File>
@@ -290,6 +298,10 @@
 			</File>
 			<File
 				RelativePath=".\Collidable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CollidableQuadTree.h"
 				>
 			</File>
 			<File

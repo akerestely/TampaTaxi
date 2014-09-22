@@ -38,7 +38,7 @@ void Car::Update()
 		/*speed-=Tools::Sign(speed)*0.002;
 		if(abs(speed)<0.00005)
 			speed=0;*/
-		std::cout<<speed<<"\n";
+		//std::cout<<speed<<"\n";
 	}
 }
 

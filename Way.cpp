@@ -12,24 +12,42 @@ Way::Way(char* name,std::vector<Node*> nodes,bool isOneWay)
 
 void Way::ComputeStreet()
 {
-	Point first, second;
-	Street newStreet;
+	Point leftStreetCorner, rightStreetCorner;
+	Point leftSidewalkCorner, rightSidewalkCorner;
+	Street newStreet, leftSidewalk, rightSidewalk;
+
 	for (int i = 0 ; i < nodes.size() - 1; i++)
 	{
-		getIntersection(*nodes[i], *nodes[i+1], first, second);
-		newStreet.corners[0] = first;
-		newStreet.corners[1] = second;
-		getIntersection(*nodes[i+1], *nodes[i], first, second);
-		newStreet.corners[2] = second;
-		newStreet.corners[3] = first;
+		getIntersection(*nodes[i], *nodes[i+1], NODE_DIAMETER, leftStreetCorner, rightStreetCorner);
+		getIntersection(*nodes[i], *nodes[i+1], SIDEWALK_DIAMETER, leftSidewalkCorner, rightSidewalkCorner);
+		
+		newStreet.corners[0] = leftStreetCorner;
+		newStreet.corners[1] = rightStreetCorner;
+		leftSidewalk.corners[0] = leftSidewalkCorner;
+		leftSidewalk.corners[1] = leftStreetCorner;
+		rightSidewalk.corners[0] = rightStreetCorner;
+		rightSidewalk.corners[1] = rightSidewalkCorner;
+
+		getIntersection(*nodes[i+1], *nodes[i], NODE_DIAMETER, leftStreetCorner, rightStreetCorner);
+		getIntersection(*nodes[i+1], *nodes[i], SIDEWALK_DIAMETER, leftSidewalkCorner, rightSidewalkCorner);
+		
+		newStreet.corners[2] = rightStreetCorner;
+		newStreet.corners[3] = leftStreetCorner;
+		leftSidewalk.corners[2] = leftStreetCorner;
+		leftSidewalk.corners[3] = leftSidewalkCorner;
+		rightSidewalk.corners[2] = rightSidewalkCorner;
+		rightSidewalk.corners[3] = rightStreetCorner;
+		
 		streetPortions.push_back(newStreet);
+		leftSidewalkPortions.push_back(leftSidewalk);
+		rightSidewalkPortions.push_back(rightSidewalk);
 	}
 }
-void Way::getIntersection(Node first, Node second, Point &firstPoint, Point &secondPoint)
+void Way::getIntersection(Node first, Node second, double diameter, Point &firstPoint, Point &secondPoint)
 {
 	Point firstCenter = first.GetCenter();
 	Point secondCenter = second.GetCenter();
-	double radius = NODE_DIAMETER / 2;
+	double radius = diameter / 2;
 	double m;
 	if (secondCenter.z == firstCenter.z)
 		m = 0;
@@ -63,7 +81,25 @@ std::vector<Node*>& Way::GetNodes()
 }
 void Way::drawStreetPortion(int index)
 {
-	Street portion = streetPortions[index];
+	glColor3f(1, 0, 0);
+	Street portion = leftSidewalkPortions[index];
+	glBegin(GL_QUADS);
+	glVertex3d(portion.corners[0].x, portion.corners[0].y - 0.05, portion.corners[0].z);
+	glVertex3d(portion.corners[1].x, portion.corners[1].y - 0.05, portion.corners[1].z);
+	glVertex3d(portion.corners[2].x, portion.corners[2].y - 0.05, portion.corners[2].z);
+	glVertex3d(portion.corners[3].x, portion.corners[3].y - 0.05, portion.corners[3].z);
+	glEnd();
+	
+	portion = rightSidewalkPortions[index];
+	glBegin(GL_QUADS);
+	glVertex3d(portion.corners[0].x, portion.corners[0].y - 0.05, portion.corners[0].z);
+	glVertex3d(portion.corners[1].x, portion.corners[1].y - 0.05, portion.corners[1].z);
+	glVertex3d(portion.corners[2].x, portion.corners[2].y - 0.05, portion.corners[2].z);
+	glVertex3d(portion.corners[3].x, portion.corners[3].y - 0.05, portion.corners[3].z);
+	glEnd();
+
+	glColor3f(1, 1, 0);
+	portion = streetPortions[index];
 	glBegin(GL_QUADS);
 	glVertex3d(portion.corners[0].x, portion.corners[0].y, portion.corners[0].z);
 	glVertex3d(portion.corners[1].x, portion.corners[1].y, portion.corners[1].z);
@@ -76,13 +112,32 @@ void Way::Draw()
 	int count = nodes.size();
 	for (int i = 0 ; i < count - 1; i++)
 	{
-		nodes[i]->Draw();
+		nodes[i]->Draw(true);
+		nodes[i]->Draw(false);
 		drawStreetPortion(i);
 	}
-	nodes[count-1]->Draw();
-	
+	nodes[count-1]->Draw(true);
+	nodes[count-1]->Draw(false);
 }
-
+int Way::GetIndex(Node* node)
+{
+	for(int i = 0; i < nodes.size(); i++)
+		if (nodes[i] == node)
+			return i;
+	return -1;
+}
+Street* Way::GetPortionStreet(int index)
+{
+	if (index < 0 || index >= streetPortions.size())
+		return NULL;
+	return &streetPortions[index];
+}
+Node* Way::GetNode(int index)
+{
+	if (index < 0 || index >= nodes.size())
+		return NULL;
+	return nodes[index];
+}
 Way::~Way(void)
 {
 

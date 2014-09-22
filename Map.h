@@ -4,6 +4,8 @@
 #include "QuadTree.h"
 #include "Way.h"
 
+#define START_NODE 756
+
 class Map : public Object3d, public Drawable
 {
 private:
@@ -26,5 +28,7 @@ public:
 	void AddBuildings(std::vector<Building>& building);
 	void Draw() override;
 	void Update(Point camPosition);
+	Node* GetNode(long id);
+	Way* GetWay(long id);
 	~Map(void);
 };

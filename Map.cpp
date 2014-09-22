@@ -1,7 +1,7 @@
-#include "cmath"
-
 #include "Map.h"
 #include "Tools.h"
+
+#include "cmath"
 #include "glut.h"
 
 Map::Map(char *nodesFile, char *buildingsFile)
@@ -14,7 +14,7 @@ Map::Map(char *nodesFile, char *buildingsFile)
 void Map::loadNodes(char *nodesFile)
 {
 	Tools::ReadNodesFromXML(nodesFile, nodes, ways);
-	center = nodes[756]->GetCenter();
+	center = nodes[START_NODE]->GetCenter();
 	for(std::map<long, Node*>::iterator nodesIt = nodes.begin(); nodesIt != nodes.end(); ++nodesIt)
 	{
 		((*nodesIt).second)->Translate(-center.x, 0, -center.z);
@@ -89,14 +89,13 @@ void Map::Update(Point camPosition)
 	drawableQuadTree->Retrieve(buildingsToDraw, camPosition);
 	drawableQuadTree->Retrieve(nodes, camPosition);
 	
-	double step = 10;
 	int camPositionIndex = drawableQuadTree->GetNodeIndex(camPosition);
 	visitedQuadrants.insert(camPositionIndex);
-	for (double angle = 0; angle < 360; angle+=step)
+	for (double angle = 0; angle < 360; angle+=45)
 	{
-		for (double radius = 100; radius < 1001; radius += 200)
+		for (double radius = 50; radius < 1201; radius += 100)
 		{
-			Point p = Point(camPosition.x + radius * cos(angle * PI / 180), camPosition.y, camPosition.z + radius * sin(angle * PI / 180));
+			Point p = Point(camPosition.x + radius * cos(angle * PIdiv180), camPosition.y, camPosition.z + radius * sin(angle * PIdiv180));
 			int nextPositionIndex = drawableQuadTree->GetNodeIndex(p);
 			if (!visitedQuadrants.count(nextPositionIndex))
 			{
@@ -105,13 +104,20 @@ void Map::Update(Point camPosition)
 				visitedQuadrants.insert(nextPositionIndex);
 			}
 		}
-		step += 5;
 	}
 
 	for(std::set<Node*>::iterator nodesIt = nodes.begin(); nodesIt != nodes.end(); ++nodesIt)
 	{
 		waysToDraw.insert((*nodesIt)->GetWays().begin(), (*nodesIt)->GetWays().end());
 	}
+}
+Node* Map::GetNode(long id)
+{
+	return nodes[id];
+}
+Way* Map::GetWay(long id)
+{
+	return ways[id];
 }
 Map::~Map(void)
 {

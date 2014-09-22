@@ -18,6 +18,9 @@ class Model
 	Player *player;
 
 	std::vector<Collidable *> collidables;
+
+	int playerStreetCollision();
+	
 public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();

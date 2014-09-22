@@ -11,6 +11,7 @@ QuadTree::QuadTree(int pLevel, Rectangl bounds, int nodeIndex)
 void QuadTree::Clear()
 {
 	nodesObj.clear();
+	buildingsObj.clear();
 	for(int i = 0; i < 4; i++)
 	{
 		nodes[i]->Clear();
@@ -172,7 +173,7 @@ int QuadTree::GetNodeIndex(Point position)
 /*
  * Return all objects that could collide with the given object
  */
-void QuadTree::Retrieve(std::set<Node*>& returnObjects, Point position, double radius)
+void QuadTree::Retrieve(std::set<Node*>& returnObjects, Point position)
 {	
 	int index = GetIndex(position);
 	if (index != -1 && nodes[0] != NULL) 
@@ -181,7 +182,7 @@ void QuadTree::Retrieve(std::set<Node*>& returnObjects, Point position, double r
     }
 	returnObjects.insert(nodesObj.begin(), nodesObj.end());
 }
-void QuadTree::Retrieve(std::set<Building*>& returnObjects, Point position, double radius)
+void QuadTree::Retrieve(std::set<Building*>& returnObjects, Point position)
 {
 	int index = GetIndex(position);
 	if (index != -1 && nodes[0] != NULL) 
