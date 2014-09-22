@@ -6,9 +6,10 @@ Model::Model(void)
 {
 	human= new Human(Point());
 	car= new Car(Point(-3,0,-13));
+	player = new Player(car);
 	//car->SetAngle(90);
 	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
-
+	
 	//to be deleted
 	collidables.push_back(car);
 	collidables.push_back(human);
@@ -34,9 +35,9 @@ void Model::Update()
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
 	
-	camera.SetPosition(human->GetCenter());
+	camera.SetPosition(player->GetPosition());
 
-	//car->MoveWith(-0.2);
+	car->Update();
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition());
 }

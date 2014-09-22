@@ -1,6 +1,7 @@
 #pragma once
 #include "Model.h"
 #include "Scene.h"
+#include "Hud.h"
 #include <glut.h>
 
 class Controller
@@ -9,6 +10,7 @@ class Controller
 	int windowWidth,windowHeight;
 	Model *model;
 	Scene *scene;
+	Hud *hud;
 	Controller(void);
 public:
 

@@ -1,6 +1,7 @@
+#include "cmath"
+
 #include "Map.h"
 #include "Tools.h"
-
 #include "glut.h"
 
 Map::Map(char *nodesFile, char *buildingsFile)

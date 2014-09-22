@@ -1,11 +1,18 @@
 #pragma once
 #include "Drawable.h"
-#include "Object3d.h"
+#include "Collidable.h"
+#include "Car.h"
 
-class Player : public Object3d, public Drawable
+class Player : public Drawable
 {
+	Car *car;
 public:
-	Player(Point center);
+	int LastVisitedNodeIndex;
+	Player(Car* car);
 	void Draw();
+	Point GetPosition();
+	Collidable* GetPlayerState();
 	~Player(void);
 };
+
+

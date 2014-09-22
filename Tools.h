@@ -17,7 +17,6 @@ enum BallStreetPosition{
 class Tools
 {
 public:
-	
 	/*
 	*Static method which read and store all the coordonates of intersection nodes 
 	*of the map(by intersection we understand two or more roads which intersect)
@@ -34,4 +33,5 @@ public:
 	*@param buildings a vector where one should store buildings data
 	**/
 	static int ReadBuildingsFromXML(char* fileName,std::vector<Building*> &buildings);
+	static int Sign(double x);
 };

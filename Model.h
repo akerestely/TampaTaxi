@@ -5,6 +5,7 @@
 #include "Human.h"
 #include "Car.h"
 #include "Map.h"
+#include "Player.h"
 
 class Model
 {
@@ -14,9 +15,9 @@ class Model
 	Human* human;
 	Map* brasovMap;
 	Car* car;
+	Player *player;
 
 	std::vector<Collidable *> collidables;
-
 public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();

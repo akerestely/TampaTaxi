@@ -1,11 +1,15 @@
+
+#include "iostream"
 #include "Texture.h"
 #include "Car.h"
+#include "Tools.h"
 
 #define CAR_SCALE 0.35
 
 Car::Car(Point center) 
 	:Movable(center,7*CAR_SCALE,13.5*CAR_SCALE)
 {
+	speed = -0.2;
 	w = new Wheel*[4];
 	w[0] = new Wheel(Point(-4.4, 0, 3), 1.15, 1);
 	w[1] = new Wheel(Point(4.64, 0, 3), 1.15, 1);
@@ -13,6 +17,29 @@ Car::Car(Point center)
 	w[3] = new Wheel(Point(4.64, 0, -3), 1.15, 1);
 	Texture tex = Texture::GetInstance();
 	side = tex.carSide;
+}
+
+double Car::GetSpeed()
+{
+	return speed;
+}
+
+void Car::Accelerate(double deltaSpeed)
+{
+	speed-=deltaSpeed;
+}
+
+void Car::Update()
+{
+	if(speed)
+	{
+		MoveWith(speed);
+		//after move, apply Ff(Fs)
+		/*speed-=Tools::Sign(speed)*0.002;
+		if(abs(speed)<0.00005)
+			speed=0;*/
+		std::cout<<speed<<"\n";
+	}
 }
 
 void Car::Draw()
@@ -385,7 +412,6 @@ void Car::Draw()
 
 	glPopMatrix();
 }
-
 Car::~Car()
 {
 }

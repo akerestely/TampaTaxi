@@ -40,4 +40,7 @@ public:
 	GLuint wheelSide;
 	GLuint wheelBase;
 	GLuint carSide;
+	
+	GLuint hudText;
+	GLuint hudNumbers;
 };

@@ -4,6 +4,7 @@ Controller::Controller(void)
 {
 	model = new Model;
 	scene = new Scene(model);
+	hud = new Hud(Point(0.0,0.0,0.0),model);
 }
 
 void Controller::RenderDisplay()
