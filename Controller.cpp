@@ -4,6 +4,8 @@ Controller::Controller(void)
 {
 	model = new Model;
 	scene = new Scene(model);
+	debugWindow = DebugWindow();
+	mainMenu= new MainMenu();
 }
 
 void Controller::RenderDisplay()
@@ -13,10 +15,17 @@ void Controller::RenderDisplay()
 	glMatrixMode(GL_MODELVIEW);     // To operate on model-view matrix
 	
 	Controller *ctrl=Controller::GetInstance();
-
 	glLoadIdentity();
 	ctrl->scene->Render();
-
+	glLoadIdentity();
+	if(ctrl->escPressed) 
+	{
+		ctrl->mainMenu->Draw();
+	}
+	if(ctrl->debugWindowPressed) 
+	{
+		ctrl->debugWindow.Draw();
+	}
 	glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
 }
 
@@ -26,10 +35,13 @@ void Controller::MouseClicked(int button, int state, int x, int y)
 void Controller::MouseMovedPassive(int x,int y)
 {
 	Controller *ctrl=Controller::GetInstance();
-	if(x!=ctrl->windowWidth/2 || y!=ctrl->windowHeight/2)
+	if(!ctrl->escPressed) 
 	{
-		ctrl->model->MouseMove(-(x-ctrl->windowWidth/2),-(y-ctrl->windowHeight/2));
-		glutWarpPointer( ctrl->windowWidth/2 , ctrl->windowHeight/2 );
+		if(x!=ctrl->windowWidth/2 || y!=ctrl->windowHeight/2)
+		{
+			ctrl->model->MouseMove(-(x-ctrl->windowWidth/2),-(y-ctrl->windowHeight/2));
+			glutWarpPointer( ctrl->windowWidth/2 , ctrl->windowHeight/2 );
+		}
 	}
 }
 void Controller::KeyPressed (unsigned char key, int x, int y)
@@ -38,12 +50,14 @@ void Controller::KeyPressed (unsigned char key, int x, int y)
 	switch (key) 
 	{
 	case 'q':
-	case 'Q':
-	case 27:exit(1);
+	case 'Q':exit(1);
+	case 27:ctrl->escPressed=!ctrl->escPressed;break;
 	case 'w':ctrl->up=true;break;
 	case 's':ctrl->down=true;break;
 	case 'a':ctrl->left=true; break;
 	case 'd':ctrl->right=true; break;
+	case 'l':glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); break;
+	case 'L':glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); break;
 	case ' ':
 	if(!glutGetModifiers())
 		ctrl->climbUp=true; 
@@ -70,6 +84,7 @@ void Controller::KeyPressedSpecial(int key, int x, int y)
 	Controller *ctrl=Controller::GetInstance();
 	switch (key) 
 	{
+	case GLUT_KEY_F3:ctrl->debugWindowPressed=!ctrl->debugWindowPressed;break;
 	case GLUT_KEY_LEFT:ctrl->left = true; break;
 	case GLUT_KEY_RIGHT:ctrl->right = true; break;
 	case GLUT_KEY_UP:ctrl->up = true; break;
@@ -93,22 +108,26 @@ void Controller::Timer(int value)
 	glutTimerFunc(15, Timer, 0);
 	Controller *ctrl=Controller::GetInstance();
 	ctrl->model->Update();
-	if (ctrl->left)
-		ctrl->model->MoveLeft();		
-	if (ctrl->right)
-		ctrl->model->MoveRight();
-	if (ctrl->up)		 
-		ctrl->model->MoveUp();
-	if (ctrl->down)		 
-		ctrl->model->MoveDown();
-	/*if(climbUp)
-	{		
-		cam.Move(SF3dVector(0,SPEED,0));
+	ctrl->debugWindow.setCamPosition(ctrl->model->GetCamera().GetPosition());
+	if(!ctrl->escPressed) 
+	{
+		if (ctrl->left)
+			ctrl->model->MoveLeft();		
+		if (ctrl->right)
+			ctrl->model->MoveRight();
+		if (ctrl->up)		 
+			ctrl->model->MoveUp();
+		if (ctrl->down)		 
+			ctrl->model->MoveDown();
+		/*if(climbUp)
+		{		
+			cam.Move(SF3dVector(0,SPEED,0));
+		}
+		if(climbDown)
+		{		
+			cam.Move(SF3dVector(0,-SPEED,0));
+		}*/
 	}
-	if(climbDown)
-	{		
-		cam.Move(SF3dVector(0,-SPEED,0));
-	}*/
 	
 }
 

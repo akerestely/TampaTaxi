@@ -195,7 +195,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DebugWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Drawable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainMenu.cpp"
 				>
 			</File>
 			<File
@@ -269,7 +277,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DebugWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Drawable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MainMenu.h"
 				>
 			</File>
 			<File
