@@ -4,8 +4,9 @@ Controller::Controller(void)
 {
 	model = new Model;
 	scene = new Scene(model);
-	debugWindow = DebugWindow();
-	mainMenu= new MainMenu();
+	hud = new Hud(Point(),model);
+	debugWindow = new DebugWindow(model);
+	mainMenu = new MainMenu();
 }
 
 void Controller::RenderDisplay()
@@ -24,7 +25,7 @@ void Controller::RenderDisplay()
 	}
 	if(ctrl->debugWindowPressed) 
 	{
-		ctrl->debugWindow.Draw();
+		ctrl->debugWindow->Draw();
 	}
 	glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
 }
@@ -108,7 +109,6 @@ void Controller::Timer(int value)
 	glutTimerFunc(15, Timer, 0);
 	Controller *ctrl=Controller::GetInstance();
 	ctrl->model->Update();
-	ctrl->debugWindow.setCamPosition(ctrl->model->GetCamera().GetPosition());
 	if(!ctrl->escPressed) 
 	{
 		if (ctrl->left)
@@ -154,4 +154,7 @@ Controller::~Controller(void)
 {
 	delete model;
 	delete scene;
+	delete hud;
+	delete debugWindow;
+	delete mainMenu;
 }

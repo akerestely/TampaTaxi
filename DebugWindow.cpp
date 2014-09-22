@@ -5,7 +5,8 @@
 #include "Point.h"
 #include <glut.h>
 
-DebugWindow::DebugWindow(void)
+DebugWindow::DebugWindow(Model *model)
+	:model(model)
 {
 	this->frame=0;
 	this->timebase=0;
@@ -70,19 +71,18 @@ void DebugWindow::DrawText(Point center,char* s)
 	glPopMatrix();
 	restorePerspectiveProjection();
 }
-void DebugWindow::setCamPosition(Point camPosition) {
-	this->camPosition=camPosition;
-}
-void DebugWindow::DrawCameraPosition(Point textPosition) {
-	
+void DebugWindow::DrawCameraPosition(Point textPosition) 
+{
+	Point camPosition = model->GetCamera().GetPosition();	
 	sprintf(textCam,"Camera position: %4.2f, %4.2f, %4.2f",
 		camPosition.x,camPosition.y,camPosition.z);
 	DrawText(textPosition,textCam);
 }
-void DebugWindow::Draw() {
+void DebugWindow::Draw() 
+{
+	glColor3f(1,1,1);
 	DrawFPS(Point(5,20,0));
 	DrawCameraPosition(Point(5,30,0));
-	
 }
 DebugWindow::~DebugWindow(void)
 {

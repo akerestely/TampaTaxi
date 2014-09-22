@@ -171,15 +171,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Ball.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Building.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.cpp"
 				>
 			</File>
 			<File
@@ -187,7 +179,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Card.cpp"
+				RelativePath=".\Car.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Collidable.cpp"
 				>
 			</File>
 			<File
@@ -199,7 +195,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Drawable.cpp"
+				RelativePath=".\Hud.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HudDigit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Human.cpp"
 				>
 			</File>
 			<File
@@ -215,7 +219,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Movable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Node.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Object3d.cpp"
 				>
 			</File>
 			<File
@@ -227,11 +239,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QuadTree.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Scene.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\SkyCube.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Test.cpp"
 				>
 			</File>
 			<File
@@ -243,7 +263,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Win.cpp"
+				RelativePath=".\Way.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Wheel.cpp"
 				>
 			</File>
 		</Filter>
@@ -253,15 +277,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Ball.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Building.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.h"
 				>
 			</File>
 			<File
@@ -269,7 +285,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Card.h"
+				RelativePath=".\Car.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Collidable.h"
 				>
 			</File>
 			<File
@@ -285,6 +305,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Hud.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HudDigit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Human.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MainMenu.h"
 				>
 			</File>
@@ -297,7 +329,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Movable.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Node.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Object3d.h"
 				>
 			</File>
 			<File
@@ -309,11 +349,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QuadTree.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Scene.h"
 				>
 			</File>
 			<File
 				RelativePath=".\SkyCube.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Test.h"
 				>
 			</File>
 			<File
@@ -325,7 +373,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Win.h"
+				RelativePath=".\Way.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Wheel.h"
 				>
 			</File>
 		</Filter>
@@ -339,7 +391,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Map.xml"
+				RelativePath=".\OnlyStreetsFinal.osm"
 				>
 			</File>
 		</Filter>

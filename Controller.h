@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "DebugWindow.h"
 #include "MainMenu.h"
+#include "Hud.h"
 #include <glut.h>
 
 class Controller
@@ -11,9 +12,11 @@ class Controller
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
 	int windowWidth,windowHeight;
 	Model *model;
-	Scene *scene;
-	DebugWindow debugWindow;
-	MainMenu *mainMenu;
+
+	Scene* scene;
+	Hud* hud;
+	DebugWindow* debugWindow;
+	MainMenu* mainMenu;
 	Controller(void);
 public:
 

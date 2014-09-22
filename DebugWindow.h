@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
+#include "Model.h"
 #include "Point.h"
 class DebugWindow
 {
 private:
+	Model *model;
 	int timebase;
 	int frame;
 	int timeFrame;
@@ -17,8 +19,7 @@ private:
 	void DrawFPS(Point fpsPosition);
 	void DrawCameraPosition(Point textPosition);
 public:
-	void setCamPosition(Point camPosition);
-	DebugWindow(void);
+	DebugWindow(Model *model);
 	void Draw();
 	~DebugWindow(void);
 };
