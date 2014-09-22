@@ -300,8 +300,7 @@ void Human::DrawNeck()
 	neck_height=0.1;
 	neck_radius=0.085;
 	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
+	glColor3f(1,207./255, 175./255);
 	glPushMatrix();
 	glRotatef(-90, 1,0,0);
 
@@ -323,11 +322,11 @@ void Human::DrawHead()
 	head_radius=0.22;
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
+	glBindTexture(GL_TEXTURE_2D, tex.faceTex);
 	glPushMatrix();
-	glRotatef(-90, 1,0,0);
+	glRotatef(-270, 1,0,0);
 
-	glTranslatef(0,0,feet_height+leg_height+body_height+neck_height+head_radius/2+0.05);
+	glTranslatef(0,0,-(feet_height+leg_height+body_height+neck_height+head_radius/2+0.05));
 	quadric=gluNewQuadric();
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE); 
@@ -340,13 +339,12 @@ void Human::DrawHead()
 
 void Human::DrawLeftArm(double angleRotation)
 {
-	Texture tex=Texture::GetInstance();
+	
 	
 	arm_radius=0.08;
 	arm_height=0.60;
 	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
+	glColor3f(1,207./255, 175./255);
 	
 	//draw left arm
 	glPushMatrix();
@@ -365,11 +363,8 @@ void Human::DrawLeftArm(double angleRotation)
 
 void Human::DrawRightArm(double angleRotation)
 {
-	Texture tex=Texture::GetInstance();
-
 	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.skinTex);
+	glColor3f(1,207./255, 175./255);
 
 	//draw right arm
 	glPushMatrix();
@@ -384,5 +379,5 @@ void Human::DrawRightArm(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 30, 30);
 	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
+	
 }

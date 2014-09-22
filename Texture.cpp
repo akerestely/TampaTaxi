@@ -46,9 +46,9 @@ Texture::Texture(void)
 	free ( buffer );
 
 	//skin texture
-	buffer = esLoadTGA("Texture/Human/skin.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, &skinTex);
-	glBindTexture ( GL_TEXTURE_2D, skinTex);
+	buffer = esLoadTGA("Texture/Human/face.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &faceTex);
+	glBindTexture ( GL_TEXTURE_2D, faceTex);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
