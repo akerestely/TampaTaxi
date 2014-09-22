@@ -1,16 +1,22 @@
 #pragma once
 #include "Model.h"
 #include "Scene.h"
+#include "DebugWindow.h"
+#include "MainMenu.h"
 #include "Hud.h"
 #include <glut.h>
 
 class Controller
 {
+	bool escPressed,debugWindowPressed;
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
 	int windowWidth,windowHeight;
 	Model *model;
-	Scene *scene;
-	Hud *hud;
+
+	Scene* scene;
+	Hud* hud;
+	DebugWindow* debugWindow;
+	MainMenu* mainMenu;
 	Controller(void);
 public:
 
@@ -32,6 +38,8 @@ public:
 	static void Timer(int value);
 
 	static void WindowResize(GLsizei width, GLsizei height);
+
+
 
 	~Controller(void);
 };

@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DebugWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Hud.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			</File>
 			<File
 				RelativePath=".\Human.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainMenu.cpp"
 				>
 			</File>
 			<File
@@ -289,6 +297,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DebugWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Drawable.h"
 				>
 			</File>
@@ -302,6 +314,10 @@
 			</File>
 			<File
 				RelativePath=".\Human.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MainMenu.h"
 				>
 			</File>
 			<File
