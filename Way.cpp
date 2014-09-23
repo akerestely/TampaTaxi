@@ -1,4 +1,6 @@
 #include "Way.h"
+#include "Texture.h"
+
 #include "glut.h"
 #include "cmath"
 
@@ -81,31 +83,40 @@ std::vector<Node*>& Way::GetNodes()
 }
 void Way::drawStreetPortion(int index)
 {
+	Texture tex = Texture::GetInstance();
+	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tex.sidewayTex);
 	glColor3f(1, 0, 0);
 	Street portion = leftSidewalkPortions[index];
 	glBegin(GL_QUADS);
-	glVertex3d(portion.corners[0].x, portion.corners[0].y - 0.05, portion.corners[0].z);
-	glVertex3d(portion.corners[1].x, portion.corners[1].y - 0.05, portion.corners[1].z);
-	glVertex3d(portion.corners[2].x, portion.corners[2].y - 0.05, portion.corners[2].z);
-	glVertex3d(portion.corners[3].x, portion.corners[3].y - 0.05, portion.corners[3].z);
+	glTexCoord2d(0, 0);glVertex3d(portion.corners[0].x, portion.corners[0].y, portion.corners[0].z);
+	glTexCoord2d(0, 1);glVertex3d(portion.corners[1].x, portion.corners[1].y, portion.corners[1].z);
+	glTexCoord2d(20, 1);glVertex3d(portion.corners[2].x, portion.corners[2].y, portion.corners[2].z);
+	glTexCoord2d(20, 0);glVertex3d(portion.corners[3].x, portion.corners[3].y, portion.corners[3].z);
 	glEnd();
 	
 	portion = rightSidewalkPortions[index];
 	glBegin(GL_QUADS);
-	glVertex3d(portion.corners[0].x, portion.corners[0].y - 0.05, portion.corners[0].z);
-	glVertex3d(portion.corners[1].x, portion.corners[1].y - 0.05, portion.corners[1].z);
-	glVertex3d(portion.corners[2].x, portion.corners[2].y - 0.05, portion.corners[2].z);
-	glVertex3d(portion.corners[3].x, portion.corners[3].y - 0.05, portion.corners[3].z);
+	glTexCoord2d(0, 0);glVertex3d(portion.corners[0].x, portion.corners[0].y, portion.corners[0].z);
+	glTexCoord2d(0, 1);glVertex3d(portion.corners[1].x, portion.corners[1].y, portion.corners[1].z);
+	glTexCoord2d(20, 1);glVertex3d(portion.corners[2].x, portion.corners[2].y, portion.corners[2].z);
+	glTexCoord2d(20, 0);glVertex3d(portion.corners[3].x, portion.corners[3].y, portion.corners[3].z);
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 
-	glColor3f(1, 1, 0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tex.roadTex);
+
 	portion = streetPortions[index];
 	glBegin(GL_QUADS);
-	glVertex3d(portion.corners[0].x, portion.corners[0].y, portion.corners[0].z);
-	glVertex3d(portion.corners[1].x, portion.corners[1].y, portion.corners[1].z);
-	glVertex3d(portion.corners[2].x, portion.corners[2].y, portion.corners[2].z);
-	glVertex3d(portion.corners[3].x, portion.corners[3].y, portion.corners[3].z);
+	glTexCoord2d(0, 0); glVertex3d(portion.corners[0].x, portion.corners[0].y + 0.05, portion.corners[0].z);
+	glTexCoord2d(1, 0); glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.05, portion.corners[1].z);
+	glTexCoord2d(1, 5); glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.05, portion.corners[2].z);
+	glTexCoord2d(0, 5); glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.05, portion.corners[3].z);
 	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
 }
 void Way::Draw()
 {

@@ -147,7 +147,7 @@ void Controller::WindowResize(GLsizei width, GLsizei height)
 	glMatrixMode(GL_PROJECTION);  // To operate on the Projection matrix
 	glLoadIdentity();             // Reset
 	// Enable perspective projection with fovy, aspect, zNear and zFar
-	gluPerspective(45.0f, aspect, 0.1f, 300.0f);
+	gluPerspective(45.0f, aspect, 0.1f, 20000.0f);
 }
 
 Controller::~Controller(void)

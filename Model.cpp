@@ -42,14 +42,14 @@ void Model::Update()
 
 	/*car->Update();*/
 	skyCube.SetPoz(camera.GetPosition());
-	brasovMap->Update(camera.GetPosition());
+	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 }
 void Model::MoveUp()
 {
 	car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(-5))
 	{
-		if(!playerStreetCollision())
+		if(!playerMapCollision())
 			car->MoveWith(5);
 	}
 	
@@ -60,7 +60,7 @@ void Model::MoveDown()
 	car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(5))
 	{
-		if(!playerStreetCollision())
+		if(!playerMapCollision())
 			car->MoveWith(-5);
 	}
 }
@@ -81,17 +81,16 @@ void Model::MouseMove(double dx,double dy)
 	//human->IncrementAngle(rotY);
 }
 
-int Model::playerStreetCollision()
+int Model::playerMapCollision()
 {
 	int insidePoints = 0;
+	Point M;
 
 	Collidable* collidable = player->GetPlayerState();
 	if(collidable == NULL)
 		return 0;
-	Node* lastVisitedNode = brasovMap->GetNode(player->LastVisitedNodeIndex);
-	std::vector<long> adjacentWays = lastVisitedNode->GetWays();
-	Point nodeCenter = lastVisitedNode->GetCenter();
-	Point M;
+	
+	
 	
 	for(int i = 0; i < 4; i++)
 	{
@@ -103,47 +102,62 @@ int Model::playerStreetCollision()
 			M = collidable->GetBottomLeft();
 		if(i == 3)
 			M = collidable->GetTopLeft();
-		if(Tools::PointInsideCircle(M, nodeCenter, NODE_DIAMETER / 2))
+		
+		Node* lastVisitedNode = brasovMap->GetNode(player->LastVisitedNodeIndex);
+		insidePoints += playerStreetCollision(lastVisitedNode, M);
+		if (insidePoints != i + 1)
 		{
-			insidePoints++;
-			continue;
+			std::vector<long> adjacentWays = lastVisitedNode->GetWays();
+			for(int adjW = 0; adjW < adjacentWays.size() && insidePoints != i + 1; adjW++)
+			{
+				Way* adjacentWay = brasovMap->GetWay(adjacentWays[adjW]);
+				int nodeWayIndex = adjacentWay->GetIndex(lastVisitedNode);
+				
+				Node *node = adjacentWay->GetNode(nodeWayIndex - 1);
+				if (node != NULL)
+					insidePoints += playerStreetCollision(node, M);
+				
+				if(insidePoints != i + 1)
+				{
+					node = adjacentWay->GetNode(nodeWayIndex + 1);
+					if(node != NULL)
+						insidePoints += playerStreetCollision(node, M);
+					if (insidePoints == i + 1)
+						player->LastVisitedNodeIndex = node->GetId();
+				}
+				else
+					player->LastVisitedNodeIndex = node->GetId();
+			}
 		}
-		for(int adjW = 0; adjW < adjacentWays.size(); adjW++)
-		{
-			Way* adjacentWay = brasovMap->GetWay(adjacentWays[adjW]);
-			int nodeWayIndex = adjacentWay->GetIndex(lastVisitedNode);
-			Street *portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex);
-			if(portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
-			{
-				insidePoints++;
-				break;
-			}
-			portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex - 1);
-			if(portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
-			{
-				insidePoints++;
-				break;
-			}
-			Node *node = adjacentWay->GetNode(nodeWayIndex - 1);
-			if(node != NULL && Tools::PointInsideCircle(M, node->GetCenter(), NODE_DIAMETER / 2))
-			{
-				insidePoints++;
-				player->LastVisitedNodeIndex = node->GetId();
-				return playerStreetCollision();
-				//break;
-			}
-			node = adjacentWay->GetNode(nodeWayIndex + 1);
-			if(node != NULL && Tools::PointInsideCircle(M, node->GetCenter(), NODE_DIAMETER / 2))
-			{
-				insidePoints++;
-				player->LastVisitedNodeIndex = node->GetId();
-				return playerStreetCollision();
-				//break;
-			}
-		}		
+		if (insidePoints != i + 1)
+			break;
 	}
 	if(insidePoints == 4)
 		return 1;
+	return 0;
+}
+int Model::playerStreetCollision(Node *node, Point M)
+{
+	Point nodeCenter = node->GetCenter();
+	if(Tools::PointInsideCircle(M, nodeCenter, NODE_DIAMETER / 2))
+		return 1;
+	
+	std::vector<long> adjacentWays = node->GetWays();
+	for(int adjW = 0; adjW < adjacentWays.size(); adjW++)
+	{
+		Way* adjacentWay = brasovMap->GetWay(adjacentWays[adjW]);
+		int nodeWayIndex = adjacentWay->GetIndex(node);
+		Street *portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex);
+		if(portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
+		{
+			return 1;
+		}
+		portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex - 1);
+		if(portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
+		{
+			return 1;
+		}
+	}	
 	return 0;
 }
 Model::~Model(void)

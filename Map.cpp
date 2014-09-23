@@ -78,7 +78,7 @@ void Map::Draw()
 	}
 
 }
-void Map::Update(Point camPosition)
+void Map::Update(Point camPosition, double camAngle)
 {
 	std::set<int> visitedQuadrants;
 	std::set<Node*> nodes;
@@ -91,9 +91,10 @@ void Map::Update(Point camPosition)
 	
 	int camPositionIndex = drawableQuadTree->GetNodeIndex(camPosition);
 	visitedQuadrants.insert(camPositionIndex);
-	for (double angle = 0; angle < 360; angle+=45)
+	double angle = camAngle - 90;
+	for (double radius = 50; radius < 500; radius += 150)
 	{
-		for (double radius = 50; radius < 1201; radius += 100)
+		for (int i = 0; i < 5; i++, angle += 45)
 		{
 			Point p = Point(camPosition.x + radius * cos(angle * PIdiv180), camPosition.y, camPosition.z + radius * sin(angle * PIdiv180));
 			int nextPositionIndex = drawableQuadTree->GetNodeIndex(p);

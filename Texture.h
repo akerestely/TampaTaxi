@@ -43,4 +43,7 @@ public:
 	
 	GLuint hudText;
 	GLuint hudNumbers;
+	GLuint nodeTex;
+	GLuint sidewayTex;
+
 };

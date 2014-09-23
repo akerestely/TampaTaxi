@@ -8,7 +8,7 @@
 
 #define NODE_DIAMETER 8. 
 #define SIDEWALK_DIAMETER 14.
-#define SCALLING 10000
+#define SCALLING 5000
 
 class Node: public Object3d
 {

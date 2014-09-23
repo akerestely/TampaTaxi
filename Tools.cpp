@@ -164,5 +164,5 @@ bool Tools::PointInsideRectangle(Point point, Point rTopRight, Point rBottomRigh
 }
 bool Tools::PointInsideCircle(Point point, Point cCenter, double cRadius)
 {
-	return (point.x - cCenter.x) * (point.x - cCenter.x) + (point.z - cCenter.z) * (point.z - cCenter.z) < cRadius * cRadius;
+	return (point.x - cCenter.x) * (point.x - cCenter.x) + (point.z - cCenter.z) * (point.z - cCenter.z) <= cRadius * cRadius;
 }
