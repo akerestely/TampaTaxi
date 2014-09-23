@@ -5,6 +5,7 @@
 #include "Human.h"
 #include "Car.h"
 #include "Map.h"
+#include "WorldGenerator.h"
 #include "Player.h"
 
 class Model
@@ -16,6 +17,8 @@ class Model
 	Map* brasovMap;
 	Car* car;
 	Player *player;
+
+	WorldGenerator *wg;
 
 	std::vector<Collidable *> collidables;
 

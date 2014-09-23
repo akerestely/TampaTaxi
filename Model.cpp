@@ -13,6 +13,9 @@ Model::Model(void)
 	player = new Player(car);
 	player->LastVisitedNodeIndex = START_NODE;
 
+	wg = new WorldGenerator(brasovMap);
+	wg->Initialize();
+	
 	//to be deleted
 	collidables.push_back(car);
 	collidables.push_back(human);
@@ -37,12 +40,15 @@ void Model::Update()
 	sceneObjects.push_back(human);
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
+	sceneObjects.push_back(wg);
 	
 	camera.SetPosition(player->GetPosition());
 
 	/*car->Update();*/
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
+
+	wg->Update();
 }
 void Model::MoveUp()
 {

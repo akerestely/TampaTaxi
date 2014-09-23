@@ -6,22 +6,22 @@
 #include"Player.h"
 #include "Car.h"
 #include"Human.h"
+#include"Map.h"
+
 #include<vector>
-
-#define AreaRadius 100 
-#define maxCars 20	
-#define maxHumans 40
-
+#include<ctime>
 
 class WorldGenerator :
 	public Drawable
 {
 	CollidableQuadTree* collidableQuadTree;
-	Point currentPosition;
+	Map* cityMap;
 	std::vector<Collidable*> invisiblePool,visiblePool;
+
 public:
-	WorldGenerator(CollidableQuadTree* collidableQuadTree,Point currentPosition);
+	WorldGenerator(Map* cityMap);
 	void Initialize();
 	void Update();
+	void Draw();
 	~WorldGenerator();
 };
