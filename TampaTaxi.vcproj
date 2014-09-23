@@ -187,15 +187,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CollidableQuadTree.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Controller.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\DebugWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CollidableQuadTree.cpp"
 				>
 			</File>
 			<File
@@ -272,6 +272,10 @@
 			</File>
 			<File
 				RelativePath=".\Wheel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WorldGenerator.cpp"
 				>
 			</File>
 		</Filter>
@@ -390,6 +394,10 @@
 			</File>
 			<File
 				RelativePath=".\Wheel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WorldGenerator.h"
 				>
 			</File>
 		</Filter>
