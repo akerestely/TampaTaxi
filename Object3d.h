@@ -7,8 +7,8 @@ protected:
 	double angle;
 public:
 	Object3d(Point center);
-	void IncrementAngle(double deltaAngle);
-	void SetAngle(double angle);
+	virtual void IncrementAngle(double deltaAngle);
+	virtual void SetAngle(double angle);
 	void setCenter(Point center);
 	Point GetCenter();
 	~Object3d(void);

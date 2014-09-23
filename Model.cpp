@@ -5,11 +5,10 @@
 Model::Model(void)
 {
 	human= new Human(Point(-13, 0, 13));
-	
-	//car->SetAngle(90);
+	car= new Car(Point());
+
 	brasovMap = new Map("OnlyStreetsFinal.osm", "BuildingsV2.osm");
 
-	car= new Car(Point());
 	player = new Player(car);
 	player->LastVisitedNodeIndex = START_NODE;
 
@@ -33,6 +32,12 @@ CCamera Model::GetCamera()
 {
 	return camera;
 }
+
+
+Player* Model::GetPlayer()
+{
+	return player;
+}
 void Model::Update()
 {
 	sceneObjects.clear();
@@ -52,6 +57,7 @@ void Model::Update()
 }
 void Model::MoveUp()
 {
+	//car->Accelerate();
 	car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(-5))
 	{
@@ -63,6 +69,7 @@ void Model::MoveUp()
 }
 void Model::MoveDown()
 {
+	//car->Reverse();
 	car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(5))
 	{
@@ -72,10 +79,12 @@ void Model::MoveDown()
 }
 void Model::MoveLeft()
 {
+	car->TurnLeft();
 	/*SF3dVector v = camera.MoveX(-SPEED);*/
 }
 void Model::MoveRight()
 {
+	car->TurnRight();
 	/*SF3dVector v = camera.MoveX(+SPEED);*/
 }
 void Model::MouseMove(double dx,double dy)

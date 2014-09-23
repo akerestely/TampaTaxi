@@ -4,20 +4,25 @@
 #include "glut.h"
 
 Wheel::Wheel(Point center, double r,double w) 
-	:Object3d(center), radius(r), width(w), angle(0)
+	:Object3d(center), radius(r), width(w), angleRotation(0)
 {
 	Texture tex = Texture::GetInstance();
 	side = tex.wheelSide;
 	base = tex.wheelBase;
 }
 
+void Wheel::IncrementRotationAngle(double deltaAngle)
+{
+	angleRotation+=deltaAngle;
+}
 void Wheel::Draw()
 {
 	glPushMatrix();
 	double x, y,tx,ty;
 	glRotatef(-90, 0, 1, 0);
 	glTranslatef(center.x, center.y + radius, center.z);
-	glRotatef(angle+=6, 0, 0,1);
+	glRotated(angle*180/PI, 0, 1, 0);
+	glRotated(angleRotation, 0, 0, 1);
 
 	//base
 	glTranslatef(0, 0, -width / 2);
@@ -53,6 +58,7 @@ void Wheel::Draw()
 	glEnd();
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
+	angle=0;
 }
 
 Wheel::~Wheel()

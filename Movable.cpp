@@ -6,9 +6,31 @@
 Movable::Movable(Point center,double width, double height)
 	:Collidable(center,width,height)
 {
-	canMove=true;
+	computeViewDir();
 }
 
+void Movable::computeViewDir()
+{
+	viewDir.x=cos(angle+PI/2);
+	viewDir.z=-sin(angle+PI/2);
+}
+
+void Movable::IncrementAngle(double deltaAngle)
+{
+	Collidable::IncrementAngle(deltaAngle);
+	computeViewDir();
+}
+
+void Movable::SetAngle(double angle)
+{
+	Collidable::SetAngle(angle);
+	computeViewDir();
+}
+void Movable::SetViewDir(SF3dVector normalizedVector)
+{
+	viewDir=normalizedVector;
+	angle=atan2(normalizedVector.z,-normalizedVector.x)+PI/2;
+}
 bool Movable::CollidesWith()
 {
 	Point M;
@@ -67,8 +89,8 @@ bool Movable::CollidesWith()
 bool Movable::MoveWith(double speed)
 {
 	double dx,dz;
-	dx=-speed*cos(angle+PI/2);
-	dz=-speed* -sin(angle+PI/2);
+	dx=-speed*viewDir.x;
+	dz=-speed*viewDir.z;
 
 	center.x+=dx;
 	center.z+=dz;

@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #define PI 3.14159265359
 #define PIdiv180 0.01745329251
 
@@ -34,6 +35,10 @@ struct SF3dVector
 	{
 		return SF3dVector(x*scalar , y*scalar, z*scalar);
 	}
+	SF3dVector operator/(double scalar)
+	{
+		return SF3dVector(x/scalar , y/scalar, z/scalar);
+	}
 	SF3dVector operator+(const SF3dVector &v)
 	{
 		return SF3dVector(x+v.x, y+v.y,z+v.z);
@@ -44,5 +49,10 @@ struct SF3dVector
 		y+=v.y;
 		z+=v.z;
 		return *this;
+	}
+	SF3dVector GetNormalized()
+	{
+		double lenght=sqrt(x*x+y*y+z*z);
+		return (*this)/lenght;
 	}
 };

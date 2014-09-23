@@ -7,9 +7,10 @@ class Wheel : public Object3d, public Drawable
 	double radius,width;
 	unsigned int side;
 	unsigned int base;
-	double angle;
+	double angleRotation;
 public:
 	Wheel(Point center,double r,double w);
+	void IncrementRotationAngle(double deltaAngle);
 	void Draw();
 	~Wheel();
 };

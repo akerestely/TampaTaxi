@@ -69,7 +69,6 @@ void Map::Draw()
 {
 	Point first, second;
 
-	glColor3f(0.9, 1, 0);
 	for(std::set<long>::iterator waysIt = waysToDraw.begin(); waysIt != waysToDraw.end(); ++waysIt)
 		ways[*waysIt]->Draw();
 	for(std::set<Building*>::iterator buildingIt = buildingsToDraw.begin(); buildingIt != buildingsToDraw.end(); ++buildingIt)

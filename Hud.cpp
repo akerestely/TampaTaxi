@@ -15,6 +15,26 @@ Hud::Hud(Point center,Model* model)
 	totalKilometers=0;	
 }
 
+void Hud::setSpeed(double speed)
+{
+	if(speed>0)
+	{
+		needleAngle=speed/MAX_SPEED*270;
+		totalKilometers+=speed/10;
+		int aux=(int)totalKilometers;
+		int digitPos=-1;
+		while(aux!=0)
+		{
+			int c=aux%10;
+			digits[++digitPos].setDigit(c);
+			aux=aux/10;
+		}
+	}
+	else
+		needleAngle=0;
+}
+
+
 void Hud::Draw()
 {
 	glPushMatrix();
@@ -29,10 +49,6 @@ void Hud::Draw()
 		for(int i=0;i<digits.size();i++)
 			digits.at(i).Draw();
 		DrawNeedle(GAUGE_RADIUS);
-
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-		
 	glPopMatrix();
 }
 
@@ -91,30 +107,15 @@ void Hud::DrawNeedle(double circleRadius)
 	glEnd();
 }
 
+
 void Hud::Update()
 {
-
-}
-
-void Hud::setSpeed(double speed)
-{
-	if(speed>0)
+	Car *car=model->GetPlayer()->GetCar();
+	if(car != NULL)
 	{
-		needleAngle=speed/MAX_SPEED*270;
-		totalKilometers+=speed/10;
-		int aux=(int)totalKilometers;
-		int digitPos=-1;
-		while(aux!=0)
-		{
-			int c=aux%10;
-			digits[++digitPos].setDigit(c);
-			aux=aux/10;
-		}
+		setSpeed(-car->GetSpeed());
 	}
-	else
-		needleAngle=0;
 }
-
 Hud::~Hud(void)
 {
 }

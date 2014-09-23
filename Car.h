@@ -3,6 +3,7 @@
 #include "Movable.h"
 
 #define MAX_SPEED 1.0
+#define MIN_SPEED -0.2
 
 class Car: public Movable, public Drawable
 {
@@ -12,7 +13,11 @@ class Car: public Movable, public Drawable
 public:
 	Car(Point center);
 	double GetSpeed();
-	void Accelerate(double deltaSpeed);
+	void Accelerate();
+	void Break();
+	void Reverse();
+	void TurnLeft();
+	void TurnRight();
 	void Update();
 	void Draw();
 	~Car();

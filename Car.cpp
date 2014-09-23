@@ -1,19 +1,23 @@
-
-#include "iostream"
+#include "math.h"
+#include <iostream>
 #include "Texture.h"
 #include "Car.h"
 #include "Tools.h"
 
 #define CAR_SCALE 0.35
 
+#define ACCELERATION 0.002
+#define BREAK -0.004
+#define FS 0.0001
+
 Car::Car(Point center) 
 	:Movable(center,7*CAR_SCALE,13.5*CAR_SCALE)
 {
-	speed = -0.2;
+	speed = -0.5;
 	w = new Wheel*[4];
 	w[0] = new Wheel(Point(-4.4, 0, 3), 1.15, 1);
-	w[1] = new Wheel(Point(4.64, 0, 3), 1.15, 1);
-	w[2] = new Wheel(Point(-4.4, 0, -3), 1.15, 1);
+	w[1] = new Wheel(Point(-4.4, 0, -3), 1.15, 1);
+	w[2] = new Wheel(Point(4.64, 0, 3), 1.15, 1);
 	w[3] = new Wheel(Point(4.64, 0, -3), 1.15, 1);
 	Texture tex = Texture::GetInstance();
 	side = tex.carSide;
@@ -24,9 +28,47 @@ double Car::GetSpeed()
 	return speed;
 }
 
-void Car::Accelerate(double deltaSpeed)
+void Car::Accelerate()
 {
-	speed-=deltaSpeed;
+	if(speed>-MAX_SPEED)
+			speed-=ACCELERATION;
+	if(speed<-MAX_SPEED)
+			speed=-MAX_SPEED;
+}
+void Car::Break()
+{
+	speed-=BREAK;
+	if(speed>0)
+		speed=0;
+}
+void Car::Reverse()
+{
+	if(speed<0)
+		Break();
+	else
+		speed+=ACCELERATION;
+	if(speed>-MIN_SPEED)
+		speed=-MIN_SPEED;
+}
+
+void Car::TurnLeft()
+{
+	w[0]->IncrementAngle(45);
+	w[1]->IncrementAngle(45);
+	SF3dVector perpendicular(viewDir.z,0, -viewDir.x);
+	SF3dVector movement = viewDir* -speed + perpendicular*ACCELERATION;
+	if(speed)
+		SetViewDir(movement.GetNormalized());
+}
+
+void Car::TurnRight()
+{
+	w[0]->IncrementAngle(-45);
+	w[1]->IncrementAngle(-45);
+	SF3dVector perpendicular(-viewDir.z, 0, viewDir.x);
+	SF3dVector movement = viewDir* -speed + perpendicular*ACCELERATION;
+	if(speed)
+		SetViewDir(movement.GetNormalized());
 }
 
 void Car::Update()
@@ -35,10 +77,14 @@ void Car::Update()
 	{
 		MoveWith(speed);
 		//after move, apply Ff(Fs)
-		/*speed-=Tools::Sign(speed)*0.002;
-		if(abs(speed)<0.00005)
-			speed=0;*/
-		//std::cout<<speed<<"\n";
+		speed-=Tools::Sign(speed)*FS;
+		if(abs(speed)<FS)
+			speed=0;
+	}
+	std::cout<<speed<<"\n";
+	for(int i=0; i<4; i++)
+	{
+		w[i]->IncrementRotationAngle(speed*6/-0.1);
 	}
 }
 

@@ -19,6 +19,8 @@ void Controller::RenderDisplay()
 	glLoadIdentity();
 	ctrl->scene->Render();
 	glLoadIdentity();
+	
+	ctrl->hud->Draw();
 	if(ctrl->escPressed) 
 	{
 		ctrl->mainMenu->Draw();
@@ -108,7 +110,6 @@ void Controller::Timer(int value)
 {
 	glutTimerFunc(15, Timer, 0);
 	Controller *ctrl=Controller::GetInstance();
-	ctrl->model->Update();
 	if(!ctrl->escPressed) 
 	{
 		if (ctrl->left)
@@ -128,7 +129,8 @@ void Controller::Timer(int value)
 			cam.Move(SF3dVector(0,-SPEED,0));
 		}*/
 	}
-	
+	ctrl->model->Update();
+	ctrl->hud->Update();
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)

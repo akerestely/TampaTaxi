@@ -16,7 +16,7 @@ class Model
 	Human* human;
 	Map* brasovMap;
 	Car* car;
-	Player *player;
+	Player* player;
 
 	WorldGenerator *wg;
 
@@ -29,6 +29,7 @@ public:
 	Model(void);
 	std::vector<Drawable*>* GetSceneObjects();
 	CCamera GetCamera();
+	Player* GetPlayer();
 	void Update();
 	void MoveUp();
 	void MoveDown();
