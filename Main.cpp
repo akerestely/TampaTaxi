@@ -272,6 +272,7 @@ int main(int argc, char** argv)
 	{
 		glutInit(&argc, argv);            // Initialize GLUT
 		glutInitDisplayMode(GLUT_DOUBLE); // Enable double buffered mode
+<<<<<<< Updated upstream
 		glutInitWindowSize(640, 480);   // Set the window's initial width & height
 		glutInitWindowPosition(50, 50); // Position the window's initial top-left corner
 		glutCreateWindow("Test");          // Create window with the given title
@@ -283,6 +284,12 @@ int main(int argc, char** argv)
   		glutSpecialFunc(handleSpecialKeyPressed);
    		glutSpecialUpFunc(handleSpecialKeyReleased);
 		glutTimerFunc(0, timer, 0);     // First timer call immediately
+=======
+		glutInitWindowSize(1024, 768);   // Set the window's initial width & height
+		glutInitWindowPosition(250, 50); // Position the window's initial top-left corner
+		glutCreateWindow("Taxi Mania");          // Create window with the given title
+		init();
+>>>>>>> Stashed changes
 		glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
 		glutMainLoop();                 // Enter the infinite event-processing loop
 	}

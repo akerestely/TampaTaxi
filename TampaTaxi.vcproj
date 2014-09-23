@@ -187,7 +187,15 @@
 				>
 			</File>
 			<File
+<<<<<<< Updated upstream
 				RelativePath=".\Card.cpp"
+=======
+				RelativePath=".\CollidableQuadTree.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Controller.cpp"
+>>>>>>> Stashed changes
 				>
 			</File>
 			<File
@@ -230,6 +238,10 @@
 				RelativePath=".\Win.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\WorldGenerator.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -249,7 +261,15 @@
 				>
 			</File>
 			<File
+<<<<<<< Updated upstream
 				RelativePath=".\CameraSpectator.h"
+=======
+				RelativePath=".\CollidableQuadTree.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Controller.h"
+>>>>>>> Stashed changes
 				>
 			</File>
 			<File
@@ -294,6 +314,10 @@
 			</File>
 			<File
 				RelativePath=".\Win.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WorldGenerator.h"
 				>
 			</File>
 		</Filter>

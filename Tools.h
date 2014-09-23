@@ -34,3 +34,11 @@ public:
 	static int ReadBuildingsFromXML(char *fileName, std::vector<Building> &buildings);
 	static int Sign(double x);
 };
+struct Rectangl{
+ int x, y;
+ int height, width;
+ Rectangl(int x = 0,int y = 0,int height = 0,int width = 0)
+  :x(x),y(y),height(height),width(width)
+ {
+ }
+};
