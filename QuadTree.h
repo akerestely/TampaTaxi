@@ -8,7 +8,7 @@
 
 class QuadTree
 {
-    static const int MAX_OBJECTS = 500;
+    static const int MAX_OBJECTS = 200;
 	static const int MAX_LEVELS = 4;
 	int level;
 	int nodeIndex;

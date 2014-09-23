@@ -30,5 +30,6 @@ public:
 	void Update(Point camPosition);
 	Node* GetNode(long id);
 	Way* GetWay(long id);
+	std::set<long>* GetWaysToDraw();
 	~Map(void);
 };

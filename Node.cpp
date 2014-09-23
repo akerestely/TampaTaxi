@@ -13,7 +13,7 @@ void Node::Draw(bool isSidewalk)
 {
 	double diameter = NODE_DIAMETER;
 	double dy = 0;
-	glColor3f(1, 1, 0);
+	glColor3f(0, 0, 1);
 	if(isSidewalk)
 	{
 		diameter = SIDEWALK_DIAMETER;

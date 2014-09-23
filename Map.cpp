@@ -119,6 +119,10 @@ Way* Map::GetWay(long id)
 {
 	return ways[id];
 }
+std::set<long>* Map::GetWaysToDraw()
+{
+	return &waysToDraw;
+}
 Map::~Map(void)
 {
 }
