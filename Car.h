@@ -16,6 +16,8 @@ class Car: public Movable, public Drawable
 	SF3dVector fTraction;
 	SF3dVector velocity;
 
+	void turn(double steerAngle);
+
 public:
 	Car(Point center);
 	double GetSpeed();

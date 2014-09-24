@@ -17,7 +17,7 @@
 #define ROLLING_DRAG 20.8
 #define MASS 6000
 
-#define STEER_ANGLE 15
+#define STEER_ANGLE 45
 
 Car::Car(Point center) 
 	:Movable(center,7*CAR_SCALE,13.5*CAR_SCALE)
@@ -62,10 +62,10 @@ void Car::Reverse()
 	fTraction = viewDir * -REVERSE;
 }
 
-void Car::TurnLeft()
+void Car::turn(double steerAngle)
 {
-	w[0]->IncrementAngle(STEER_ANGLE);
-	w[1]->IncrementAngle(STEER_ANGLE);
+	w[0]->IncrementAngle(steerAngle);
+	w[1]->IncrementAngle(steerAngle);
 
 	SF3dVector carLocation = SF3dVector(center.x, center.y, center.z);
 
@@ -73,37 +73,29 @@ void Car::TurnLeft()
 	SF3dVector backWheel = carLocation + viewDir * (-wheelBase / 2);
 
 	backWheel = backWheel + viewDir * speed;
-	double steeringAngle=angle + STEER_ANGLE * PIdiv180 + PI/2;
+	double steeringAngle=angle + steerAngle * PIdiv180 + PI/2;
 	frontWheel = frontWheel + SF3dVector(cos(steeringAngle), 0, -sin(steeringAngle)) * speed;
 	
 	carLocation = (frontWheel + backWheel) / 2;
 	angle = atan2( frontWheel.z - backWheel.z , -frontWheel.x + backWheel.x ) + PI/2;
-
-	computeViewDir();
+	
 	center.x = carLocation.x;
 	center.z = carLocation.z;
+
+	computeViewDir();
+
+	//compute velocity vector
+	velocity.x = speed *  cos(angle+PI/2);
+	velocity.z = speed * -sin(angle+PI/2);
+}
+void Car::TurnLeft()
+{
+	turn(STEER_ANGLE);
 }
 
 void Car::TurnRight()
 {
-	w[0]->IncrementAngle(-STEER_ANGLE);
-	w[1]->IncrementAngle(-STEER_ANGLE);
-
-	SF3dVector carLocation = SF3dVector(center.x, center.y, center.z);
-
-	SF3dVector frontWheel = carLocation + viewDir * (wheelBase / 2);
-	SF3dVector backWheel = carLocation + viewDir * (-wheelBase / 2);
-
-	backWheel = backWheel + viewDir * speed;
-	double steeringAngle = angle - STEER_ANGLE * PIdiv180 + PI/2;
-	frontWheel = frontWheel + SF3dVector(cos(steeringAngle), 0, -sin(steeringAngle)) * speed;
-
-	carLocation = (frontWheel + backWheel) / 2;
-	angle = atan2( frontWheel.z - backWheel.z , -frontWheel.x + backWheel.x ) + PI/2;
-
-	computeViewDir();
-	center.x = carLocation.x;
-	center.z = carLocation.z;
+	turn(-STEER_ANGLE);
 }
 
 void Car::Update()
@@ -116,7 +108,7 @@ void Car::Update()
 	speed = velocity.GetMagnitude() * Tools::Sign(viewDir*velocity);
 	if(speed>0.01 || speed<-0.01)
 	{
-		MoveWith(-speed);
+		MoveWith(velocity);
 		for(int i=0; i<4; i++)
 		{
 			w[i]->IncrementRotationAngle( speed * 6 / 0.1 );
