@@ -7,7 +7,7 @@ Model::Model(void)
 	human= new Human(Point(-13, 0, 13));
 	car= new Car(Point());
 
-	brasovMap = new Map("OnlyStreetsFinal.osm", "BuildingsV2.osm");
+	//brasovMap = new Map("OnlyStreetsFinal.osm", "BuildingsV2.osm");
 
 	player = new Player(car);
 	player->LastVisitedNodeIndex = START_NODE;
@@ -44,38 +44,38 @@ void Model::Update()
 	sceneObjects.push_back(&skyCube);
 	sceneObjects.push_back(human);
 	sceneObjects.push_back(car);
-	sceneObjects.push_back(brasovMap);
-	sceneObjects.push_back(wg);
+	//sceneObjects.push_back(brasovMap);
+	//sceneObjects.push_back(wg);
 	
 	camera.SetPosition(player->GetPosition());
 
-	/*car->Update();*/
+	car->Update();
 	skyCube.SetPoz(camera.GetPosition());
-	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
+	//brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 
-	wg->Update();
+	//wg->Update();
 }
 void Model::MoveUp()
 {
-	//car->Accelerate();
-	car->SetAngle(camera.GetRotY());
+	car->Accelerate();
+	/*car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(-5))
 	{
 		if(!playerMapCollision())
 			car->MoveWith(5);
-	}
+	}*/
 	
 		
 }
 void Model::MoveDown()
 {
-	//car->Reverse();
-	car->SetAngle(camera.GetRotY());
+	car->Reverse();
+	/*car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(5))
 	{
 		if(!playerMapCollision())
 			car->MoveWith(-5);
-	}
+	}*/
 }
 void Model::MoveLeft()
 {
@@ -95,7 +95,6 @@ void Model::MouseMove(double dx,double dy)
 	camera.RotateX(rotX);
 	//human->IncrementAngle(rotY);
 }
-
 int Model::playerMapCollision()
 {
 	int insidePoints = 0;
@@ -177,5 +176,5 @@ int Model::playerStreetCollision(Node *node, Point M)
 }
 Model::~Model(void)
 {
-	delete brasovMap;
+	//delete brasovMap;
 }

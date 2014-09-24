@@ -113,7 +113,7 @@ void Hud::Update()
 	Car *car=model->GetPlayer()->GetCar();
 	if(car != NULL)
 	{
-		setSpeed(-car->GetSpeed());
+		setSpeed(car->GetSpeed());
 	}
 }
 Hud::~Hud(void)
