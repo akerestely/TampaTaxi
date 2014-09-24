@@ -11,8 +11,8 @@ Movable::Movable(Point center,double width, double height)
 
 void Movable::computeViewDir()
 {
-	viewDir.x=cos(angle+PI/2);
-	viewDir.z=-sin(angle+PI/2);
+	viewDir.x=  cos(angle+PI/2);
+	viewDir.z= -sin(angle+PI/2);
 }
 
 void Movable::IncrementAngle(double deltaAngle)
@@ -98,6 +98,21 @@ bool Movable::MoveWith(double speed)
 	{
 		center.x-=dx;
 		center.z-=dz;
+		return false;
+	}
+
+	return true;
+}
+
+bool Movable::MoveWith(SF3dVector speedVector)
+{
+	center.x+=speedVector.x;
+	center.z+=speedVector.z;
+
+	if( CollidesWith() )
+	{
+		center.x-=speedVector.x;
+		center.z-=speedVector.z;
 		return false;
 	}
 	return true;

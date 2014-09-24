@@ -13,5 +13,6 @@ public:
 	virtual void SetAngle(double angle);
 	void SetViewDir(SF3dVector normalizedVector);
 	bool CollidesWith();
-	bool MoveWith(double speed);
+	bool MoveWith(double speed);	
+	bool MoveWith(SF3dVector speedVector);
 };
