@@ -53,7 +53,7 @@ void Model::Update()
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 
-	wg->Update();
+	wg->Update(camera.GetPosition());
 }
 void Model::MoveUp()
 {

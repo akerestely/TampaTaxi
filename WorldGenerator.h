@@ -22,7 +22,9 @@ class WorldGenerator :
 public:
 	WorldGenerator(Map* cityMap);
 	void Initialize();
-	void Update();
+	void Update(Point currentPosition);
+	void UpdateVector(std::vector<Collidable*>& invisibleVector);
+	bool checkVisibles(Point currentPosition);
 	void Draw();
 	~WorldGenerator();
 };
