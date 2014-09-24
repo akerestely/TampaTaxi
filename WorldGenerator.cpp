@@ -61,7 +61,7 @@ void WorldGenerator::UpdateHumanVector(Point currentPosition)
 		SF3dVector checkDistance(currentPosition,objectCenter);
 		if(checkDistance.GetMagnitude()>MINIMUM_MAGNITUDE)
 		{
-			long angle=atan2(-v2.z,v2.x)+PI/2;
+			double angle=atan2(v2.z,-v2.x)+PI/2;
 			invisiblePoolHuman[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
 			invisiblePoolHuman[i]->setCenter(objectCenter);
 			visiblePoolHuman.push_back(invisiblePoolHuman[i]);	
@@ -69,7 +69,6 @@ void WorldGenerator::UpdateHumanVector(Point currentPosition)
 		}
 		else i++;
 	}
-
 }
 
 void WorldGenerator::UpdateCarVector(Point currentPosition)
@@ -115,7 +114,7 @@ void WorldGenerator::UpdateCarVector(Point currentPosition)
 		SF3dVector checkDistance(currentPosition,objectCenter);
 		if(checkDistance.GetMagnitude()>MINIMUM_MAGNITUDE)
 		{
-		long angle=atan2(-v2.z,v2.x)+PI/2.5;
+		double angle=atan2(-v2.z,v2.x)+PI/2;
 		invisiblePoolCar[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
 		//invisiblePoolCar[i]->SetAngle(resultAngle*180/PI+(180*(rand()%2)));
 		invisiblePoolCar[i]->setCenter(objectCenter);
@@ -125,6 +124,7 @@ void WorldGenerator::UpdateCarVector(Point currentPosition)
 		else i++;
 	}
 }
+
 
 bool WorldGenerator::checkVisibles(Point currentPosition)
 {
