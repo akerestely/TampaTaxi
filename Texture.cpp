@@ -438,7 +438,7 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/Road/road.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Road/roadV3.tga", &tWidth, &tHeight);
 	glGenTextures(1, &roadTex);
 	glBindTexture(GL_TEXTURE_2D, roadTex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

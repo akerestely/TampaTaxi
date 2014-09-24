@@ -111,9 +111,9 @@ void Way::drawStreetPortion(int index)
 	portion = streetPortions[index];
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 0); glVertex3d(portion.corners[0].x, portion.corners[0].y + 0.04, portion.corners[0].z);
-	glTexCoord2d(1, 0); glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.04, portion.corners[1].z);
-	glTexCoord2d(1, 5); glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.04, portion.corners[2].z);
-	glTexCoord2d(0, 5); glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.04, portion.corners[3].z);
+	glTexCoord2d(2, 0); glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.04, portion.corners[1].z);
+	glTexCoord2d(2, 20); glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.04, portion.corners[2].z);
+	glTexCoord2d(0, 20); glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.04, portion.corners[3].z);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);

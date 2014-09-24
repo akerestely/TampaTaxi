@@ -13,28 +13,27 @@ Node::Node(Point center, long id)
 }
 void Node::Draw(bool isSidewalk)
 {
-	double diameter = NODE_DIAMETER;
-	double dy = 0.025;
+	double diameter, dy;
 	Texture tex = Texture::GetInstance();
 	glEnable(GL_TEXTURE_2D);
 	if(isSidewalk)
 	{
 		diameter = SIDEWALK_DIAMETER;
+		dy = 0.03;
 		glBindTexture(GL_TEXTURE_2D, tex.sidewayTex);
 	}
 	else
 	{
-		dy += 0.05;
-		glBindTexture(GL_TEXTURE_2D, tex.nodeTex);
+		diameter = NODE_DIAMETER;
+		dy = 0.05;
+		glBindTexture(GL_TEXTURE_2D, tex.roadTex);
 	}
-
+	
 	glBegin(GL_TRIANGLE_FAN);
-	glTexCoord2d(0.5, 0.5);
-	glVertex3d(center.x, center.y, center.z);
 	for(int theta = 0; theta <= 360; theta++)
 	{
-		glTexCoord2d((cos(theta * PI / 180) + 1) / 2 * 10, (sin(theta * PI / 180) + 1) / 2 * 10);
-		glVertex3d(center.x + diameter / 2 * cos(theta * PI / 180), center.y + dy, center.z + diameter / 2 * sin(theta * PI / 180));
+		glTexCoord2d((cos(theta * PIdiv180) + 1) / 2 * 10,(sin(theta * PIdiv180) + 1) / 2 * 10);
+		glVertex3d(center.x + diameter / 2 * cos(theta * PIdiv180), center.y + dy, center.z + diameter / 2 * sin(theta * PIdiv180));
 	}
 	glEnd();
 	glDisable(GL_TEXTURE_2D);

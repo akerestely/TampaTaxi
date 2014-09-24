@@ -99,8 +99,10 @@ void Map::Update(Point camPosition, double camAngle)
 			int nextPositionIndex = drawableQuadTree->GetNodeIndex(p);
 			if (!visitedQuadrants.count(nextPositionIndex))
 			{
+				
 				drawableQuadTree->Retrieve(buildingsToDraw, p);
-				drawableQuadTree->Retrieve(nodes, p);
+				if (radius < 201)
+					drawableQuadTree->Retrieve(nodes, p);
 				visitedQuadrants.insert(nextPositionIndex);
 			}
 		}
@@ -123,6 +125,7 @@ std::set<long>* Map::GetWaysToDraw()
 {
 	return &waysToDraw;
 }
+
 Map::~Map(void)
 {
 }
