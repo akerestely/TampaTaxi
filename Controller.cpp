@@ -108,7 +108,8 @@ void Controller::KeyReleasedSpecial(int key, int x, int y)
 
 void Controller::Timer(int value)
 {
-	glutTimerFunc(15, Timer, 0);
+	glutTimerFunc(25, Timer, 0);
+	glutPostRedisplay();
 	Controller *ctrl=Controller::GetInstance();
 	if(!ctrl->escPressed) 
 	{

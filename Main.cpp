@@ -15,7 +15,6 @@ void init()
 	//handle display
 	glutDisplayFunc(Controller::RenderDisplay);
 	glutReshapeFunc(Controller::WindowResize);
-	glutIdleFunc(Controller::RenderDisplay);
 
 	//handle input
 	glutKeyboardFunc(Controller::KeyPressed);

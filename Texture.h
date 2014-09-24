@@ -26,17 +26,27 @@ public:
 	* This method is used get an instance to the class. 
 	*/
 	static Texture& GetInstance();
-	GLuint tshirtTex[2];
-	GLuint jeansTex;
-	GLuint faceTex;
-	GLuint ballTex[5]; /*!<Public variable which represents a GLuint array with 5 textures used to design the ball. */
-	GLuint cardTex[2]; /*!<Public variable which represents a GLuint array with 2 textures used to design the pass card (Route 66 logo) and the support made from 3 spheres with wood texture. */
+
+	GLuint fBodyTex[3][2];
+	GLuint mBodyTex[3][2];
+	
+	GLuint skirtTex[3];
+	GLuint mLegsTex[3];
+	
+	GLuint fFeetTex[1];
+	GLuint mFeetTex[1];
+
+	GLuint fFaceTex[1];
+	GLuint mFaceTex[1];
+	
+	GLuint skinTex;
+
+
+	
 	GLuint skyCube[6];  /*!<Public variable which represents a GLuint array with 6 textures used to design the sky and the ground. */
 	GLuint roadTex;  /*!<Public variable which represents a GLuint value containing a texture used to design the road. */
 	GLuint textures[10]; /*!<Public variable which represents a GLuint array with 10 textures used to design the buildings drawn on the map. */
-	GLuint doorTex; /*!<Public variable which represents a GLuint value containing a texture used to design the doors at the end point of the game. */
-	GLuint winTex; /*!<Public variable which represents a GLuint value containing a texture used to design the rectangle with the message "you win" behind the doors at the end point of the game. */
-
+	
 	GLuint wheelSide;
 	GLuint wheelBase;
 	GLuint carSide;

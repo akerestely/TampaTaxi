@@ -1,8 +1,19 @@
+#include "ctime"
 #include "Human.h"
 #include "math.h"
 
-#define MOVE_SPEED 0.3
+#define MOVE_SPEED 0.2
 #define ANIM_SPEED 2.0
+
+const double Human::feet_height=0.065, Human::feet_radius=0.15;
+const double Human::leg_height=0.85, Human::leg_radius=0.1;
+const double Human::body_height=0.6, Human::body_width=0.55, Human::body_thickness=0.15;
+const double Human::neck_height=0.1, Human::neck_radius=0.085;
+const double Human::arm_height=0.5, Human::arm_radius=0.08;
+const double Human::head_radius=0.22;
+const double Human::dist_legs=0.015;
+const double Human::skirt_height=0.4, Human::skirt_dist=0.075;
+const double Human::hair_strands=PI/8;
 
 Human::~Human(void)
 {
@@ -10,33 +21,134 @@ Human::~Human(void)
 
 Human::Human(Point base)
 	:Movable(base,0.55/*body_width*/,0.55/*body_width*/)
-{
+{	
+	srand(time(NULL));
+	hair_length=0.03;
+
 	walk=false;
 	goForward=false;
 	angleLeftLeg=0;
 	angleRightLeg=0;
 	angleLeftArm=0;
 	angleRightArm=0;
-//	dz=0;
+	collision_speed=0;
+	right_change_direction=false;
+	left_change_direction=false;
+	position_on_sidewalk=0;
+
+	int random;
+	random=rand()%2;
+
+	Texture tex=Texture::GetInstance();
+	if(random==0)
+	{
+		female=true;
+		random=rand()%3;
+		fBodyTexFrontH=tex.fBodyTex[random][0];
+		fBodyTexBackH=tex.fBodyTex[random][1];
+		
+		random=rand()%3;
+		skirtTexH=tex.skirtTex[random];
+		
+		fFeetTexH=tex.fFeetTex[0];
+		fFaceTexH=tex.fFaceTex[0];
+
+	}
+	else
+	{
+		female=false;
+		random=rand()%3;
+		mBodyTexFrontH=tex.mBodyTex[random][0];
+		mBodyTexBackH=tex.mBodyTex[random][1];
+		
+		random=rand()%3;
+		mLegsTexH=tex.mLegsTex[random];
+		
+		mFeetTexH=tex.mFeetTex[0];
+		mFaceTexH=tex.mFaceTex[0];
+
+	}
+	skinTexH=tex.skinTex;
 }
 
 bool Human::WalkForward()
 {
-	if(Movable::MoveWith(-MOVE_SPEED))
+	if(MoveWith(-MOVE_SPEED))
 	{
 		walk=true;
 		return true;
 	}
 	return false;
 }
+
 bool Human::WalkBackward()
 {
-	if(Movable::MoveWith(MOVE_SPEED))
+	if(MoveWith(MOVE_SPEED))
 	{
 		walk=true;
 		return true;
 	}
 	return false;
+}
+
+void Human::Update()
+{
+		if(WalkForward()==false && position_on_sidewalk==0)
+		{
+			int random=rand()%2;
+			if(random==0)
+			{
+				right_change_direction=true;
+				angle+=PI/2;
+				position_on_sidewalk+=1;
+				return;
+			}
+			if(random==1)
+			{
+				left_change_direction=true;
+				angle-=PI/2;
+				position_on_sidewalk-=1;
+				return;
+			}
+		}
+		if(WalkForward()==false && position_on_sidewalk==1)
+		{
+			left_change_direction=true;
+			angle-=PI/2;
+			position_on_sidewalk-=1;
+			return;
+		}
+		if(WalkForward()==false && position_on_sidewalk==-1)
+		{
+			right_change_direction=true;
+			angle+=PI/2;
+			position_on_sidewalk+=1;
+			return;
+		}
+	
+	if(right_change_direction==true || left_change_direction==true)
+	{
+		collision_speed+=MOVE_SPEED;
+		if(collision_speed <= body_width)
+			WalkForward();
+		else
+		{
+			if(right_change_direction==true)
+			{
+				angle-=PI/2;
+				collision_speed=0;
+				right_change_direction=false;
+				return;
+			}
+			if(left_change_direction==true)
+			{
+				angle+=PI/2;
+				collision_speed=0;
+				left_change_direction=false;
+				return;
+			}
+		}
+	}
 }
 
 void Human::Animate(double &angleAnim,const double angleLimit)
@@ -59,12 +171,12 @@ void Human::Animate(double &angleAnim,const double angleLimit)
 
 void Human::Draw()
 {
-    glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 
 	glTranslatef(center.x,center.y,center.z);
 	glRotatef(angle*180/PI, 0,1,0);
 	
+
 	glPushMatrix();
 	Animate(angleLeftLeg,35.0);
 	DrawLeftLeg(angleLeftLeg);
@@ -75,13 +187,14 @@ void Human::Draw()
 	DrawRightLeg(angleRightLeg);
 	glPopMatrix();
 
-	glPushMatrix();
     DrawBody();
-	glPopMatrix();
 
-	glPushMatrix();
+	if(female==true)
+	{
+		DrawSkirt();
+	}
+
 	DrawNeck();
-	glPopMatrix();
 
 	glPushMatrix();
 	Animate(angleLeftArm,15.0);
@@ -93,9 +206,12 @@ void Human::Draw()
 	DrawRightArm(angleRightArm);
 	glPopMatrix();
 
-	glPushMatrix();
 	DrawHead();
-	glPopMatrix();
+
+	if(female==true)
+	{
+		DrawHair();
+	}
 	
 	glPopMatrix();
 	if(walk)
@@ -106,17 +222,19 @@ void Human::Draw()
 
 void Human::DrawLeftLeg(double angleRotation)
 {
-	Texture tex=Texture::GetInstance();
+	glDisable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.jeansTex);
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, skinTexH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mLegsTexH);
 
-	leg_radius=0.10;
-	leg_height=0.70;
-	
 	//draw left leg
 	glPushMatrix();
 
-	glTranslatef(-feet_radius-distance,feet_height+leg_height,0);
+	double distance_from_ground=feet_height+leg_height;
+
+	glTranslatef(-feet_radius-dist_legs,distance_from_ground,0);
 	glRotatef(-angleRotation,1,0,0);
 	glRotatef(90, 1,0,0);
 
@@ -127,19 +245,20 @@ void Human::DrawLeftLeg(double angleRotation)
 	gluCylinder(quadric, leg_radius, leg_radius, leg_height, 30, 30);
 	glPopMatrix();
 
+	//draw left foot
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[0]);
 
-	//draw left foot
-	feet_radius=0.15;
-	feet_height=0.075;
-	distance=0.025;
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, fFeetTexH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mFeetTexH);
+
 	glPushMatrix();
-	glTranslatef(0,feet_height+leg_height,0);
+	glTranslatef(0,distance_from_ground,0);
 	glRotatef(-angleRotation,1,0,0);
-	glTranslatef(0,-feet_height-leg_height,0);
-	glTranslatef(-feet_radius-distance,feet_height,0);
+	glTranslatef(0,-distance_from_ground,0);
+	glTranslatef(-feet_radius-dist_legs,feet_height,0);
 	glRotatef(-angleRotation,1,0,0);
 	glRotatef(90, 1,0,0);
 
@@ -148,10 +267,13 @@ void Human::DrawLeftLeg(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluQuadricTexture(quadric, GL_TRUE); 
 
-	gluCylinder(quadric, feet_radius, feet_radius, feet_height, 30, 30);
+	gluCylinder(quadric, leg_radius, feet_radius, feet_height, 30, 30);
+	glDisable(GL_TEXTURE_2D);
+	glColor3f(0.51,0.47,0.4);
 	glRotatef(180, 1,0,0);
-	gluDisk(quadric, 0.0f, feet_radius, 30,1);
+	gluDisk(quadric, 0.0f, leg_radius, 30,1);
 	glRotatef(180, 1,0,0);
+	glColor3f(1.,1.,1.);
 	glTranslatef(0.0, 0.0, feet_height);
 	gluDisk(quadric, 0.0, feet_radius, 30, 1);
 
@@ -160,17 +282,18 @@ void Human::DrawLeftLeg(double angleRotation)
 
 void Human::DrawRightLeg(double angleRotation)
 {
-	Texture tex=Texture::GetInstance();
+	glDisable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.jeansTex);
-
-	leg_radius=0.10;
-	leg_height=0.70;	
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, skinTexH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mLegsTexH);
 	
 	//draw right leg
 	glPushMatrix();
+	double distance_from_ground=feet_height+leg_height;
 
-	glTranslatef(feet_radius+distance,feet_height+leg_height,0);
+	glTranslatef(feet_radius+dist_legs,distance_from_ground,0);
 	glRotatef(angleRotation,1,0,0);
 	glRotatef(90, 1,0,0);
 
@@ -181,19 +304,19 @@ void Human::DrawRightLeg(double angleRotation)
 	gluCylinder(quadric, leg_radius, leg_radius, leg_height, 30, 30);
 	glPopMatrix();
 
+	//draw right foot
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.ballTex[0]);
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, fFeetTexH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mFeetTexH);
 
-	//draw right foot
-	feet_radius=0.15;
-	feet_height=0.075;
-	distance=0.025;
 	glPushMatrix();
-	glTranslatef(0,feet_height+leg_height,0);
+	glTranslatef(0,distance_from_ground,0);
 	glRotatef(angleRotation,1,0,0);
-	glTranslatef(0,-feet_height-leg_height,0);
-	glTranslatef(feet_radius+distance,feet_height,0);
+	glTranslatef(0,-distance_from_ground,0);
+	glTranslatef(feet_radius+dist_legs,feet_height,0);
 	glRotatef(angleRotation,1,0,0);
 	glRotatef(90, 1,0,0);
 
@@ -202,41 +325,117 @@ void Human::DrawRightLeg(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	
-	gluCylinder(quadric, feet_radius, feet_radius, feet_height, 30, 30);
+	gluCylinder(quadric, leg_radius, feet_radius, feet_height, 30, 30);
+
+	glDisable(GL_TEXTURE_2D);
+	glColor3f(0.51,0.47,0.4);
 	glRotatef(180, 1,0,0);
-	gluDisk(quadric, 0.0f, feet_radius, 30,1);
+	gluDisk(quadric, 0.0f, leg_radius, 30,1);
 	glRotatef(180, 1,0,0);
+	glColor3f(1.,1.,1.);
 	glTranslatef(0.0, 0.0, feet_height);
 	gluDisk(quadric, 0.0, feet_radius, 30, 1);
 
 	glPopMatrix();
 }
 
-void Human::DrawBody()
+void Human::DrawSkirt()
 {
-	Texture tex=Texture::GetInstance();
-	//draw the body
+	
 	glPushMatrix();	
 	
-	this->body_height=0.8;
-	this->body_width=0.55;
-	this->body_thickness=0.15;
-	glTranslatef(0,feet_height+leg_height-0.02+body_height/2,0);
+	double distance_from_ground=feet_height+leg_height-skirt_height/2;
+	glTranslatef(0,distance_from_ground,0);
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[0]);
+
+	glBindTexture(GL_TEXTURE_2D, skirtTexH);
+	glBegin(GL_QUADS);  
+	double half_width=body_width/2;
+	double half_height=skirt_height/2;
+	
+	//front face
+	glBegin(GL_QUADS);
+
+	glTexCoord2f(0.0,1.0); glVertex3f(-half_width-skirt_dist, -half_height,-body_thickness -skirt_dist);
+	glTexCoord2f(1.0,1.0); glVertex3f(half_width+skirt_dist, -half_height, -body_thickness-skirt_dist);
+	glTexCoord2f(1.0,0.0); glVertex3f(half_width, half_height, -body_thickness);
+	glTexCoord2f(0.0,0.0); glVertex3f(-half_width, half_height,-body_thickness);
+	glEnd();
+
+	//back face
+	glBegin(GL_QUADS);  
+	glTexCoord2f(0.0,0.0); glVertex3f(-half_width-skirt_dist, -half_height, body_thickness+skirt_dist);
+	glTexCoord2f(1.0,0.0); glVertex3f(half_width+skirt_dist, -half_height, body_thickness+skirt_dist);
+	glTexCoord2f(1.0,1.0); glVertex3f(half_width, half_height, body_thickness);
+	glTexCoord2f(0.0,1.0); glVertex3f(-half_width, half_height ,body_thickness);
+	glEnd();
+
+		
+	//left face
+	glBegin(GL_QUADS);  
+	glTexCoord2f(0.0,0.0); glVertex3f(-half_width, -half_height, -body_thickness-skirt_dist);
+	glTexCoord2f(1.0,0.0); glVertex3f(-half_width, -half_height, body_thickness+skirt_dist);
+	glTexCoord2f(1.0,1.0); glVertex3f(-half_width, half_height, body_thickness);
+	glTexCoord2f(0.0,1.0); glVertex3f(-half_width, half_height, -body_thickness);
+	glEnd();
+
+	//right face
+	glBegin(GL_QUADS);  
+	glTexCoord2f(0.0,0.0); glVertex3f(half_width, -half_height, -body_thickness-skirt_dist);
+	glTexCoord2f(1.0,0.0); glVertex3f(half_width, -half_height, body_thickness+skirt_dist);
+	glTexCoord2f(1.0,1.0); glVertex3f(half_width, half_height, body_thickness);
+	glTexCoord2f(0.0,1.0); glVertex3f(half_width, half_height, -body_thickness);
+	glEnd();
+
+	//up face
+	glBegin(GL_QUADS);  
+	glTexCoord2f(0.0,0.0); glVertex3f(-half_width, half_height, body_thickness);
+	glTexCoord2f(1.0,0.0); glVertex3f(half_width, half_height, body_thickness);
+	glTexCoord2f(1.0,1.0); glVertex3f(half_width, half_height, -body_thickness);
+	glTexCoord2f(0.0,1.0); glVertex3f(-half_width, half_height, -body_thickness);
+	glEnd();
+
+	//bottom face
+	glBegin(GL_QUADS);  
+	glTexCoord2f(0.0,0.0); glVertex3f(-half_width-skirt_dist, -half_height, body_thickness+skirt_dist);
+	glTexCoord2f(1.0,0.0); glVertex3f(half_width+skirt_dist, -half_height, body_thickness+skirt_dist);
+	glTexCoord2f(1.0,1.0); glVertex3f(half_width+skirt_dist, -half_height, -body_thickness-skirt_dist);
+	glTexCoord2f(0.0,1.0); glVertex3f(-half_width-skirt_dist, -half_height, -body_thickness-skirt_dist);
+	glEnd();
+	glPopMatrix();
+}
+
+void Human::DrawBody()
+{
+	//draw the body
+	glPushMatrix();	
+	double distance_from_ground=feet_height+leg_height-0.02+body_height/2;
+	glTranslatef(0,distance_from_ground,0);
+
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, fBodyTexFrontH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mBodyTexFrontH);
+		
 	glBegin(GL_QUADS);  
 	//front face
-	glTexCoord2f(0.0,1.0); glVertex3f(-body_width/2, -body_height/2,-body_thickness);
-	glTexCoord2f(1.0,1.0); glVertex3f(body_width/2, -body_height/2,-body_thickness);
-	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, body_height/2,-body_thickness);
-	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, body_height/2,-body_thickness);
+	glTexCoord2f(1.0,1.0); glVertex3f(-body_width/2, -body_height/2,-body_thickness);
+	glTexCoord2f(0.0,1.0); glVertex3f(body_width/2, -body_height/2,-body_thickness);
+	glTexCoord2f(0.0,0.0); glVertex3f(body_width/2, body_height/2,-body_thickness);
+	glTexCoord2f(1.0,0.0); glVertex3f(-body_width/2, body_height/2,-body_thickness);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, fBodyTexBackH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mBodyTexBackH);
+		
 	//back face
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,body_thickness);
@@ -244,10 +443,7 @@ void Human::DrawBody()
 	glTexCoord2f(1.0,1.0); glVertex3f(body_width/2, body_height/2,body_thickness);
 	glTexCoord2f(0.0,1.0); glVertex3f(-body_width/2, body_height/2,body_thickness);
 	glEnd();
-
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
+		
 	//left face
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,-body_thickness);
@@ -257,9 +453,6 @@ void Human::DrawBody()
 	glEnd();
 
 	//right face
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(body_width/2, -body_height/2,-body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, -body_height/2,body_thickness);
@@ -268,9 +461,6 @@ void Human::DrawBody()
 	glEnd();
 
 	//up face
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, body_height/2,body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, body_height/2,body_thickness);
@@ -279,10 +469,6 @@ void Human::DrawBody()
 	glEnd();
 
 	//bottom face
-
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.tshirtTex[1]);
 	glBegin(GL_QUADS);  
 	glTexCoord2f(0.0,0.0); glVertex3f(-body_width/2, -body_height/2,body_thickness);
 	glTexCoord2f(1.0,0.0); glVertex3f(body_width/2, -body_height/2,body_thickness);
@@ -295,15 +481,12 @@ void Human::DrawBody()
 void Human::DrawNeck()
 {
 	//draw the neck
-	Texture tex=Texture::GetInstance();
 	
-	neck_height=0.1;
-	neck_radius=0.085;
 	glDisable(GL_TEXTURE_2D);
-	glColor3f(1,207./255, 175./255);
+	glColor3f(1, 0.81, 0.68);
 	glPushMatrix();
 	glRotatef(-90, 1,0,0);
-
+	
 	glTranslatef(0,0,feet_height+leg_height+body_height-0.02);
 	quadric=gluNewQuadric();
 	gluQuadricNormals(quadric, GLU_SMOOTH);
@@ -316,13 +499,13 @@ void Human::DrawNeck()
 void Human::DrawHead()
 {
 	//draw head
-	Texture tex=Texture::GetInstance();
 
-	//head_height=0.5;
-	head_radius=0.22;
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex.faceTex);
+	if(female==true)
+		glBindTexture(GL_TEXTURE_2D, fFaceTexH);
+	else
+		glBindTexture(GL_TEXTURE_2D, mFaceTexH);
 	glPushMatrix();
 	glRotatef(-270, 1,0,0);
 
@@ -336,20 +519,61 @@ void Human::DrawHead()
 	glPopMatrix();
 }
 
+void Human::DrawHair()
+{
+
+	glDisable(GL_TEXTURE_2D);
+	glPushMatrix();
+
+	double sum_angle=-PI/8;
+	glTranslatef(0,(feet_height+leg_height+body_height+neck_height+head_radius/2+0.05),0);
+	glColor3f(0.28, 0.17, 0.11);
+
+
+
+	for(int i=0; i<5; i++)
+	{
+		glBegin(GL_QUADS);  
+		glTexCoord2f(0.0,0.0); glVertex3f(head_radius*cos(sum_angle), -head_radius-hair_length, head_radius* sin(sum_angle));
+		glTexCoord2f(1.0,0.0); glVertex3f(head_radius*cos(sum_angle+hair_strands), -head_radius-hair_length,head_radius* sin(sum_angle+hair_strands));
+		glTexCoord2f(1.0,1.0); glVertex3f(head_radius *cos(sum_angle+hair_strands), 0, head_radius* sin(sum_angle+hair_strands));
+		glTexCoord2f(0.0,1.0); glVertex3f(head_radius*cos(sum_angle), 0, head_radius* sin(sum_angle));
+		glEnd();
+		hair_length+=0.02;
+		sum_angle+=hair_strands;
+	}
+
+	for(int i=0; i<5; i++)
+	{
+		hair_length-=0.02;
+
+		glBegin(GL_QUADS);  
+		glTexCoord2f(0.0,0.0); glVertex3f(head_radius*cos(sum_angle), -head_radius-hair_length, head_radius* sin(sum_angle));
+		glTexCoord2f(1.0,0.0); glVertex3f(head_radius*cos(sum_angle+hair_strands), -head_radius-hair_length,head_radius* sin(sum_angle+hair_strands));
+		glTexCoord2f(1.0,1.0); glVertex3f(head_radius *cos(sum_angle+hair_strands), 0, head_radius* sin(sum_angle+hair_strands));
+		glTexCoord2f(0.0,1.0); glVertex3f(head_radius*cos(sum_angle), 0, head_radius* sin(sum_angle));
+		glEnd();
+		sum_angle+=hair_strands;
+	}
+	glPopMatrix();
+}
+
 
 void Human::DrawLeftArm(double angleRotation)
 {
-	
-	
-	arm_radius=0.08;
-	arm_height=0.60;
 	glDisable(GL_TEXTURE_2D);
-	glColor3f(1,207./255, 175./255);
+	glColor3f(1, 0.81, 0.68);
 	
 	//draw left arm
 	glPushMatrix();
 	glTranslatef(-body_width/2+arm_radius,feet_height+leg_height+body_height-arm_radius,0);
 	glRotatef(angleRotation,1,0,0);
+
+	glPushMatrix();
+	glTranslatef(-body_width/2+arm_radius/2,-arm_height,0);
+	gluSphere(quadric, arm_radius+0.02, 30,30);
+	glPopMatrix();
+
 	glRotatef(65, 0,0,1);
 	glRotatef(270, 0,1,0);
 	
@@ -358,18 +582,25 @@ void Human::DrawLeftArm(double angleRotation)
 	gluQuadricTexture(quadric, GL_TRUE); 
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 30, 30);
+
 	glPopMatrix();
 }
 
 void Human::DrawRightArm(double angleRotation)
 {
 	glDisable(GL_TEXTURE_2D);
-	glColor3f(1,207./255, 175./255);
+	glColor3f(1, 0.81, 0.68);
 
 	//draw right arm
 	glPushMatrix();
 	glTranslatef(body_width/2-arm_radius,feet_height+leg_height+body_height-arm_radius,0);
 	glRotatef(-angleRotation,1,0,0);
+
+	glPushMatrix();
+	glTranslatef(body_width/2-arm_radius/2,-arm_height,0);
+	gluSphere(quadric, arm_radius+0.02, 30,30);
+	glPopMatrix();
+
 	glRotatef(-65, 0,0,1);
 	glRotatef(90, 0,1,0);
 
@@ -377,7 +608,9 @@ void Human::DrawRightArm(double angleRotation)
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE);
 	gluQuadricDrawStyle(quadric, GLU_FILL);
+
 	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 30, 30);
-	glPopMatrix();
 	
+	glPopMatrix();
 }
+

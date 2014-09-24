@@ -6,39 +6,225 @@ Texture::Texture(void)
 	double tWidth, tHeight;
 	char* buffer ;
 	
-	//ball textures loading
-	buffer = esLoadTGA("Texture/basketball.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, ballTex);
-	glBindTexture ( GL_TEXTURE_2D, ballTex[0]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
-	free ( buffer );
-	//tshirt texture
-	buffer = esLoadTGA("Texture/Human/tshirt.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, tshirtTex);
-	glBindTexture ( GL_TEXTURE_2D, tshirtTex[0]);
+	
+	//male body texture1 front
+	buffer = esLoadTGA("Texture/Human/mBodyTex00.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &mBodyTex[0][0]);
+	glBindTexture ( GL_TEXTURE_2D, mBodyTex[0][0]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
 	free ( buffer );
 	
-	//backtshirt texture
-	buffer = esLoadTGA("Texture/Human/backtshirt.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, tshirtTex+1);
-	glBindTexture ( GL_TEXTURE_2D,tshirtTex[1]);
+	//male body texture1 back
+	buffer = esLoadTGA("Texture/Human/mBodyTex01.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &mBodyTex[0][1]);
+	glBindTexture ( GL_TEXTURE_2D,mBodyTex[0][1]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
 	free ( buffer );
 
-	//jeans texture
-	buffer = esLoadTGA("Texture/Human/jeans.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, &jeansTex);
-	glBindTexture ( GL_TEXTURE_2D, jeansTex);
+		//male body texture2 front
+	buffer = esLoadTGA("Texture/Human/mBodyTex10.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &mBodyTex[1][0]);
+	glBindTexture ( GL_TEXTURE_2D, mBodyTex[1][0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	
+	//male body texture2 back
+	buffer = esLoadTGA("Texture/Human/mBodyTex11.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &mBodyTex[1][1]);
+	glBindTexture ( GL_TEXTURE_2D,mBodyTex[1][1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+
+	//male body texture3 front
+	buffer = esLoadTGA("Texture/Human/mBodyTex20.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &mBodyTex[2][0]);
+	glBindTexture ( GL_TEXTURE_2D, mBodyTex[2][0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	
+	//male body texture3 back
+	buffer = esLoadTGA("Texture/Human/mBodyTex21.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &mBodyTex[2][1]);
+	glBindTexture ( GL_TEXTURE_2D,mBodyTex[2][1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//female body texture1 front
+	buffer = esLoadTGA("Texture/Human/fBodyTex00.tga",&tWidth,&tHeight);
+	glGenTextures ( 1,&fBodyTex[0][0]);
+	glBindTexture ( GL_TEXTURE_2D, fBodyTex[0][0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	
+	//female body texture1 back
+	buffer = esLoadTGA("Texture/Human/fBodyTex01.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &fBodyTex[0][1]);
+	glBindTexture ( GL_TEXTURE_2D,fBodyTex[0][1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//female body texture2 front
+	buffer = esLoadTGA("Texture/Human/fBodyTex10.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &fBodyTex[1][0]);
+	glBindTexture ( GL_TEXTURE_2D, fBodyTex[1][0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	
+	//female body texture2 back
+	buffer = esLoadTGA("Texture/Human/fBodyTex11.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &fBodyTex[1][1]);
+	glBindTexture ( GL_TEXTURE_2D,fBodyTex[1][1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+
+	//female body texture3 front
+	buffer = esLoadTGA("Texture/Human/fBodyTex20.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &fBodyTex[2][0]);
+	glBindTexture ( GL_TEXTURE_2D, fBodyTex[2][0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	
+	//female body texture3 back
+	buffer = esLoadTGA("Texture/Human/fBodyTex21.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &fBodyTex[2][1]);
+	glBindTexture ( GL_TEXTURE_2D, fBodyTex[2][1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+
+	//legs texture1
+	buffer = esLoadTGA("Texture/Human/mLegsTex1.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, mLegsTex);
+	glBindTexture ( GL_TEXTURE_2D, mLegsTex[0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//legs texture2
+	buffer = esLoadTGA("Texture/Human/mLegsTex2.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, mLegsTex+1);
+	glBindTexture ( GL_TEXTURE_2D, mLegsTex[1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//legs texture3
+	buffer = esLoadTGA("Texture/Human/mLegsTex3.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, mLegsTex+2);
+	glBindTexture ( GL_TEXTURE_2D, mLegsTex[2]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+
+	//skirt texture1
+	buffer = esLoadTGA("Texture/Human/skirtTex1.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, skirtTex);
+	glBindTexture ( GL_TEXTURE_2D, skirtTex[0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//skirt texture2
+	buffer = esLoadTGA("Texture/Human/skirtTex2.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, skirtTex+1);
+	glBindTexture ( GL_TEXTURE_2D, skirtTex[1]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//skirt texture3
+	buffer = esLoadTGA("Texture/Human/skirtTex3.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, skirtTex+2);
+	glBindTexture ( GL_TEXTURE_2D, skirtTex[2]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+	
+	//male face texture
+	buffer = esLoadTGA("Texture/Human/mFaceTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, mFaceTex);
+	glBindTexture ( GL_TEXTURE_2D, mFaceTex[0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//female face texture
+	buffer = esLoadTGA("Texture/Human/fFaceTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, fFaceTex);
+	glBindTexture ( GL_TEXTURE_2D, fFaceTex[0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//male feet texture
+	buffer = esLoadTGA("Texture/Human/mFeetTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, mFeetTex);
+	glBindTexture ( GL_TEXTURE_2D, mFeetTex[0]);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	//female feet texture
+	buffer = esLoadTGA("Texture/Human/fFeetTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, fFeetTex);
+	glBindTexture ( GL_TEXTURE_2D, fFeetTex[0]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
@@ -46,64 +232,17 @@ Texture::Texture(void)
 	free ( buffer );
 
 	//skin texture
-	buffer = esLoadTGA("Texture/Human/face.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, &faceTex);
-	glBindTexture ( GL_TEXTURE_2D, faceTex);
+	buffer = esLoadTGA("Texture/Human/skinTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &skinTex);
+	glBindTexture ( GL_TEXTURE_2D, skinTex);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
 	free ( buffer );
 
-	//beachball texture
-	buffer = esLoadTGA("Texture/beachball.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, ballTex+2);
-	glBindTexture ( GL_TEXTURE_2D, ballTex[2]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
-	free ( buffer );
 
-	//tennisball texture
-	buffer = esLoadTGA("Texture/tennisball.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, ballTex+3);
-	glBindTexture ( GL_TEXTURE_2D, ballTex[3]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
-	free ( buffer );
-
-	//discoball texture
-	buffer = esLoadTGA("Texture/discoball.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, ballTex+4);
-	glBindTexture ( GL_TEXTURE_2D, ballTex[4]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
-	free ( buffer );
 	
-	//pass card texture  loading (Route 66 logo)
-	buffer = esLoadTGA("Texture/route.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, cardTex);
-	glBindTexture ( GL_TEXTURE_2D, cardTex[0]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
-	free ( buffer );
-	
-	//pass card support texture loading 
-	buffer = esLoadTGA("Texture/woodTexture.tga",&tWidth,&tHeight);
-	glGenTextures ( 1, cardTex+1);
-	glBindTexture ( GL_TEXTURE_2D, cardTex[1]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
-	free ( buffer );
 
 	//sky textures loading 
 	buffer = esLoadTGA("Texture/Skybox-000.tga", &tWidth, &tHeight);
@@ -249,39 +388,6 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 	
-	//doors texture loading
-	buffer = esLoadTGA("Texture/Brasov/002.tga", &tWidth, &tHeight);
-	glGenTextures(1, &doorTex);
-	glBindTexture(GL_TEXTURE_2D, doorTex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-	
-	//doors texture loading
-	buffer = esLoadTGA("Texture/door2.tga", &tWidth, &tHeight);
-	glGenTextures(1, &doorTex);
-	glBindTexture(GL_TEXTURE_2D, doorTex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-	
-	//"you win" texture loading
-	buffer = esLoadTGA("Texture/win.tga", &tWidth, &tHeight);
-	glGenTextures(1, &winTex);
-	glBindTexture(GL_TEXTURE_2D, winTex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-
 	buffer = esLoadTGA("Texture/Car/Golf7/wheelHub.tga", &tWidth, &tHeight);
 	glGenTextures(1, &wheelSide);
 	glBindTexture(GL_TEXTURE_2D, wheelSide);
