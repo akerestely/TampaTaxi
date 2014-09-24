@@ -9,8 +9,7 @@ void WorldGenerator::Initialize()
 {
 	for(int i=0;i<150;i++)
 	{
-		//invisiblePool.push_back(new Car(Point(0.0,0.0,0.0)));
-		invisiblePool.push_back(new Human(Point(0.0,0.0,0.0)));
+		invisiblePoolHuman.push_back(new Human(Point(0.0,0.0,0.0)));
 	}
 	srand(time(NULL));
 }
@@ -18,11 +17,12 @@ void WorldGenerator::Initialize()
 void WorldGenerator::Update()
 {
 
-	for(int i=0;i<invisiblePool.size();i++)
+	
+	for(int i=0;i<invisiblePoolHuman.size();i++)
 	{	
-		int setSize=cityMap->GetWaysToDraw()->size();
-		int wayRand,nodeRand;
-		int waySize;
+	int setSize=cityMap->GetWaysToDraw()->size();
+	int wayRand,nodeRand;
+	int waySize;
 		wayRand=rand()%setSize;
 		std::set<long>::iterator it=cityMap->GetWaysToDraw()->begin();
 		for(int j=0;j<wayRand;j++)
@@ -60,18 +60,20 @@ void WorldGenerator::Update()
 		invisiblePool[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
 		invisiblePool[i]->setCenter(objectCenter);
 		
-		visiblePool.push_back(invisiblePool[i]);		
+		visiblePoolHuman.push_back(invisiblePool[i]);		
 	}
-	invisiblePool.clear();
+	invisiblePoolHuman.clear();
 }
 
 void WorldGenerator::Draw()
 {
-	for(int i=0;i<visiblePool.size();i++)
-		((Human*)visiblePool[i])->Draw();
+	for(int i=0;i<visiblePoolHuman.size();i++)
+		((Human*)visiblePoolHuman[i])->Draw();
 }
 WorldGenerator::~WorldGenerator()
 {
-	visiblePool.erase(visiblePool.begin(),visiblePool.end());
-	invisiblePool.erase(invisiblePool.begin(),invisiblePool.end());
+	visiblePoolHuman.erase(visiblePoolHuman.begin(),visiblePoolHuman.end());
+	invisiblePoolHuman.erase(invisiblePoolHuman.begin(),invisiblePoolHuman.end());
+	visiblePoolCar.erase(visiblePoolCar.begin(),visiblePoolCar.end());
+	invisiblePoolCar.erase(invisiblePoolCar.begin(),invisiblePoolCar.end());
 }

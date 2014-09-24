@@ -16,7 +16,8 @@ class WorldGenerator :
 {
 	CollidableQuadTree* collidableQuadTree;
 	Map* cityMap;
-	std::vector<Collidable*> invisiblePool,visiblePool;
+	std::vector<Collidable*> invisiblePoolHuman,visiblePoolHuman;
+	std::vector<Collidable*> invisiblePoolCar,visiblePoolCar;
 
 public:
 	WorldGenerator(Map* cityMap);
