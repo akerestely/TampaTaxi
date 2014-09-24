@@ -25,6 +25,8 @@ public:
 	void Draw() override;
 	int GetIndex(Node* node);
 	Street* GetPortionStreet(int index);
+	Street* GetLeftSidewalk(int index);
+	Street* GetRightSidewalk(int index);
 	Node* GetNode(int index);
 	~Way(void);
 };

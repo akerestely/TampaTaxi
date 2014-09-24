@@ -90,18 +90,18 @@ void Way::drawStreetPortion(int index)
 	glColor3f(1, 0, 0);
 	Street portion = leftSidewalkPortions[index];
 	glBegin(GL_QUADS);
-	glTexCoord2d(0, 0);glVertex3d(portion.corners[0].x, portion.corners[0].y, portion.corners[0].z);
-	glTexCoord2d(0, 1);glVertex3d(portion.corners[1].x, portion.corners[1].y, portion.corners[1].z);
-	glTexCoord2d(20, 1);glVertex3d(portion.corners[2].x, portion.corners[2].y, portion.corners[2].z);
-	glTexCoord2d(20, 0);glVertex3d(portion.corners[3].x, portion.corners[3].y, portion.corners[3].z);
+	glTexCoord2d(0, 0);glVertex3d(portion.corners[0].x, portion.corners[0].y + 0.02, portion.corners[0].z);
+	glTexCoord2d(0, 1);glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.02, portion.corners[1].z);
+	glTexCoord2d(20, 1);glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.02, portion.corners[2].z);
+	glTexCoord2d(20, 0);glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.02, portion.corners[3].z);
 	glEnd();
 	
 	portion = rightSidewalkPortions[index];
 	glBegin(GL_QUADS);
-	glTexCoord2d(0, 0);glVertex3d(portion.corners[0].x, portion.corners[0].y, portion.corners[0].z);
-	glTexCoord2d(0, 1);glVertex3d(portion.corners[1].x, portion.corners[1].y, portion.corners[1].z);
-	glTexCoord2d(20, 1);glVertex3d(portion.corners[2].x, portion.corners[2].y, portion.corners[2].z);
-	glTexCoord2d(20, 0);glVertex3d(portion.corners[3].x, portion.corners[3].y, portion.corners[3].z);
+	glTexCoord2d(0, 0);glVertex3d(portion.corners[0].x, portion.corners[0].y + 0.02, portion.corners[0].z);
+	glTexCoord2d(0, 1);glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.02, portion.corners[1].z);
+	glTexCoord2d(20, 1);glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.02, portion.corners[2].z);
+	glTexCoord2d(20, 0);glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.02, portion.corners[3].z);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
@@ -110,10 +110,10 @@ void Way::drawStreetPortion(int index)
 
 	portion = streetPortions[index];
 	glBegin(GL_QUADS);
-	glTexCoord2d(0, 0); glVertex3d(portion.corners[0].x, portion.corners[0].y + 0.05, portion.corners[0].z);
-	glTexCoord2d(1, 0); glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.05, portion.corners[1].z);
-	glTexCoord2d(1, 5); glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.05, portion.corners[2].z);
-	glTexCoord2d(0, 5); glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.05, portion.corners[3].z);
+	glTexCoord2d(0, 0); glVertex3d(portion.corners[0].x, portion.corners[0].y + 0.04, portion.corners[0].z);
+	glTexCoord2d(1, 0); glVertex3d(portion.corners[1].x, portion.corners[1].y + 0.04, portion.corners[1].z);
+	glTexCoord2d(1, 5); glVertex3d(portion.corners[2].x, portion.corners[2].y + 0.04, portion.corners[2].z);
+	glTexCoord2d(0, 5); glVertex3d(portion.corners[3].x, portion.corners[3].y + 0.04, portion.corners[3].z);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
@@ -143,6 +143,19 @@ Street* Way::GetPortionStreet(int index)
 		return NULL;
 	return &streetPortions[index];
 }
+Street* Way::GetLeftSidewalk(int index)
+{
+	if (index < 0 || index >= leftSidewalkPortions.size())
+		return NULL;
+	return &leftSidewalkPortions[index];
+}
+Street* Way::GetRightSidewalk(int index)
+{
+	if (index < 0 || index >= rightSidewalkPortions.size())
+		return NULL;
+	return &rightSidewalkPortions[index];
+}
+
 Node* Way::GetNode(int index)
 {
 	if (index < 0 || index >= nodes.size())
