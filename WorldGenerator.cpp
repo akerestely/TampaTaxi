@@ -17,11 +17,12 @@ void WorldGenerator::Initialize()
 
 void WorldGenerator::Update()
 {
-	int setSize=cityMap->GetWaysToDraw()->size();
-	int wayRand,nodeRand;
-	int waySize;
+
 	for(int i=0;i<invisiblePool.size();i++)
 	{	
+		int setSize=cityMap->GetWaysToDraw()->size();
+		int wayRand,nodeRand;
+		int waySize;
 		wayRand=rand()%setSize;
 		std::set<long>::iterator it=cityMap->GetWaysToDraw()->begin();
 		for(int j=0;j<wayRand;j++)

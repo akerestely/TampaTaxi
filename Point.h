@@ -50,9 +50,12 @@ struct SF3dVector
 		z+=v.z;
 		return *this;
 	}
+	double GetMagnitude()
+	{
+		return sqrt(x*x+y*y+z*z);
+	}
 	SF3dVector GetNormalized()
 	{
-		double lenght=sqrt(x*x+y*y+z*z);
-		return (*this)/lenght;
+		return (*this)/GetMagnitude();
 	}
 };
