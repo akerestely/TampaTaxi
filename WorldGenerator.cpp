@@ -1,5 +1,6 @@
 #include "WorldGenerator.h"
 #include<math.h>
+
 WorldGenerator::WorldGenerator(Map* cityMap)
 {
 	this->cityMap=cityMap;
@@ -7,7 +8,7 @@ WorldGenerator::WorldGenerator(Map* cityMap)
 
 void WorldGenerator::Initialize()
 {
-	for(int i=0;i<20;i++)
+	for(int i=0;i<OBJECT_DENSITY;i++)
 	{
 		invisiblePoolHuman.push_back(new Human(Point(0.0,0.0,0.0)));
 		invisiblePoolCar.push_back(new Car(Point(0.0,0.0,0.0)));
@@ -16,12 +17,18 @@ void WorldGenerator::Initialize()
 }
 
 void WorldGenerator::Update(Point currentPosition)
-{
-	
+{	
+//Human & Car testing
 	checkVisibles(currentPosition);
-//Human testing
-	
-	for(int i=0;i<invisiblePoolHuman.size();i++)
+//Updating visible objects 
+	UpdateHumanVector(currentPosition);
+	UpdateCarVector(currentPosition);	
+}
+
+void WorldGenerator::UpdateHumanVector(Point currentPosition)
+{
+	int i=0;
+	while(i<invisiblePoolHuman.size())
 	{	
 		int setSize=cityMap->GetWaysToDraw()->size();
 		int wayRand,nodeRand;
@@ -45,23 +52,30 @@ void WorldGenerator::Update(Point currentPosition)
 		v1=SF3dVector(currentStreet->corners[1],currentStreet->corners[0]);
 		v2=SF3dVector(currentStreet->corners[1],currentStreet->corners[2]);
 		v1=v1*0.50;
-		v2=v2*((rand()%100)/100.0);
+		v2=v2*(((rand()%41)+30.0)/100.0);
 		vr=v1+v2;
 		vr.x+=currentStreet->corners[1].x;
 		vr.y+=currentStreet->corners[1].y;
 		vr.z+=currentStreet->corners[1].z;
 		Point objectCenter(vr.x,vr.y,vr.z);
-		long angle=atan2(-v2.z,v2.x)+PI/2;
-		invisiblePoolHuman[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
-		invisiblePoolHuman[i]->setCenter(objectCenter);
-		visiblePoolHuman.push_back(invisiblePoolHuman[i]);	
-		
+		SF3dVector checkDistance(currentPosition,objectCenter);
+		if(checkDistance.GetMagnitude()>MINIMUM_MAGNITUDE)
+		{
+			long angle=atan2(-v2.z,v2.x)+PI/2;
+			invisiblePoolHuman[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
+			invisiblePoolHuman[i]->setCenter(objectCenter);
+			visiblePoolHuman.push_back(invisiblePoolHuman[i]);	
+			invisiblePoolHuman.erase(invisiblePoolHuman.begin()+i);
+		}
+		else i++;
 	}
-	invisiblePoolHuman.clear();
 
-	//CAR TESTING
+}
 
-	for(int i=0;i<invisiblePoolCar.size();i++)
+void WorldGenerator::UpdateCarVector(Point currentPosition)
+{
+	int i=0;
+	while(i<invisiblePoolCar.size())
 	{	
 		int setSize=cityMap->GetWaysToDraw()->size();
 		int wayRand,nodeRand;
@@ -76,11 +90,15 @@ void WorldGenerator::Update(Point currentPosition)
 		nodeRand=rand()%(waySize-1);
 
 		Street* currentStreet=currentWay->GetPortionStreet(nodeRand);
-
+	/*	SF3dVector RESULT(currentWay->GetNode(nodeRand)->GetCenter(),
+			currentWay->GetNode(nodeRand+1)->GetCenter());
+			
+		long resultAngle=atan2(RESULT.z,-RESULT.x)+PI/2;*/
 		SF3dVector v1,v2,vr;
 
 		v1=SF3dVector(currentStreet->corners[1],currentStreet->corners[0]);
 		v2=SF3dVector(currentStreet->corners[1],currentStreet->corners[2]);
+		
 		int heightLevel=rand()%2;
 		if(heightLevel==0)
 			v1=v1*0.15;
@@ -94,19 +112,18 @@ void WorldGenerator::Update(Point currentPosition)
 		vr.y+=currentStreet->corners[1].y;
 		vr.z+=currentStreet->corners[1].z;
 		Point objectCenter(vr.x,vr.y,vr.z);
-		long angle=atan2(-v2.z,v2.x)+PI/1.5;
+		SF3dVector checkDistance(currentPosition,objectCenter);
+		if(checkDistance.GetMagnitude()>MINIMUM_MAGNITUDE)
+		{
+		long angle=atan2(-v2.z,v2.x)+PI/2.5;
 		invisiblePoolCar[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
+		//invisiblePoolCar[i]->SetAngle(resultAngle*180/PI+(180*(rand()%2)));
 		invisiblePoolCar[i]->setCenter(objectCenter);
-
-		visiblePoolCar.push_back(invisiblePoolCar[i]);		
+		visiblePoolCar.push_back(invisiblePoolCar[i]);
+		invisiblePoolCar.erase(invisiblePoolCar.begin()+i);
+		}
+		else i++;
 	}
-	invisiblePoolCar.clear();
-
-}
-
-void WorldGenerator::UpdateVector(std::vector<Collidable*>& invisibleVector)
-{
-	
 }
 
 bool WorldGenerator::checkVisibles(Point currentPosition)
@@ -143,8 +160,24 @@ void WorldGenerator::Draw()
 }
 WorldGenerator::~WorldGenerator()
 {
-	visiblePoolHuman.erase(visiblePoolHuman.begin(),visiblePoolHuman.end());
-	invisiblePoolHuman.erase(invisiblePoolHuman.begin(),invisiblePoolHuman.end());
-	visiblePoolCar.erase(visiblePoolCar.begin(),visiblePoolCar.end());
-	invisiblePoolCar.erase(invisiblePoolCar.begin(),invisiblePoolCar.end());
+	for(int i=0;i<visiblePoolHuman.size();i++)
+	{
+		delete visiblePoolHuman[i];
+	}
+	for(int i=0;i<invisiblePoolHuman.size();i++)
+	{
+		delete invisiblePoolHuman[i];
+	}
+	for(int i=0;i<visiblePoolCar.size();i++)
+	{
+		delete visiblePoolCar[i];
+	}
+	for(int i=0;i<invisiblePoolCar.size();i++)
+	{
+		delete invisiblePoolCar[i];
+	}
+	visiblePoolHuman.clear();
+	invisiblePoolHuman.clear();
+	visiblePoolCar.clear();
+	invisiblePoolCar.clear();
 }

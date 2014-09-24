@@ -11,6 +11,9 @@
 #include<vector>
 #include<ctime>
 
+#define MINIMUM_MAGNITUDE 200
+#define OBJECT_DENSITY 15
+
 class WorldGenerator :
 	public Drawable
 {
@@ -23,8 +26,10 @@ public:
 	WorldGenerator(Map* cityMap);
 	void Initialize();
 	void Update(Point currentPosition);
-	void UpdateVector(std::vector<Collidable*>& invisibleVector);
+	void UpdateHumanVector(Point currentPosition);
+	void UpdateCarVector(Point currentPosition);
 	bool checkVisibles(Point currentPosition);
+	
 	void Draw();
 	~WorldGenerator();
 };
