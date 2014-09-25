@@ -30,10 +30,28 @@ void Model::Update()
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 
+	if(player->GetPosition() == player->CarCheckpoint && car->GetSpeed() == 0 && player->HasClient == true)
+	{
+		player->HasClient = false;
+		player->CheckpointGenerated = false;
+		Human *client = player->Client;
+		client->setCenter(player->HumanCheckpoint);
+		player->Client = NULL;
+		
+	}
 	worldGenerator->Update(camera.GetPosition());
 	worldGenerator->HumanCallTaxi(player);
+	if (player->HasClient && player->CheckpointGenerated == false)
+	{
+		Point carCheckpoint, humanCheckpoint;
+		brasovMap->GenerateCheckpoint(2000, carCheckpoint, humanCheckpoint);
+		player->CarCheckpoint = carCheckpoint;
+		player->HumanCheckpoint = humanCheckpoint;
+		player->CheckpointGenerated = true;
+	}
 	for(std::vector<Collidable*>::iterator it=worldGenerator->GetVisibleHumans()->begin();it<worldGenerator->GetVisibleHumans()->end();++it)
 		((Human*)(*it))->Update();
+
 }
 void Model::MoveUp()
 {

@@ -3,7 +3,7 @@
 #include<cmath>
 #define GAUGE_RADIUS 0.6
 #define STREET_NAME_POSITION Point(0.0,-0.95,0.0)
-#define TAX_PER_KM 3.33
+#define TAX_PER_KM 0.33
 Hud::Hud(Point center,Model* model)
 :Object3d(center),model(model)
 {	

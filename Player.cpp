@@ -4,6 +4,8 @@ Player::Player(Car* car)
 	:car(car)
 {
 	HasClient = false;
+	Client = NULL;
+	CheckpointGenerated = false;
 }
 
 void Player::Draw()
@@ -31,6 +33,15 @@ Point Player::GetPosition()
 		return car->GetCenter();
 	return Point();
 }
+//void SetCheckpoint(Point carCheckpoint, Point humanCheckpoint)
+//{
+//
+//}
+//void SetClient(Human* client)
+//{
+//
+//}
+
 Player::~Player(void)
 {
 }

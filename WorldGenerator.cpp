@@ -205,8 +205,11 @@ void WorldGenerator::HumanCallTaxi(Player* player)
 			}
 			else if(distance <= MIN_DISTANCE)
 			{
-				((Human*)(*it))->SetInTaxi(true);
+				Human* client = (Human*)(*it);
+				client->SetInTaxi(true);
 				player->HasClient=true;
+				player->Client = client;
+				
 			}
 				else if(distance >= MAX_DISTANCE)
 				{

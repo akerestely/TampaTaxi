@@ -146,10 +146,13 @@ Minimap* Map::GetMinimap()
 void Map::GenerateCheckpoint(double distance, Point &carCheckpoint, Point &humanCheckpoint)
 {
 	long random = 0;
-	long nodeId;
+	long nodeId, nodePos;
 	do{
 		random = Tools::LongRand();
-		nodeId = random % nodes.size();
+		nodePos = random % nodes.size();
+		std::map<long, Node*>::iterator it = nodes.begin();
+		std::advance(it, nodePos);
+		nodeId = (*it).first;
 	} while (SF3dVector(currentPosition, nodes[nodeId]->GetCenter()).GetMagnitude() < distance);
 	
 	std::vector<long> nodeWays = nodes[nodeId]->GetWays();
