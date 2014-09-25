@@ -143,7 +143,7 @@ Minimap* Map::GetMinimap()
 	return miniMap;
 }
 
-Point Map::GenerateCheckpoint(double distance)
+void Map::GenerateCheckpoint(double distance, Point &carCheckpoint, Point &humanCheckpoint)
 {
 	long random = 0;
 	long nodeId;
@@ -168,11 +168,32 @@ Point Map::GenerateCheckpoint(double distance)
 	vr.x += street->corners[1].x;
 	vr.y += street->corners[1].y;
 	vr.z += street->corners[1].z;
+	
+	humanCheckpoint.x = vr.x;
+	humanCheckpoint.y = vr.y;
+	humanCheckpoint.z = vr.z;
+
+	
+	street = ways[wayId]->GetPortionStreet(portionIndex);
+
+	v1 = SF3dVector(street->corners[1], street->corners[0]);
+	v2 = SF3dVector(street->corners[1], street->corners[2]);
+	v1 = v1*0.50;
+	v2 = v2*(((random % 41) + 30.0) / 100.0);
+	vr = v1 + v2;
+	vr.x += street->corners[1].x;
+	vr.y += street->corners[1].y;
+	vr.z += street->corners[1].z;
+
+	carCheckpoint.x = vr.x;
+	carCheckpoint.y = vr.y;
+	carCheckpoint.z = vr.z;
+
 	checkPoint.x = vr.x;
 	checkPoint.y = vr.y;
 	checkPoint.z = vr.z;
 	miniMap->UpdateCheckpoint(&checkPoint);
-	return checkPoint;
+	
 }
 char* Map::GetCurrentWayName()
 {

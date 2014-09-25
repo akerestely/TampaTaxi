@@ -40,7 +40,7 @@ public:
 	Way* GetWay(long id);
 	std::set<long>* GetWaysToDraw();
 	Minimap* GetMinimap();
-	Point GenerateCheckpoint(double distance);
+	void GenerateCheckpoint(double distance, Point &carCheckpoint, Point &humanCheckpoint);
 	char* GetCurrentWayName();
 	void Map::StreetCollision(Node *node, Point M, int& insidePoints);
 	~Map(void);
