@@ -134,7 +134,7 @@ int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building*> &building
 
 				fgets(buffer, 200, fo);
 			}
-			buildings.push_back(new Building(ways));
+			buildings.push_back(new Building(ways,buildings.size()));
 			ways.clear();	
 			fgets(buffer, 200, fo);
 		}

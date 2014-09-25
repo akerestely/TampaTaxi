@@ -7,15 +7,11 @@ class Building: public Object3d, public Drawable
 {
 private:
 	double size;
-	int type;
-	bool mode;
-	double buildingHeight;
-	double angleOfRotation;
-	unsigned int myTexture;
-	double width,length,height;
-public:
+	double height;
+	unsigned int texture;
 	std::vector<Point> buildingPoints;
-	Building(std::vector<Point> buildingPoints);
+public:
+	Building(std::vector<Point> buildingPoints, int constRand);
 	void Draw();
 	void Translate(double dx, double dy, double dz);
 	~Building(void);
