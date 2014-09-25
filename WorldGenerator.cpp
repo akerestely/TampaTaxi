@@ -126,7 +126,7 @@ void WorldGenerator::UpdateCarVector(Point currentPosition)
 }
 
 
-bool WorldGenerator::checkVisibles(Point currentPosition)
+bool WorldGenerator::CheckVisibles(Point currentPosition)
 {
 	bool changed=false;
 	for(int i=0;i<visiblePoolHuman.size();i++)
@@ -150,6 +150,16 @@ bool WorldGenerator::checkVisibles(Point currentPosition)
 		}
 	}
 	return changed;
+}
+
+std::vector<Collidable*> WorldGenerator::GetVisibleHumans()
+{
+	return visiblePoolHuman;
+}
+
+std::vector<Collidable*> WorldGenerator::GetVisibleCars()
+{
+	return visiblePoolCar;
 }
 void WorldGenerator::Draw()
 {

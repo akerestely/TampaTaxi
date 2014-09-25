@@ -28,7 +28,9 @@ public:
 	void Update(Point currentPosition);
 	void UpdateHumanVector(Point currentPosition);
 	void UpdateCarVector(Point currentPosition);
-	bool checkVisibles(Point currentPosition);
+	bool CheckVisibles(Point currentPosition);
+	std::vector<Collidable*> GetVisibleHumans();
+	std::vector<Collidable*> GetVisibleCars();
 	
 	void Draw();
 	~WorldGenerator();
