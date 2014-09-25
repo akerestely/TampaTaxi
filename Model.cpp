@@ -4,66 +4,66 @@
 
 Model::Model(void)
 {
-	human= new Human(Point());
-	car= new Car(Point(-3,0,-13));
+	brasovMap = new Map("StreetsRefactor.osm", "BuildingsRefactor.osm");
+	worldGenerator = new WorldGenerator(brasovMap);
+	worldGenerator->Initialize();
+
+	car= new Car(Point());
+	car->colliders=worldGenerator->GetVisibleCars();
+
 	player = new Player(car);
-	//car->SetAngle(90);
-	brasovMap = new Map("OnlyStreetsFinal.osm", "Buildings.xml");
-	
-	//to be deleted
-	collidables.push_back(car);
-	collidables.push_back(human);
-
-	human->colliders=&collidables;
-	car->colliders=&collidables;
-	//to be deleted
+	player->LastVisitedNodeIndex = START_NODE;
 }
 
-std::vector<Drawable*>* Model::GetSceneObjects()
-{
-	return &sceneObjects;
-}
-CCamera Model::GetCamera()
-{
-	return camera;
-}
 void Model::Update()
 {
 	sceneObjects.clear();
 	sceneObjects.push_back(&skyCube);
-	sceneObjects.push_back(human);
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
+	sceneObjects.push_back(worldGenerator);
 	
+	car->Update();
+
 	camera.SetPosition(player->GetPosition());
 
-	car->Update();
 	skyCube.SetPoz(camera.GetPosition());
-	brasovMap->Update(camera.GetPosition());
+	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
+
+	worldGenerator->Update(camera.GetPosition());
+	worldGenerator->HumanCallTaxi(player);
+	for(std::vector<Collidable*>::iterator it=worldGenerator->GetVisibleHumans()->begin();it<worldGenerator->GetVisibleHumans()->end();++it)
+		((Human*)(*it))->Update();
 }
 void Model::MoveUp()
 {
-	human->SetAngle(camera.GetRotY());
-	if(human->WalkForward())
+	car->Accelerate();
+	/*car->SetAngle(camera.GetRotY());
+	if(car->MoveWith(-5))
 	{
-		//camera.SetPosition(car->GetCenter());
-	}
+		if(!playerMapCollision())
+			car->MoveWith(5);
+	}*/
+	
+		
 }
 void Model::MoveDown()
 {
-	human->SetAngle(camera.GetRotY());
-	if(human->WalkBackward())
+	car->Reverse();
+	/*car->SetAngle(camera.GetRotY());
+	if(car->MoveWith(5))
 	{
-		//camera.SetPosition(car->GetCenter());
-	}
+		if(!playerMapCollision())
+			car->MoveWith(-5);
+	}*/
 }
 void Model::MoveLeft()
 {
-	/*SF3dVector v = camera.MoveX(-SPEED);*/
+	car->TurnLeft();
 }
 void Model::MoveRight()
 {
-	/*SF3dVector v = camera.MoveX(+SPEED);*/
+	car->TurnRight();
 }
 void Model::MouseMove(double dx,double dy)
 {
@@ -71,8 +71,82 @@ void Model::MouseMove(double dx,double dy)
 	double rotX=dy*0.12;
 	camera.RotateY(rotY);
 	camera.RotateX(rotX);
-	//human->IncrementAngle(rotY);
 }
+
+int Model::playerMapCollision()
+{
+	int insidePoints = 0;
+	Point M;
+
+	Collidable* collidable = player->GetPlayerState();
+	if(collidable == NULL)
+		return 0;
+	
+	for(int i = 0; i < 4; i++)
+	{
+		if(i == 0)
+			M = collidable->GetTopRight();
+		if(i == 1)
+			M = collidable->GetBottomRight();
+		if(i == 2)
+			M = collidable->GetBottomLeft();
+		if(i == 3)
+			M = collidable->GetTopLeft();
+		
+		Node* lastVisitedNode = brasovMap->GetNode(player->LastVisitedNodeIndex);
+		brasovMap->StreetCollision(lastVisitedNode, M, insidePoints);
+		if (insidePoints != i + 1)
+		{
+			std::vector<long> adjacentWays = lastVisitedNode->GetWays();
+			for(int adjW = 0; adjW < adjacentWays.size() && insidePoints != i + 1; adjW++)
+			{
+				Way* adjacentWay = brasovMap->GetWay(adjacentWays[adjW]);
+				int nodeWayIndex = adjacentWay->GetIndex(lastVisitedNode);
+				
+				Node *node = adjacentWay->GetNode(nodeWayIndex - 1);
+				if (node != NULL)
+					brasovMap->StreetCollision(node, M, insidePoints);
+				
+				if(insidePoints != i + 1)
+				{
+					node = adjacentWay->GetNode(nodeWayIndex + 1);
+					if(node != NULL)
+						brasovMap->StreetCollision(node, M, insidePoints);
+					if (insidePoints == i + 1)
+						player->LastVisitedNodeIndex = node->GetId();
+				}
+				else
+					player->LastVisitedNodeIndex = node->GetId();
+			}
+		}
+		if (insidePoints != i + 1)
+			break;
+	}
+	if(insidePoints == 4)
+		return 1;
+	return 0;
+}
+
+std::vector<Drawable*>* Model::GetSceneObjects()
+{
+	return &sceneObjects;
+}
+
+CCamera Model::GetCamera()
+{
+	return camera;
+}
+
+Player* Model::GetPlayer()
+{
+	return player;
+}
+
+Map* Model::GetMap()
+{
+	return brasovMap;
+}
+
 Model::~Model(void)
 {
 	delete brasovMap;

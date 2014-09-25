@@ -3,6 +3,7 @@
 Player::Player(Car* car)
 	:car(car)
 {
+	HasClient = false;
 }
 
 void Player::Draw()
@@ -10,6 +11,14 @@ void Player::Draw()
 	if(car != NULL)
 		car->Draw();
 }
+
+Car* Player::GetCar()
+{
+	if(car != NULL)
+		return car;
+	return NULL;
+}
+
 Collidable* Player::GetPlayerState()
 {
 	if(car != NULL)

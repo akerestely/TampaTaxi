@@ -5,11 +5,14 @@
 
 class Player : public Drawable
 {
-	Car *car;
+	Car* car;
 public:
 	int LastVisitedNodeIndex;
+	bool HasClient;
+
 	Player(Car* car);
 	void Draw();
+	Car* GetCar();
 	Point GetPosition();
 	Collidable* GetPlayerState();
 	~Player(void);

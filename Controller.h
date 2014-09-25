@@ -8,8 +8,9 @@
 
 class Controller
 {
-	
-	bool debugWindowPressed;
+	char* lastWayName;
+	std::vector<char*> waysNames;
+	bool escPressed,debugWindowPressed;
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
 	int windowWidth,windowHeight;
 	Model *model;

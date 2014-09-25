@@ -1,12 +1,36 @@
 #include "Movable.h"
+#include "Tools.h"
+
 #include "math.h"
 
 Movable::Movable(Point center,double width, double height)
 	:Collidable(center,width,height)
 {
-	canMove=true;
+	computeViewDir();
 }
 
+void Movable::computeViewDir()
+{
+	viewDir.x=  cos(angle+PI/2);
+	viewDir.z= -sin(angle+PI/2);
+}
+
+void Movable::IncrementAngle(double deltaAngle)
+{
+	Collidable::IncrementAngle(deltaAngle);
+	computeViewDir();
+}
+
+void Movable::SetAngle(double angle)
+{
+	Collidable::SetAngle(angle);
+	computeViewDir();
+}
+void Movable::SetViewDir(SF3dVector normalizedVector)
+{
+	viewDir=normalizedVector;
+	angle=atan2(normalizedVector.z,-normalizedVector.x)+PI/2;
+}
 bool Movable::CollidesWith()
 {
 	Point M;
@@ -28,13 +52,10 @@ bool Movable::CollidesWith()
 				Point B=(*colliders)[i]->GetBottomRight();
 				Point C=(*colliders)[i]->GetBottomLeft();
 				Point D=(*colliders)[i]->GetTopLeft();
-		
-				SF3dVector AP(A, M), AB(A, B), AD(A, D);
-				if (((0 <=(AP*AB)) && ((AP*AB) <= (AB*AB))) &&
-					((0 <= (AP*AD)) && ((AP*AD) <= (AD*AD))))
-				{
+				
+				if (Tools::PointInsideRectangle(M, A, B, C, D))
 					return true;
-				}
+				
 			}
 		}
 	}
@@ -57,13 +78,8 @@ bool Movable::CollidesWith()
 				Point C=GetBottomLeft();
 				Point D=GetTopLeft();
 		
-				SF3dVector AP(A, M), AB(A, B), AD(A, D);
-				if (((0 <=(AP*AB)) && ((AP*AB) <= (AB*AB))) &&
-					((0 <= (AP*AD)) && ((AP*AD) <= (AD*AD))))
-				{
+				if (Tools::PointInsideRectangle(M, A, B, C, D))
 					return true;
-
-				}
 			}
 		}
 	}
@@ -73,8 +89,8 @@ bool Movable::CollidesWith()
 bool Movable::MoveWith(double speed)
 {
 	double dx,dz;
-	dx=-speed*cos(angle+PI/2);
-	dz=-speed* -sin(angle+PI/2);
+	dx=-speed*viewDir.x;
+	dz=-speed*viewDir.z;
 
 	center.x+=dx;
 	center.z+=dz;
@@ -82,6 +98,21 @@ bool Movable::MoveWith(double speed)
 	{
 		center.x-=dx;
 		center.z-=dz;
+		return false;
+	}
+
+	return true;
+}
+
+bool Movable::MoveWith(SF3dVector speedVector)
+{
+	center.x+=speedVector.x;
+	center.z+=speedVector.z;
+
+	if( CollidesWith() )
+	{
+		center.x-=speedVector.x;
+		center.z-=speedVector.z;
 		return false;
 	}
 	return true;

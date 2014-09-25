@@ -13,8 +13,16 @@ class Hud :  public Object3d, public Drawable
 	GLuint needleTex;
 	double needleAngle;
 	std::vector<HudDigit> digits;
+	std::vector<HudDigit> feeDigits;
+	bool showFeeDigits;
 	double totalKilometers;
+	int clientKilometersIn,clientKilometersOut;
+	bool isHudBusy;
+
 	Model* model;
+	char* streetName;
+	void setSpeed(double speed);
+	void setFeeDigits(double value);
 public:
 	Hud(Point center, Model *model);
 
@@ -24,9 +32,11 @@ public:
 	void DrawTransparentCircle(double radius,double r, double g, double b);
 	void DrawNeedle(double circleRadius);
 	void DrawKilometers();
+	void DrawCurrentStreet();
+	void DrawFeeDigits();
 
-	void setSpeed(double speed);
-	void Update();
+	void Update(char* streetName);
+
 
 	~Hud(void);
 };

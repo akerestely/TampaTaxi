@@ -29,7 +29,7 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map
 			strcpy(buffer, strstr(buffer+2, "='"));
 			sscanf(buffer, "%*c%*c%lf", &longit);
 
-			nodes[(-id)]=new Node(Point(latit,0,longit));
+			nodes[(-id)]=new Node(Point(latit,0,longit), -id);
 			fgets(buffer, 200, fo);
 		}
 
@@ -44,8 +44,8 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map
 				{
 					strcpy(buffer,strstr(buffer,"='"));
 					sscanf(buffer, "%*c%*c%ld",&ref);
-					keys.push_back(nodes[-ref]);
-					nodes[-ref]->AddWay(-id);
+					keys.push_back(nodes[(-ref)]);
+					nodes[(-ref)]->AddWay(-id);
 				}
 				else
 				{
@@ -161,4 +161,24 @@ bool Tools::PointInsideRectangle(Point point, Point rTopRight, Point rBottomRigh
 int Tools::Sign(double x)
 {
 	return x<0?-1:1;
+}
+bool Tools::PointInsideRectangle(Point point, Point rTopRight, Point rBottomRight, Point rBottomLeft, Point rTopLeft)
+{
+	SF3dVector AM(rTopRight, point), AB(rTopRight, rBottomRight), AD(rTopRight, rTopLeft);
+	if (((0 <=(AM*AB)) && ((AM*AB) <= (AB*AB))) &&
+		((0 <= (AM*AD)) && ((AM*AD) <= (AD*AD))))
+	{
+		return true;
+	}
+	return false;
+}
+bool Tools::PointInsideCircle(Point point, Point cCenter, double cRadius)
+{
+	return (point.x - cCenter.x) * (point.x - cCenter.x) + (point.z - cCenter.z) * (point.z - cCenter.z) <= cRadius * cRadius;
+}
+long Tools::LongRand()
+{
+	static long next = 0;
+	next = next * 1103515245 + 12345;
+	return ((next / 65536) % 32768);
 }

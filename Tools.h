@@ -15,7 +15,7 @@ enum BallStreetPosition{
 	Outside,
 };
 class Tools
-{
+{	
 public:
 	/*
 	*Static method which read and store all the coordonates of intersection nodes 
@@ -34,6 +34,18 @@ public:
 	**/
 	static int ReadBuildingsFromXML(char* fileName,std::vector<Building*> &buildings);
 	static int Sign(double x);
-	static bool PointInsideRectangle(Point point, Point rTopRight, Point rBottomRight, Point rBottomLeft, Point rTopLeft);
 
+	static bool PointInsideRectangle(Point point, Point rTopRight, Point rBottomRight, Point rBottomLeft, Point rTopLeft);
+	static bool PointInsideCircle(Point point, Point cCenter, double cRadius);
+
+	static long LongRand();
+};
+
+struct Rectangl{
+	int x, y;
+	int height, width;
+	Rectangl(int x = 0,int y = 0,int height = 0,int width = 0)
+		:x(x),y(y),height(height),width(width)
+	{
+	}
 };

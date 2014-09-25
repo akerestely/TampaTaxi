@@ -8,6 +8,7 @@ Controller::Controller(void)
 	debugWindow = new DebugWindow(model);
 	mainMenu = new MainMenu();
 	escPressed=true;
+	lastWayName = new char[70];
 }
 
 void Controller::RenderDisplay()
@@ -20,6 +21,8 @@ void Controller::RenderDisplay()
 	glLoadIdentity();
 	ctrl->scene->Render();
 	glLoadIdentity();
+	
+	ctrl->hud->Draw();
 	if(ctrl->escPressed) 
 	{
 		ctrl->mainMenu->Draw();
@@ -118,9 +121,9 @@ void Controller::KeyReleasedSpecial(int key, int x, int y)
 
 void Controller::Timer(int value)
 {
-	glutTimerFunc(15, Timer, 0);
+	glutTimerFunc(25, Timer, 0);
+	glutPostRedisplay();
 	Controller *ctrl=Controller::GetInstance();
-	ctrl->model->Update();
 	if(!ctrl->escPressed) 
 	{
 		if (ctrl->left)
@@ -140,7 +143,18 @@ void Controller::Timer(int value)
 			cam.Move(SF3dVector(0,-SPEED,0));
 		}*/
 	}
-	
+	ctrl->model->Update();
+	char *currentWayName = ctrl->model->GetMap()->GetCurrentWayName();
+	if(strcmp(currentWayName, ctrl->lastWayName) == 0 && strcmp(currentWayName, "unknown") != 0)
+	{
+		ctrl->waysNames.push_back(currentWayName);
+		strcpy(ctrl->lastWayName, currentWayName);
+		if((ctrl->waysNames).size() > 5)
+		{
+			int ok  = 1;
+		}
+	}
+	ctrl->hud->Update(currentWayName);
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)
@@ -159,7 +173,7 @@ void Controller::WindowResize(GLsizei width, GLsizei height)
 	glMatrixMode(GL_PROJECTION);  // To operate on the Projection matrix
 	glLoadIdentity();             // Reset
 	// Enable perspective projection with fovy, aspect, zNear and zFar
-	gluPerspective(45.0f, aspect, 0.1f, 300.0f);
+	gluPerspective(45.0f, aspect, 0.1f, 20000.0f);
 }
 
 Controller::~Controller(void)

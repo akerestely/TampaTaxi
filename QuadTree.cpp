@@ -11,6 +11,7 @@ QuadTree::QuadTree(int pLevel, Rectangl bounds, int nodeIndex)
 void QuadTree::Clear()
 {
 	nodesObj.clear();
+	buildingsObj.clear();
 	for(int i = 0; i < 4; i++)
 	{
 		nodes[i]->Clear();
@@ -111,13 +112,6 @@ void QuadTree::Insert(Building* building)
 {
 	if (nodes[0] != NULL) 
 	{
-		/*int index = GetIndex(building->buildingPoints[0]);
-		for(int i = 1; i < building->buildingPoints.size(); i++)
-			if(GetIndex(building->buildingPoints[i]) != index)
-			{
-				index = -1;
-				break;
-			}*/
 		int index = GetIndex(building->GetCenter());
 		if (index != -1) 
 		{
@@ -127,7 +121,7 @@ void QuadTree::Insert(Building* building)
 	}
 
 	buildingsObj.push_back(building);
-	objectsCount+= building->buildingPoints.size();
+	objectsCount++;//= building->buildingPoints.size();
 
 	if (objectsCount > MAX_OBJECTS && level < MAX_LEVELS) 
 	{
@@ -141,18 +135,11 @@ void QuadTree::Insert(Building* building)
 		{
 			Building *toInsert = buildingsObj.at(i);
 
-			/*int index = GetIndex(toInsert->buildingPoints[0]);
-			for(int i = 1; i < toInsert->buildingPoints.size(); i++)
-				if(GetIndex(toInsert->buildingPoints[i]) != index)
-				{
-					index = -1;
-					break;
-				}*/
 			int index = GetIndex(toInsert->GetCenter());
 			if (index != -1) 
 			{
 				buildingsObj.erase(buildingsObj.begin() + i);
-				objectsCount-=toInsert->buildingPoints.size();
+				objectsCount--;//=toInsert->buildingPoints.size();
 				nodes[index]->Insert(toInsert);
 			}
 			else 
@@ -172,7 +159,7 @@ int QuadTree::GetNodeIndex(Point position)
 /*
  * Return all objects that could collide with the given object
  */
-void QuadTree::Retrieve(std::set<Node*>& returnObjects, Point position, double radius)
+void QuadTree::Retrieve(std::set<Node*>& returnObjects, Point position)
 {	
 	int index = GetIndex(position);
 	if (index != -1 && nodes[0] != NULL) 
@@ -181,7 +168,7 @@ void QuadTree::Retrieve(std::set<Node*>& returnObjects, Point position, double r
     }
 	returnObjects.insert(nodesObj.begin(), nodesObj.end());
 }
-void QuadTree::Retrieve(std::set<Building*>& returnObjects, Point position, double radius)
+void QuadTree::Retrieve(std::set<Building*>& returnObjects, Point position)
 {
 	int index = GetIndex(position);
 	if (index != -1 && nodes[0] != NULL) 

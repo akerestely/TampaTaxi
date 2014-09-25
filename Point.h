@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #define PI 3.14159265359
 #define PIdiv180 0.01745329251
 
@@ -7,6 +8,8 @@ class Point
 public:
 	double x,y,z;
 	Point(double x=0,double y=0,double z=0);
+	Point operator + (const Point &p);
+	Point operator - (const Point &p);
 };
 
 struct SF3dVector
@@ -34,6 +37,10 @@ struct SF3dVector
 	{
 		return SF3dVector(x*scalar , y*scalar, z*scalar);
 	}
+	SF3dVector operator/(double scalar)
+	{
+		return SF3dVector(x/scalar , y/scalar, z/scalar);
+	}
 	SF3dVector operator+(const SF3dVector &v)
 	{
 		return SF3dVector(x+v.x, y+v.y,z+v.z);
@@ -44,5 +51,17 @@ struct SF3dVector
 		y+=v.y;
 		z+=v.z;
 		return *this;
+	}
+	double GetMagnitude()
+	{
+		return sqrt(x*x+y*y+z*z);
+	}
+	SF3dVector GetNormalized()
+	{
+		return (*this)/GetMagnitude();
+	}
+	Point ToPoint()
+	{
+		return Point(x,y,z);
 	}
 };
