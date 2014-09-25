@@ -19,7 +19,7 @@ void WorldGenerator::Initialize()
 void WorldGenerator::Update(Point currentPosition)
 {	
 //Human & Car testing
-	checkVisibles(currentPosition);
+	CheckVisibles(currentPosition);
 //Updating visible objects 
 	UpdateHumanVector(currentPosition);
 	UpdateCarVector(currentPosition);	
