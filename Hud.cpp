@@ -3,7 +3,7 @@
 #include<cmath>
 #define GAUGE_RADIUS 0.6
 #define STREET_NAME_POSITION Point(0.0,-0.95,0.0)
-#define TAX_PER_KM 0.33
+#define TAX_PER_KM 0.50
 Hud::Hud(Point center,Model* model)
 :Object3d(center),model(model)
 {	
@@ -30,7 +30,7 @@ void Hud::setSpeed(double speed)
 	if(speed>0)
 	{
 		needleAngle=speed/MAX_SPEED*270;
-		totalKilometers+=speed/10;
+		totalKilometers+=speed/100;
 		int aux=(int)totalKilometers;
 		int digitPos=-1;
 		while(aux!=0)
@@ -202,7 +202,7 @@ void Hud::DrawCurrentStreet()
 		{
 			isHudBusy=false;
 		}
-		setSpeed(0.3);
+		
 		if(car != NULL)
 		{
 			setSpeed(car->GetSpeed());
