@@ -219,6 +219,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Minimap.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Model.cpp"
 				>
 			</File>
@@ -289,10 +293,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
 				RelativePath=".\CameraSpectator.h"
 				>
 			</File>
@@ -338,6 +338,10 @@
 			</File>
 			<File
 				RelativePath=".\Map.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Minimap.h"
 				>
 			</File>
 			<File
@@ -407,11 +411,11 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\Buildings.xml"
+				RelativePath=".\BuildingsRefactor.osm"
 				>
 			</File>
 			<File
-				RelativePath=".\OnlyStreetsFinal.osm"
+				RelativePath=".\StreetsRefactor.osm"
 				>
 			</File>
 		</Filter>
