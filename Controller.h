@@ -10,7 +10,7 @@ class Controller
 {
 	char* lastWayName;
 	std::vector<char*> waysNames;
-	bool escPressed,debugWindowPressed;
+	bool debugWindowPressed;
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
 	int windowWidth,windowHeight;
 	Model *model;
@@ -21,7 +21,7 @@ class Controller
 	MainMenu* mainMenu;
 	Controller(void);
 public:
-	 bool escPressed;
+	bool escPressed;
 	static Controller* GetInstance()
 	{
 		static Controller instance;
