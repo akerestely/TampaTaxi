@@ -13,14 +13,11 @@ class Model
 	std::vector<Drawable*> sceneObjects;
 	SkyCube skyCube;
 	CCamera camera;
-	Human* human;
 	Map* brasovMap;
 	Car* car;
 	Player* player;
 
-	WorldGenerator *wg;
-
-	std::vector<Collidable *> collidables;
+	WorldGenerator *worldGenerator;
 
 	int playerMapCollision();
 	

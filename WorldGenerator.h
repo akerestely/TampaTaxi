@@ -29,11 +29,11 @@ public:
 	void UpdateCarVector(Point currentPosition);
 	bool CheckVisibles(Point currentPosition);
 	void HumanCallTaxi(Player* player);
-
+	
 	void Draw();
 
-	std::vector<Collidable*> GetVisibleHumans();
-	std::vector<Collidable*> GetVisibleCars();
+	std::vector<Collidable*>* GetVisibleHumans();
+	std::vector<Collidable*>* GetVisibleCars();
 
 	~WorldGenerator();
 };
