@@ -40,7 +40,7 @@ public:
 	GLuint mFaceTex[1];
 	
 	GLuint skinTex;
-
+	GLuint getTaxiTex;
 
 	
 	GLuint skyCube[6];  /*!<Public variable which represents a GLuint array with 6 textures used to design the sky and the ground. */

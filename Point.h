@@ -8,6 +8,7 @@ class Point
 public:
 	double x,y,z;
 	Point(double x=0,double y=0,double z=0);
+	Point operator + (const Point &p);
 };
 
 struct SF3dVector
@@ -57,5 +58,9 @@ struct SF3dVector
 	SF3dVector GetNormalized()
 	{
 		return (*this)/GetMagnitude();
+	}
+	Point ToPoint()
+	{
+		return Point(x,y,z);
 	}
 };

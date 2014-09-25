@@ -8,6 +8,8 @@ class Player : public Drawable
 	Car* car;
 public:
 	int LastVisitedNodeIndex;
+	bool HasClient;
+
 	Player(Car* car);
 	void Draw();
 	Car* GetCar();

@@ -2,17 +2,14 @@
 #include "Human.h"
 #include "math.h"
 
-#define MOVE_SPEED 0.2
-#define ANIM_SPEED 2.0
-
 const double Human::feet_height=0.065, Human::feet_radius=0.15;
-const double Human::leg_height=0.85, Human::leg_radius=0.1;
+const double Human::leg_height=0.85, Human::leg_radius=0.08;
 const double Human::body_height=0.6, Human::body_width=0.55, Human::body_thickness=0.15;
 const double Human::neck_height=0.1, Human::neck_radius=0.085;
 const double Human::arm_height=0.5, Human::arm_radius=0.08;
 const double Human::head_radius=0.22;
 const double Human::dist_legs=0.015;
-const double Human::skirt_height=0.4, Human::skirt_dist=0.075;
+const double Human::skirt_height=0.4, Human::skirt_dist=0.08;
 const double Human::hair_strands=PI/8;
 
 Human::~Human(void)
@@ -20,9 +17,8 @@ Human::~Human(void)
 }
 
 Human::Human(Point base)
-	:Movable(base,0.55/*body_width*/,0.55/*body_width*/)
-{	
-	srand(time(NULL));
+	:Movable(base, body_width, body_width)
+{
 	hair_length=0.03;
 
 	walk=false;
@@ -35,8 +31,15 @@ Human::Human(Point base)
 	right_change_direction=false;
 	left_change_direction=false;
 	position_on_sidewalk=0;
+	callTaxi=false;
+	inTaxi=false;
 
 	int random;
+	
+	random=rand()%6+7;
+	move_speed=random/100.0;
+	anim_speed=random;
+
 	random=rand()%2;
 
 	Texture tex=Texture::GetInstance();
@@ -69,31 +72,52 @@ Human::Human(Point base)
 
 	}
 	skinTexH=tex.skinTex;
+	getTaxiTex=tex.getTaxiTex;
 }
 
 bool Human::WalkForward()
 {
-	if(MoveWith(-MOVE_SPEED))
+	if(callTaxi==false)
 	{
-		walk=true;
-		return true;
+		if(MoveWith(-move_speed))
+		{
+			walk=true;
+			return true;
+		}
 	}
 	return false;
 }
 
 bool Human::WalkBackward()
 {
-	if(MoveWith(MOVE_SPEED))
+	if(callTaxi==false)
 	{
-		walk=true;
-		return true;
+		if(MoveWith(move_speed))
+		{
+			walk=true;
+			return true;
+		}
 	}
 	return false;
 }
 
-void Human::Update()
+void Human::setLimits(Point limit1, Point limit2)
 {
-		if(WalkForward()==false && position_on_sidewalk==0)
+	this->limit1=limit1;
+	this->limit2=limit2;
+}
+
+void Human::Update()
+{	
+	SF3dVector canWalk(center,limit1);
+	SF3dVector canWalk2(limit2,center);
+	if( (canWalk.GetMagnitude() < 1 || canWalk2.GetMagnitude() < 1))
+	{
+		IncrementAngle(180);
+		WalkForward();
+		//walk=false;
+	}
+	if(WalkForward()==false && callTaxi==false && position_on_sidewalk==0)
 		{
 			int random=rand()%2;
 			if(random==0)
@@ -128,7 +152,7 @@ void Human::Update()
 	
 	if(right_change_direction==true || left_change_direction==true)
 	{
-		collision_speed+=MOVE_SPEED;
+		collision_speed+=move_speed;
 		if(collision_speed <= body_width)
 			WalkForward();
 		else
@@ -160,64 +184,122 @@ void Human::Animate(double &angleAnim,const double angleLimit)
 	if(walk==true)
 		if(angleAnim<angleLimit && goForward==true)
 		{
-			angleAnim+=ANIM_SPEED;
+			angleAnim+=anim_speed;
 		}
 		else
 			if(angleAnim>-angleLimit && goForward==false)
 			{
-				angleAnim-=ANIM_SPEED;
+				angleAnim-=anim_speed;
 			}
 }
 
 void Human::Draw()
 {
-	glPushMatrix();
-
-	glTranslatef(center.x,center.y,center.z);
-	glRotatef(angle*180/PI, 0,1,0);
-	
-
-	glPushMatrix();
-	Animate(angleLeftLeg,35.0);
-	DrawLeftLeg(angleLeftLeg);
-	glPopMatrix();
-
-	glPushMatrix();
-	Animate(angleRightLeg,35.0);
-	DrawRightLeg(angleRightLeg);
-	glPopMatrix();
-
-    DrawBody();
-
-	if(female==true)
+	if(inTaxi==false)
 	{
-		DrawSkirt();
+		glPushMatrix();
+
+		glTranslatef(center.x,center.y,center.z);
+		glRotatef(angle*180/PI, 0,1,0);
+		
+		if(callTaxi==false)
+		{
+			glPushMatrix();
+			Animate(angleLeftLeg,15.0);
+			DrawLeftLeg(angleLeftLeg);
+			glPopMatrix();
+
+			glPushMatrix();
+			Animate(angleRightLeg,15.0);
+			DrawRightLeg(angleRightLeg);
+			glPopMatrix();
+		}
+		else
+		{
+			DrawLeftLeg(0);
+			DrawRightLeg(0);
+		}
+
+		DrawBody();
+
+		if(female==true)
+		{
+			DrawSkirt();
+		}
+
+		DrawNeck();
+
+		
+		if(callTaxi==false)
+		{
+			glPushMatrix();
+			Animate(angleLeftArm,15.0);
+			DrawLeftArm(angleLeftArm);
+			glPopMatrix();
+
+			glPushMatrix();
+			Animate(angleRightArm,15.0);
+			DrawRightArm(angleRightArm);
+			glPopMatrix();
+		}
+		else
+		{
+			DrawLeftArm(0);
+			DrawRightArm(0);
+		}
+
+		DrawHead();
+
+		if(female==true)
+		{
+			DrawHair();
+		}
+		if(callTaxi==true)
+		{
+			DrawCallTaxi();
+		}
+
+		glPopMatrix();
+		if(walk)
+			walk=false;
+		else
+			angleLeftArm=angleRightArm=angleLeftLeg=angleRightLeg=0;
 	}
+}
 
-	DrawNeck();
+void Human::SetCallTaxi(bool callTaxi)
+{
+	this->callTaxi=callTaxi;
+}
 
+
+void Human::DrawCallTaxi()
+{
 	glPushMatrix();
-	Animate(angleLeftArm,15.0);
-	DrawLeftArm(angleLeftArm);
-	glPopMatrix();
-
-	glPushMatrix();
-	Animate(angleRightArm,15.0);
-	DrawRightArm(angleRightArm);
-	glPopMatrix();
-
-	DrawHead();
-
-	if(female==true)
-	{
-		DrawHair();
-	}
+	glDisable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, getTaxiTex);
 	
+	glTranslatef(0,(feet_height+leg_height+body_height+neck_height+(2*head_radius)+0.2),0);
+	glRotatef(180, 0,0,1);
+
+	quadric=gluNewQuadric();
+	gluQuadricNormals(quadric, GLU_SMOOTH);
+	gluQuadricTexture(quadric, GL_TRUE); 
+	gluQuadricDrawStyle(quadric, GLU_FILL);
+	gluDisk(quadric, 0.0f, 0.2, 30, 1);
 	glPopMatrix();
-	if(walk)
-		walk=false;
-	else
-		angleLeftArm=angleRightArm=angleLeftLeg=angleRightLeg=0;
+}
+
+
+void Human::SetInTaxi(bool inTaxi)
+{
+	this->inTaxi=inTaxi;
+}
+
+bool Human::GetInTaxi()
+{
+	return inTaxi;
 }
 
 void Human::DrawLeftLeg(double angleRotation)
@@ -358,9 +440,9 @@ void Human::DrawSkirt()
 	//front face
 	glBegin(GL_QUADS);
 
-	glTexCoord2f(0.0,1.0); glVertex3f(-half_width-skirt_dist, -half_height,-body_thickness -skirt_dist);
+	glTexCoord2f(0.0,1.0); glVertex3f(-half_width-skirt_dist, -half_height,-body_thickness-skirt_dist);
 	glTexCoord2f(1.0,1.0); glVertex3f(half_width+skirt_dist, -half_height, -body_thickness-skirt_dist);
-	glTexCoord2f(1.0,0.0); glVertex3f(half_width, half_height, -body_thickness);
+	glTexCoord2f(1.0,0.0); glVertex3f(half_width, half_height,-body_thickness);
 	glTexCoord2f(0.0,0.0); glVertex3f(-half_width, half_height,-body_thickness);
 	glEnd();
 

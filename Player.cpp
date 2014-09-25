@@ -3,6 +3,7 @@
 Player::Player(Car* car)
 	:car(car)
 {
+	HasClient = false;
 }
 
 void Player::Draw()

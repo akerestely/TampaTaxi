@@ -240,6 +240,21 @@ Texture::Texture(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
 	free ( buffer );
+<<<<<<< 8985a956cdc3e5beaf2b117e25ac03a7b8c77e13
+=======
+	
+	//taxi icon texture
+	buffer = esLoadTGA("Texture/Human/getTaxiTex.tga",&tWidth,&tHeight);
+	glGenTextures ( 1, &getTaxiTex);
+	glBindTexture ( GL_TEXTURE_2D, getTaxiTex);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP); 
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,  GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer ); 
+	free ( buffer );
+
+	
+>>>>>>> dba02c326ae8eae064c65e37265e666cc9dedfd5
 
 	//sky textures loading 
 	buffer = esLoadTGA("Texture/Skybox-000.tga", &tWidth, &tHeight);

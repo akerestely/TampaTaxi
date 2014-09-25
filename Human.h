@@ -17,6 +17,9 @@ class Human : public Movable, public Drawable
 	static const double skirt_height, skirt_dist;
 	static const double hair_strands;
 	
+	double move_speed;
+	double anim_speed;
+
 	GLuint fBodyTexFrontH;
 	GLuint fBodyTexBackH;
 	GLuint mBodyTexFrontH;
@@ -28,6 +31,7 @@ class Human : public Movable, public Drawable
 	GLuint fFaceTexH;
 	GLuint mFaceTexH;
 	GLuint skinTexH;
+	GLuint getTaxiTex;
 
 	double hair_length;
 	bool goForward;
@@ -37,6 +41,8 @@ class Human : public Movable, public Drawable
 	bool left_change_direction;
 	bool female;
 	int position_on_sidewalk;
+	Point limit1, limit2;
+	bool callTaxi, inTaxi;
 public:
 	Human(Point base);
 	~Human(void);
@@ -50,12 +56,18 @@ public:
 	void DrawRightArm(double angleRotation);
 	void DrawHead();
 	void DrawHair();
-
+	
+	void SetCallTaxi(bool callTaxi);
+	void DrawCallTaxi();
+	void SetInTaxi(bool inTaxi);
+	bool GetInTaxi();
+	
 	void Animate(double &angleAnim,const double angleLimit);
 	
 	bool WalkForward();
 	bool WalkBackward();
-
+	
+	void setLimits(Point limit1, Point limit2);
 	void Update();
 };
 

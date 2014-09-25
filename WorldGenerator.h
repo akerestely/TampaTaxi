@@ -21,7 +21,6 @@ class WorldGenerator :
 	Map* cityMap;
 	std::vector<Collidable*> invisiblePoolHuman,visiblePoolHuman;
 	std::vector<Collidable*> invisiblePoolCar,visiblePoolCar;
-
 public:
 	WorldGenerator(Map* cityMap);
 	void Initialize();
@@ -29,9 +28,12 @@ public:
 	void UpdateHumanVector(Point currentPosition);
 	void UpdateCarVector(Point currentPosition);
 	bool CheckVisibles(Point currentPosition);
+	void HumanCallTaxi(Player* player);
+
+	void Draw();
+
 	std::vector<Collidable*> GetVisibleHumans();
 	std::vector<Collidable*> GetVisibleCars();
-	
-	void Draw();
+
 	~WorldGenerator();
 };

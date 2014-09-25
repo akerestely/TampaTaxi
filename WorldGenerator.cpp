@@ -46,31 +46,44 @@ void WorldGenerator::UpdateHumanVector(Point currentPosition)
 		int sideRand = randNumber % 2;
 		Street* currentStreet;
 		if(sideRand==0)
-			 currentStreet=currentWay->GetLeftSidewalk(nodeRand);
+		{
+			currentStreet=currentWay->GetLeftSidewalk(nodeRand);
+			
+		}
 		else
-			 currentStreet=currentWay->GetRightSidewalk(nodeRand);
+		{ 
+			currentStreet=currentWay->GetRightSidewalk(nodeRand);
+		}
 		
 		SF3dVector v1,v2,vr;
 
 		v1=SF3dVector(currentStreet->corners[1],currentStreet->corners[0]);
 		v2=SF3dVector(currentStreet->corners[1],currentStreet->corners[2]);
 		v1=v1*0.50;
-		v2 = v2*(((randNumber % 41) + 30.0) / 100.0);
-		vr=v1+v2;
+		vr=v1+v2*(((rand()%41)+30.0)/100.0);
 		vr.x+=currentStreet->corners[1].x;
 		vr.y+=currentStreet->corners[1].y;
 		vr.z+=currentStreet->corners[1].z;
 		Point objectCenter(vr.x,vr.y,vr.z);
 		SF3dVector checkDistance(currentPosition,objectCenter);
+			
+
 		if(checkDistance.GetMagnitude()>MINIMUM_MAGNITUDE)
 		{
 			double angle=atan2(v2.z,-v2.x)+PI/2;
 			invisiblePoolHuman[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
 			invisiblePoolHuman[i]->setCenter(objectCenter);
+			SF3dVector lim1=v1+v2*0.2;
+			SF3dVector lim2=v1+v2*0.8;
+		
+			((Human*)(invisiblePoolHuman[i]))->setLimits(lim1.ToPoint()+currentStreet->corners[1],lim2.ToPoint()+currentStreet->corners[1]);
+
 			visiblePoolHuman.push_back(invisiblePoolHuman[i]);	
 			invisiblePoolHuman.erase(invisiblePoolHuman.begin()+i);
 		}
 		else i++;
+
+
 	}
 }
 
@@ -169,7 +182,10 @@ std::vector<Collidable*> WorldGenerator::GetVisibleCars()
 void WorldGenerator::Draw()
 {
 	for(std::vector<Collidable*>::iterator it=visiblePoolHuman.begin();it<visiblePoolHuman.end();++it)
+	{	
+		((Human*)(*it))->Update();
 		((Human*)(*it))->Draw();
+	}
 	for(std::vector<Collidable*>::iterator it=visiblePoolCar.begin();it<visiblePoolCar.end();++it)
 		((Car*)(*it))->Draw();
 }
@@ -195,4 +211,25 @@ WorldGenerator::~WorldGenerator()
 	invisiblePoolHuman.clear();
 	visiblePoolCar.clear();
 	invisiblePoolCar.clear();
+}
+
+void WorldGenerator::HumanCallTaxi(Player* player)                        
+{
+	int max=50, min=5;
+	//iterator
+	for(int i=0; i<visiblePoolHuman.size(); i++)
+	{
+		SF3dVector distHumanTaxi(visiblePoolHuman[i]->GetCenter(),player->GetPosition());
+		double distance=distHumanTaxi.GetMagnitude();
+		if(distance > min && distance < max && player->HasClient==false)
+		{
+			((Human*)(visiblePoolHuman[i]))->SetCallTaxi(true);
+		}
+		else
+			if(distance <= min)
+			{
+				((Human*)(visiblePoolHuman[i]))->SetInTaxi(true);
+				player->HasClient=true;
+			}
+	}
 }
