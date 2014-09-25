@@ -7,6 +7,10 @@ Controller::Controller(void)
 	hud = new Hud(Point(),model);
 	debugWindow = new DebugWindow(model);
 	mainMenu = new MainMenu();
+
+	lastWayName = new char[70];
+	
+	
 }
 
 void Controller::RenderDisplay()
@@ -131,7 +135,17 @@ void Controller::Timer(int value)
 		}*/
 	}
 	ctrl->model->Update();
-	ctrl->hud->Update(ctrl->model->GetMap()->GetCurrentWayName());
+	char *currentWayName = ctrl->model->GetMap()->GetCurrentWayName();
+	if(strcmp(currentWayName, ctrl->lastWayName) == 0 && strcmp(currentWayName, "unknown") != 0)
+	{
+		ctrl->waysNames.push_back(currentWayName);
+		strcpy(ctrl->lastWayName, currentWayName);
+		if((ctrl->waysNames).size() > 5)
+		{
+			int ok  = 1;
+		}
+	}
+	ctrl->hud->Update(currentWayName);
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)
