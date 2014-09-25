@@ -54,6 +54,7 @@ void Model::Update()
 	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 
 	wg->Update(camera.GetPosition());
+	wg->HumanCallTaxi(player);
 }
 void Model::MoveUp()
 {

@@ -94,12 +94,12 @@ bool Movable::MoveWith(double speed)
 
 	center.x+=dx;
 	center.z+=dz;
-	if( CollidesWith() )
+	/*if( CollidesWith() )
 	{
 		center.x-=dx;
 		center.z-=dz;
 		return false;
-	}
+	}*/
 
 	return true;
 }
@@ -109,12 +109,12 @@ bool Movable::MoveWith(SF3dVector speedVector)
 	center.x+=speedVector.x;
 	center.z+=speedVector.z;
 
-	if( CollidesWith() )
+	/*if( CollidesWith() )
 	{
 		center.x-=speedVector.x;
 		center.z-=speedVector.z;
 		return false;
-	}
+	}*/
 	return true;
 }
 

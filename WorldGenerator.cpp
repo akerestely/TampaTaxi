@@ -219,17 +219,19 @@ void WorldGenerator::HumanCallTaxi(Player* player)
 	//iterator
 	for(int i=0; i<visiblePoolHuman.size(); i++)
 	{
-		SF3dVector distHumanTaxi(visiblePoolHuman[i]->GetCenter(),player->GetPosition());
-		double distance=distHumanTaxi.GetMagnitude();
-		if(distance > min && distance < max && player->HasClient==false)
+		if(player->HasClient==false)
 		{
-			((Human*)(visiblePoolHuman[i]))->SetCallTaxi(true);
-		}
-		else
-			if(distance <= min)
+			SF3dVector distHumanTaxi(visiblePoolHuman[i]->GetCenter(),player->GetPosition());
+			double distance=distHumanTaxi.GetMagnitude();
+			if( distance > min && distance < max )
+			{
+				((Human*)(visiblePoolHuman[i]))->SetCallTaxi(true);
+			}
+			else if(distance <= min)
 			{
 				((Human*)(visiblePoolHuman[i]))->SetInTaxi(true);
 				player->HasClient=true;
 			}
+		}
 	}
 }
