@@ -2,9 +2,9 @@
 
 #include<cmath>
 #define GAUGE_RADIUS 0.6
-
+#define STREET_NAME_POSITION Point(0.0,-0.95,0.0)
 Hud::Hud(Point center,Model* model)
-	:Object3d(center),model(model)
+:Object3d(center),model(model)
 {	
 	this->hudTex=Texture::GetInstance().hudText;
 	needleAngle=0;
@@ -13,6 +13,7 @@ Hud::Hud(Point center,Model* model)
 	digits.push_back(HudDigit(Point(-GAUGE_RADIUS/10,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 	digits.push_back(HudDigit(Point(-3*GAUGE_RADIUS/10,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 	totalKilometers=0;	
+	streetName=new char[70];
 }
 
 void Hud::setSpeed(double speed)
@@ -38,24 +39,25 @@ void Hud::setSpeed(double speed)
 void Hud::Draw()
 {
 	glPushMatrix();
-		glScaled(0.18,0.18,1);
-		glTranslatef(2.3,-1.7,0);
-		glTranslatef(center.x,center.y,-1.0);
-		DrawGauge(GAUGE_RADIUS);
-		DrawTransparentCircle(GAUGE_RADIUS,0.0,0.0,1.0);
-		DrawCircle(0.080,0.0,0.0,0.0);
-		DrawCircle(0.045,1.0,0.0,0.0);
-		DrawCircle(0.027,0.0,0.0,0.0);
-		for(int i=0;i<digits.size();i++)
-			digits.at(i).Draw();
-		DrawNeedle(GAUGE_RADIUS);
+	glScaled(0.18,0.18,1);
+	glTranslatef(2.3,-1.7,0);
+	glTranslatef(center.x,center.y,-1.0);
+	DrawGauge(GAUGE_RADIUS);
+	DrawTransparentCircle(GAUGE_RADIUS,0.0,0.0,1.0);
+	DrawCircle(0.080,0.0,0.0,0.0);
+	DrawCircle(0.045,1.0,0.0,0.0);
+	DrawCircle(0.027,0.0,0.0,0.0);
+	DrawCurrentStreet();
+	for(int i=0;i<digits.size();i++)
+		digits.at(i).Draw();
+	DrawNeedle(GAUGE_RADIUS);
 	glPopMatrix();
 }
 
 void Hud::DrawGauge(double r)
 {
 	glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().hudText);
+	glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().hudText);
 	glBegin(GL_TRIANGLE_FAN);
 	glTexCoord2f(0.5,0.5);glVertex3f( 0,0,0. ); 
 	for(double t = 0; t<=360;t+=1)
@@ -107,9 +109,31 @@ void Hud::DrawNeedle(double circleRadius)
 	glEnd();
 }
 
-
-void Hud::Update()
+void Hud::DrawCurrentStreet()
 {
+	glColor3f(1.0,0.6,0.1);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(-1, 1, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	char *c;
+	glRasterPos3f(STREET_NAME_POSITION.x-0.015*strlen(streetName)/2, 
+		STREET_NAME_POSITION.y,STREET_NAME_POSITION.z);
+	for (c=streetName; *c != '\0'; c++) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+	}
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void Hud::Update(char* streetName)
+{
+	strcpy(this->streetName,streetName);
 	Car *car=model->GetPlayer()->GetCar();
 	if(car != NULL)
 	{
@@ -118,4 +142,5 @@ void Hud::Update()
 }
 Hud::~Hud(void)
 {
+	delete[] streetName;
 }

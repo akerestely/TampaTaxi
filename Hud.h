@@ -15,7 +15,7 @@ class Hud :  public Object3d, public Drawable
 	std::vector<HudDigit> digits;
 	double totalKilometers;
 	Model* model;
-
+	char* streetName;
 	void setSpeed(double speed);
 public:
 	Hud(Point center, Model *model);
@@ -26,8 +26,10 @@ public:
 	void DrawTransparentCircle(double radius,double r, double g, double b);
 	void DrawNeedle(double circleRadius);
 	void DrawKilometers();
+	void DrawCurrentStreet();
 
-	void Update();
+	void Update(char* streetName);
+
 
 	~Hud(void);
 };
