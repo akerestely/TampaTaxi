@@ -4,7 +4,7 @@
 #include "Minimap.h"
 #include "QuadTree.h"
 
-#define START_NODE 1798
+#define START_NODE 171561
 
 class Map : public Object3d, public Drawable
 {

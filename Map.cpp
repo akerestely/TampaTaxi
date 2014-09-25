@@ -168,8 +168,9 @@ Point Map::GenerateCheckpoint(double distance)
 	vr.x += street->corners[1].x;
 	vr.y += street->corners[1].y;
 	vr.z += street->corners[1].z;
-	checkPoint = Point(vr.x, vr.y, vr.z);
-	
+	checkPoint.x = vr.x;
+	checkPoint.y = vr.y;
+	checkPoint.z = vr.z;
 	miniMap->UpdateCheckpoint(&checkPoint);
 	return checkPoint;
 }
@@ -180,6 +181,8 @@ char* Map::GetCurrentWayName()
 
 void Map::StreetCollision(Node *node, Point M, int &insidePoints)
 {
+	if (node == NULL)
+		return;
 	Point nodeCenter = node->GetCenter();
 	if (Tools::PointInsideCircle(M, nodeCenter, NODE_DIAMETER / 2))
 	{

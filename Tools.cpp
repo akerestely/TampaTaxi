@@ -29,7 +29,7 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map
 			strcpy(buffer, strstr(buffer+2, "='"));
 			sscanf(buffer, "%*c%*c%lf", &longit);
 
-			nodes[(-id) - 171561]=new Node(Point(latit,0,longit), -id);
+			nodes[(-id)]=new Node(Point(latit,0,longit), -id);
 			fgets(buffer, 200, fo);
 		}
 
@@ -44,8 +44,8 @@ int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map
 				{
 					strcpy(buffer,strstr(buffer,"='"));
 					sscanf(buffer, "%*c%*c%ld",&ref);
-					keys.push_back(nodes[(-ref) - 171561]);
-					nodes[(-ref) - 171561]->AddWay(-id);
+					keys.push_back(nodes[(-ref)]);
+					nodes[(-ref)]->AddWay(-id);
 				}
 				else
 				{

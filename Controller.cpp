@@ -131,7 +131,7 @@ void Controller::Timer(int value)
 		}*/
 	}
 	ctrl->model->Update();
-	ctrl->hud->Update("strada cu cel mai mare nume nu este in brasov");
+	ctrl->hud->Update(ctrl->model->GetMap()->GetCurrentWayName());
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)
