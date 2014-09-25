@@ -22,6 +22,8 @@
 #define SERVO_STEP 2.8
 #define STEER_LIMIT_STEP 10
 
+#define BOUNCE 0.15
+
 Car::Car(Point center) 
 	:Movable(center,6.6*CAR_SCALE,13.6*CAR_SCALE)
 {
@@ -89,6 +91,12 @@ void Car::turn(double steerAngle)
 	
 	center.x = carLocation.x;
 	center.z = carLocation.z;
+	if(CollidesWith())
+	{
+		center=oldLocation;
+		velocity = velocity.GetNormalized() * -BOUNCE;
+		MoveWith(velocity);
+	}
 
 	computeViewDir();
 
@@ -131,6 +139,7 @@ void Car::computeSteerAngle(int direction)
 
 void Car::Update()
 {
+	oldLocation = center;
 	SF3dVector fAirDrag = velocity * -AIR_DRAG * speed;
 	SF3dVector fRollDrag = velocity * -ROLLING_DRAG;
 	SF3dVector fTotal = fTraction+fAirDrag+fRollDrag;
@@ -158,7 +167,11 @@ void Car::Update()
 	}
 	else
 	{
-		MoveWith(velocity);
+		if(!MoveWith(velocity))
+		{
+			velocity = velocity.GetNormalized() * -BOUNCE;
+			MoveWith(velocity);
+		}
 	}
 	for(int i=0; i<4; i++)
 	{
@@ -166,6 +179,13 @@ void Car::Update()
 	}
 	bTurn = false;
 	fTraction = SF3dVector();
+}
+
+void Car::Undo()
+{
+	center=oldLocation;
+	velocity = velocity.GetNormalized() * -BOUNCE;
+	MoveWith(velocity);
 }
 
 void Car::Draw()
