@@ -11,18 +11,22 @@
 #define FS 0.0001
 
 #define ENGINFORCE 50.0
-#define BREAKING 30.0
+#define BREAKING 250.0
 #define REVERSE 8.0
 #define AIR_DRAG  0.3257
 #define ROLLING_DRAG 20.8
 #define MASS 6000
 
-#define STEER_ANGLE 45
+#define MAX_STEER_ANGLE 55
+#define STEER_STEP 3
+#define SERVO_STEP 2.8
+#define STEER_LIMIT_STEP 10
 
 Car::Car(Point center) 
 	:Movable(center,6.6*CAR_SCALE,13.6*CAR_SCALE)
 {
 	speed = 0;
+	steerAngle = 0;
 	w = new Wheel*[4];
 
 	w[0] = new Wheel(Point(-4.35, 0.0, 2.81), 1.12, 1);
@@ -75,10 +79,12 @@ void Car::turn(double steerAngle)
 	SF3dVector backWheel = carLocation + viewDir * (-wheelBase / 2);
 
 	backWheel = backWheel + viewDir * speed;
-	double steeringAngle=angle + steerAngle * PIdiv180 + PI/2;
+	
+	double steeringAngle=angle + steerAngle * PIdiv180 + PI / 2;
 	frontWheel = frontWheel + SF3dVector(cos(steeringAngle), 0, -sin(steeringAngle)) * speed;
 	
 	carLocation = (frontWheel + backWheel) / 2;
+
 	angle = atan2( frontWheel.z - backWheel.z , -frontWheel.x + backWheel.x ) + PI/2;
 	
 	center.x = carLocation.x;
@@ -87,17 +93,40 @@ void Car::turn(double steerAngle)
 	computeViewDir();
 
 	//compute velocity vector
-	velocity.x = speed *  cos(angle+PI/2);
+	
+	velocity.x = speed * cos(angle+PI/2);
 	velocity.z = speed * -sin(angle+PI/2);
 }
+
 void Car::TurnLeft()
 {
-	turn(STEER_ANGLE);
+	bTurn = true;
+	steerAngle += STEER_STEP;
+	if (steerAngle > MAX_STEER_ANGLE)
+		steerAngle = MAX_STEER_ANGLE;
+	computeSteerAngle(1);
 }
 
 void Car::TurnRight()
 {
-	turn(-STEER_ANGLE);
+	bTurn = true;
+	steerAngle -= STEER_STEP;
+	if (-steerAngle > MAX_STEER_ANGLE)
+		steerAngle = -MAX_STEER_ANGLE;
+	computeSteerAngle(-1);
+}
+void Car::computeSteerAngle(int direction)
+{
+	if(speed < 0.66)
+		return;
+	if(speed > 1.36)
+	{
+		if(steerAngle * direction > 10)
+			steerAngle = 10 * direction;
+		return;
+	}
+	if(steerAngle * direction> 40)
+		steerAngle = 40 * direction;
 }
 
 void Car::Update()
@@ -108,15 +137,35 @@ void Car::Update()
 	SF3dVector a = fTotal/MASS;
 	velocity = velocity + a;
 	speed = velocity.GetMagnitude() * Tools::Sign(viewDir*velocity);
-	if(speed>0.01 || speed<-0.01)
+	if(speed<0.001 && speed>-0.001)
+	{
+		speed = 0;
+	}
+	if(!bTurn && speed)
+	{
+		if (steerAngle < -0.05)
+			steerAngle += SERVO_STEP;
+		else
+			steerAngle -= SERVO_STEP;
+	}
+	if (steerAngle >= -SERVO_STEP && steerAngle <= SERVO_STEP)
+	{
+		steerAngle = 0;
+	}
+	if(steerAngle != 0)
+	{
+		turn(steerAngle);
+	}
+	else
 	{
 		MoveWith(velocity);
-		for(int i=0; i<4; i++)
-		{
-			w[i]->IncrementRotationAngle( speed * 6 / 0.1 );
-		}
 	}
-	fTraction=SF3dVector();
+	for(int i=0; i<4; i++)
+	{
+		w[i]->IncrementRotationAngle( speed * 6 / 0.1 );
+	}
+	bTurn = false;
+	fTraction = SF3dVector();
 }
 
 void Car::Draw()

@@ -9,6 +9,8 @@ class Car: public Movable, public Drawable
 {
 	double wheelBase;
 	double speed;
+	double steerAngle;
+	bool bTurn;
 	Wheel **w;
 	
 	SF3dVector fTraction;
@@ -19,7 +21,7 @@ class Car: public Movable, public Drawable
 	unsigned int back;
 	
 	void turn(double steerAngle);
-
+	void computeSteerAngle(int direction);
 public:
 	Car(Point center);
 	double GetSpeed();

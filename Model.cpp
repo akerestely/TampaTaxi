@@ -47,9 +47,10 @@ void Model::Update()
 	sceneObjects.push_back(brasovMap);
 	sceneObjects.push_back(wg);
 	
+	car->Update();
+
 	camera.SetPosition(player->GetPosition());
 
-	//car->Update();
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 
@@ -58,25 +59,25 @@ void Model::Update()
 }
 void Model::MoveUp()
 {
-	//car->Accelerate();
-	car->SetAngle(camera.GetRotY());
+	car->Accelerate();
+	/*car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(-5))
 	{
 		if(!playerMapCollision())
 			car->MoveWith(5);
-	}
+	}*/
 	
 		
 }
 void Model::MoveDown()
 {
-	//car->Reverse();
-	car->SetAngle(camera.GetRotY());
+	car->Reverse();
+	/*car->SetAngle(camera.GetRotY());
 	if(car->MoveWith(5))
 	{
 		if(!playerMapCollision())
 			car->MoveWith(-5);
-	}
+	}*/
 }
 void Model::MoveLeft()
 {
