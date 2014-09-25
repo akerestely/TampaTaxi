@@ -46,8 +46,6 @@ public:
 	GLuint mainMenuOver[5];
 	GLuint newGameMenu[10];
 	GLuint secondMenu[3];
-	GLuint ballTex[5]; /*!<Public variable which represents a GLuint array with 5 textures used to design the ball. */
-	GLuint cardTex[2]; /*!<Public variable which represents a GLuint array with 2 textures used to design the pass card (Route 66 logo) and the support made from 3 spheres with wood texture. */
 	
 	GLuint skyCube[6];  /*!<Public variable which represents a GLuint array with 6 textures used to design the sky and the ground. */
 	GLuint roadTex;  /*!<Public variable which represents a GLuint value containing a texture used to design the road. */

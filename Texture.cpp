@@ -417,7 +417,7 @@ Texture::Texture(void)
 	free ( buffer );
 
 	//sky textures loading 
-	buffer = esLoadTGA("Texture/Skybox-000.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Skybox/Skybox-000.tga", &tWidth, &tHeight);
 	glGenTextures(1, skyCube);
 	glBindTexture(GL_TEXTURE_2D, skyCube[0]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -427,7 +427,7 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/Skybox-001.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Skybox/Skybox-001.tga", &tWidth, &tHeight);
 	glGenTextures(1, skyCube+1);
 	glBindTexture(GL_TEXTURE_2D, skyCube[1]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -437,7 +437,7 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/Skybox-002.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Skybox/Skybox-002.tga", &tWidth, &tHeight);
 	glGenTextures(1, skyCube+2);
 	glBindTexture(GL_TEXTURE_2D, skyCube[2]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -447,7 +447,7 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/Skybox-003.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Skybox/Skybox-003.tga", &tWidth, &tHeight);
 	glGenTextures(1, skyCube+3);
 	glBindTexture(GL_TEXTURE_2D, skyCube[3]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -457,7 +457,7 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/Skybox-004.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Skybox/Skybox-004.tga", &tWidth, &tHeight);
 	glGenTextures(1, skyCube+4);
 	glBindTexture(GL_TEXTURE_2D, skyCube[4]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -468,7 +468,7 @@ Texture::Texture(void)
 	free(buffer);
 
 	//ground texture loading 
-	buffer = esLoadTGA("Texture/iarba.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Skybox/ground.tga", &tWidth, &tHeight);
 	glGenTextures(1, skyCube+5);
 	glBindTexture(GL_TEXTURE_2D, skyCube[5]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -476,32 +476,20 @@ Texture::Texture(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-
-	//road texture loading
-	buffer = esLoadTGA("Texture/Skybox-005.tga", &tWidth, &tHeight);
-	glGenTextures(1, &roadTex);
-	glBindTexture(GL_TEXTURE_2D, roadTex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-	
+	free(buffer);	
 	
 	//buildings textures loading 
-	buffer = esLoadTGA("Texture/7.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Brasov/001.tga", &tWidth, &tHeight);
 	glGenTextures(1, textures);
 	glBindTexture(GL_TEXTURE_2D, textures[0]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0,GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/001-1.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Brasov/002.tga", &tWidth, &tHeight);
 	glGenTextures(1, textures+1);
 	glBindTexture(GL_TEXTURE_2D, textures[1]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -511,8 +499,8 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/002-1.tga", &tWidth, &tHeight);
-	glGenTextures(2, textures+2);
+	buffer = esLoadTGA("Texture/Brasov/003.tga", &tWidth, &tHeight);
+	glGenTextures(1, textures+2);
 	glBindTexture(GL_TEXTURE_2D, textures[2]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -521,39 +509,19 @@ Texture::Texture(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/003-1.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Brasov/004.tga", &tWidth, &tHeight);
 	glGenTextures(1, textures+3);
 	glBindTexture(GL_TEXTURE_2D, textures[3]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
 	free(buffer);
 
-	buffer = esLoadTGA("Texture/004-1.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Brasov/005.tga", &tWidth, &tHeight);
 	glGenTextures(1, textures+4);
 	glBindTexture(GL_TEXTURE_2D, textures[4]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-
-	buffer = esLoadTGA("Texture/005-1.tga", &tWidth, &tHeight);
-	glGenTextures(1, textures+5);
-	glBindTexture(GL_TEXTURE_2D, textures[5]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-	free(buffer);
-
-	buffer = esLoadTGA("Texture/Brasov/003.tga", &tWidth, &tHeight);
-	glGenTextures(1, textures+6);
-	glBindTexture(GL_TEXTURE_2D, textures[6]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
