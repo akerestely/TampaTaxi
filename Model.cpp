@@ -4,48 +4,24 @@
 
 Model::Model(void)
 {
-	human= new Human(Point(-13, 0, 13));
-	car= new Car(Point());
-
 	brasovMap = new Map("StreetsRefactor.osm", "BuildingsRefactor.osm");
+	worldGenerator = new WorldGenerator(brasovMap);
+	worldGenerator->Initialize();
+
+	car= new Car(Point());
+	car->colliders=worldGenerator->GetVisibleCars();
 
 	player = new Player(car);
 	player->LastVisitedNodeIndex = START_NODE;
-
-	wg = new WorldGenerator(brasovMap);
-	wg->Initialize();
-	
-	//to be deleted
-	collidables.push_back(car);
-	collidables.push_back(human);
-
-	human->colliders=&collidables;
-	car->colliders=&collidables;
-	//to be deleted
 }
 
-std::vector<Drawable*>* Model::GetSceneObjects()
-{
-	return &sceneObjects;
-}
-CCamera Model::GetCamera()
-{
-	return camera;
-}
-
-
-Player* Model::GetPlayer()
-{
-	return player;
-}
 void Model::Update()
 {
 	sceneObjects.clear();
 	sceneObjects.push_back(&skyCube);
-	sceneObjects.push_back(human);
 	sceneObjects.push_back(car);
 	sceneObjects.push_back(brasovMap);
-	sceneObjects.push_back(wg);
+	sceneObjects.push_back(worldGenerator);
 	
 	car->Update();
 
@@ -54,8 +30,10 @@ void Model::Update()
 	skyCube.SetPoz(camera.GetPosition());
 	brasovMap->Update(camera.GetPosition(), camera.GetRotY());
 
-	wg->Update(camera.GetPosition());
-	wg->HumanCallTaxi(player);
+	worldGenerator->Update(camera.GetPosition());
+	worldGenerator->HumanCallTaxi(player);
+	for(std::vector<Collidable*>::iterator it=worldGenerator->GetVisibleHumans()->begin();it<worldGenerator->GetVisibleHumans()->end();++it)
+		((Human*)(*it))->Update();
 }
 void Model::MoveUp()
 {
@@ -82,12 +60,10 @@ void Model::MoveDown()
 void Model::MoveLeft()
 {
 	car->TurnLeft();
-	/*SF3dVector v = camera.MoveX(-SPEED);*/
 }
 void Model::MoveRight()
 {
 	car->TurnRight();
-	/*SF3dVector v = camera.MoveX(+SPEED);*/
 }
 void Model::MouseMove(double dx,double dy)
 {
@@ -95,7 +71,6 @@ void Model::MouseMove(double dx,double dy)
 	double rotX=dy*0.12;
 	camera.RotateY(rotY);
 	camera.RotateX(rotX);
-	//human->IncrementAngle(rotY);
 }
 
 int Model::playerMapCollision()
@@ -106,8 +81,6 @@ int Model::playerMapCollision()
 	Collidable* collidable = player->GetPlayerState();
 	if(collidable == NULL)
 		return 0;
-	
-	
 	
 	for(int i = 0; i < 4; i++)
 	{
@@ -152,6 +125,21 @@ int Model::playerMapCollision()
 	if(insidePoints == 4)
 		return 1;
 	return 0;
+}
+
+std::vector<Drawable*>* Model::GetSceneObjects()
+{
+	return &sceneObjects;
+}
+
+CCamera Model::GetCamera()
+{
+	return camera;
+}
+
+Player* Model::GetPlayer()
+{
+	return player;
 }
 
 Map* Model::GetMap()

@@ -1,5 +1,7 @@
 #include "WorldGenerator.h"
 #include<math.h>
+#define MAX_DISTANCE 50
+#define MIN_DISTANCE 5
 
 WorldGenerator::WorldGenerator(Map* cityMap)
 {
@@ -10,7 +12,9 @@ void WorldGenerator::Initialize()
 {
 	for(int i=0;i<OBJECT_DENSITY;i++)
 	{
-		invisiblePoolHuman.push_back(new Human(Point(0.0,0.0,0.0)));
+		Human *h=new Human(Point(0.0,0.0,0.0));
+		h->colliders=&visiblePoolHuman;
+		invisiblePoolHuman.push_back(h);
 		invisiblePoolCar.push_back(new Car(Point(0.0,0.0,0.0)));
 	}
 	srand(time(NULL));
@@ -20,6 +24,7 @@ void WorldGenerator::Update(Point currentPosition)
 {	
 //Human & Car testing
 	CheckVisibles(currentPosition);
+	
 //Updating visible objects 
 	UpdateHumanVector(currentPosition);
 	UpdateCarVector(currentPosition);	
@@ -107,10 +112,7 @@ void WorldGenerator::UpdateCarVector(Point currentPosition)
 		nodeRand = randNumber % (waySize - 1);
 
 		Street* currentStreet=currentWay->GetPortionStreet(nodeRand);
-	/*	SF3dVector RESULT(currentWay->GetNode(nodeRand)->GetCenter(),
-			currentWay->GetNode(nodeRand+1)->GetCenter());
-			
-		long resultAngle=atan2(RESULT.z,-RESULT.x)+PI/2;*/
+	
 		SF3dVector v1,v2,vr;
 
 		v1=SF3dVector(currentStreet->corners[1],currentStreet->corners[0]);
@@ -155,8 +157,19 @@ bool WorldGenerator::CheckVisibles(Point currentPosition)
 			invisiblePoolHuman.push_back(visiblePoolHuman[i]);
 			visiblePoolHuman.erase(visiblePoolHuman.begin()+i);
 			changed=true;
+			i--;
 		}
+		else
+			if(((Human*)(visiblePoolHuman[i]))->GetInTaxi()==true)
+			{
+				invisiblePoolHuman.push_back(visiblePoolHuman[i]);
+				visiblePoolHuman.erase(visiblePoolHuman.begin()+i);
+				changed=true;
+				i--;
+			}
 	}
+
+	
 	for(int i=0;i<visiblePoolCar.size();i++)
 	{
 		SF3dVector tempVector(currentPosition,visiblePoolCar[i]->GetCenter());
@@ -170,22 +183,19 @@ bool WorldGenerator::CheckVisibles(Point currentPosition)
 	return changed;
 }
 
-std::vector<Collidable*> WorldGenerator::GetVisibleHumans()
+std::vector<Collidable*>* WorldGenerator::GetVisibleHumans()
 {
-	return visiblePoolHuman;
+	return &visiblePoolHuman;
 }
 
-std::vector<Collidable*> WorldGenerator::GetVisibleCars()
+std::vector<Collidable*>* WorldGenerator::GetVisibleCars()
 {
-	return visiblePoolCar;
+	return &visiblePoolCar;
 }
 void WorldGenerator::Draw()
 {
 	for(std::vector<Collidable*>::iterator it=visiblePoolHuman.begin();it<visiblePoolHuman.end();++it)
-	{	
-		((Human*)(*it))->Update();
 		((Human*)(*it))->Draw();
-	}
 	for(std::vector<Collidable*>::iterator it=visiblePoolCar.begin();it<visiblePoolCar.end();++it)
 		((Car*)(*it))->Draw();
 }
@@ -215,23 +225,35 @@ WorldGenerator::~WorldGenerator()
 
 void WorldGenerator::HumanCallTaxi(Player* player)                        
 {
-	int max=50, min=5;
-	//iterator
-	for(int i=0; i<visiblePoolHuman.size(); i++)
+	for(std::vector<Collidable*>::iterator it=visiblePoolHuman.begin();it<visiblePoolHuman.end();++it)
 	{
 		if(player->HasClient==false)
 		{
-			SF3dVector distHumanTaxi(visiblePoolHuman[i]->GetCenter(),player->GetPosition());
+			SF3dVector distHumanTaxi((*it)->GetCenter(),player->GetPosition());
 			double distance=distHumanTaxi.GetMagnitude();
-			if( distance > min && distance < max )
+			if( distance > MIN_DISTANCE && distance < MAX_DISTANCE )
 			{
-				((Human*)(visiblePoolHuman[i]))->SetCallTaxi(true);
+				SF3dVector viewThePlayer((*it)->GetCenter(),player->GetPosition());
+				((Human*)(*it))->SetViewDir(viewThePlayer.GetNormalized());
+				if(((Human*)(*it))->GetCallTaxi()==false)
+				{
+					((Human*)(*it))->SetCallTaxi(true);
+				}
 			}
-			else if(distance <= min)
+			else if(distance <= MIN_DISTANCE)
 			{
-				((Human*)(visiblePoolHuman[i]))->SetInTaxi(true);
+				((Human*)(*it))->SetInTaxi(true);
 				player->HasClient=true;
 			}
+				else if(distance >= MAX_DISTANCE)
+				{
+					if(((Human*)(*it))->GetCallTaxi())
+						((Human*)(*it))->SetCallTaxi(false);
+				}
+		}
+		else
+		{
+			((Human*)(*it))->SetCallTaxi(false);
 		}
 	}
 }

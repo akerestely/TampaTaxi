@@ -58,6 +58,7 @@ public:
 	void DrawHair();
 	
 	void SetCallTaxi(bool callTaxi);
+	bool GetCallTaxi();
 	void DrawCallTaxi();
 	void SetInTaxi(bool inTaxi);
 	bool GetInTaxi();

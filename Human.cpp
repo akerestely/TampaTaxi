@@ -111,45 +111,45 @@ void Human::Update()
 {	
 	SF3dVector canWalk(center,limit1);
 	SF3dVector canWalk2(limit2,center);
-	if( (canWalk.GetMagnitude() < 1 || canWalk2.GetMagnitude() < 1))
+    if( (canWalk.GetMagnitude() < 1 || canWalk2.GetMagnitude() < 1))
 	{
 		IncrementAngle(180);
-		WalkForward();
-		//walk=false;
+	    WalkForward();
 	}
-	if(WalkForward()==false && callTaxi==false && position_on_sidewalk==0)
-		{
-			int random=rand()%2;
-			if(random==0)
+	if(WalkForward()==false && callTaxi==false){
+		if(position_on_sidewalk==0)
 			{
-				right_change_direction=true;
-				angle+=PI/2;
-				position_on_sidewalk+=1;
-				return;
+				int random=rand()%2;
+				if(random==0)
+				{
+					right_change_direction=true;
+					IncrementAngle(90);
+					position_on_sidewalk+=1;
+					return;
+				}
+				if(random==1)
+				{
+					left_change_direction=true;
+					IncrementAngle(-90);
+					position_on_sidewalk-=1;
+					return;
+				}
 			}
-			if(random==1)
+			if(position_on_sidewalk==1)
 			{
 				left_change_direction=true;
-				angle-=PI/2;
+				IncrementAngle(-90);
 				position_on_sidewalk-=1;
 				return;
 			}
-		}
-		if(WalkForward()==false && position_on_sidewalk==1)
-		{
-			left_change_direction=true;
-			angle-=PI/2;
-			position_on_sidewalk-=1;
-			return;
-		}
-		if(WalkForward()==false && position_on_sidewalk==-1)
-		{
-			right_change_direction=true;
-			angle+=PI/2;
-			position_on_sidewalk+=1;
-			return;
-		}
-	
+			if(position_on_sidewalk==-1)
+			{
+				right_change_direction=true;
+				IncrementAngle(90);
+				position_on_sidewalk+=1;
+				return;
+			}
+	}
 	if(right_change_direction==true || left_change_direction==true)
 	{
 		collision_speed+=move_speed;
@@ -159,14 +159,14 @@ void Human::Update()
 		{
 			if(right_change_direction==true)
 			{
-				angle-=PI/2;
+				IncrementAngle(-90);
 				collision_speed=0;
 				right_change_direction=false;
 				return;
 			}
 			if(left_change_direction==true)
 			{
-				angle+=PI/2;
+				IncrementAngle(+90);
 				collision_speed=0;
 				left_change_direction=false;
 				return;
@@ -195,81 +195,88 @@ void Human::Animate(double &angleAnim,const double angleLimit)
 
 void Human::Draw()
 {
-	if(inTaxi==false)
+	glPushMatrix();
+
+	glTranslatef(center.x,center.y,center.z);
+	glRotatef(angle*180/PI, 0,1,0);
+	
+	if(callTaxi==false)
 	{
 		glPushMatrix();
-
-		glTranslatef(center.x,center.y,center.z);
-		glRotatef(angle*180/PI, 0,1,0);
-		
-		if(callTaxi==false)
-		{
-			glPushMatrix();
-			Animate(angleLeftLeg,15.0);
-			DrawLeftLeg(angleLeftLeg);
-			glPopMatrix();
-
-			glPushMatrix();
-			Animate(angleRightLeg,15.0);
-			DrawRightLeg(angleRightLeg);
-			glPopMatrix();
-		}
-		else
-		{
-			DrawLeftLeg(0);
-			DrawRightLeg(0);
-		}
-
-		DrawBody();
-
-		if(female==true)
-		{
-			DrawSkirt();
-		}
-
-		DrawNeck();
-
-		
-		if(callTaxi==false)
-		{
-			glPushMatrix();
-			Animate(angleLeftArm,15.0);
-			DrawLeftArm(angleLeftArm);
-			glPopMatrix();
-
-			glPushMatrix();
-			Animate(angleRightArm,15.0);
-			DrawRightArm(angleRightArm);
-			glPopMatrix();
-		}
-		else
-		{
-			DrawLeftArm(0);
-			DrawRightArm(0);
-		}
-
-		DrawHead();
-
-		if(female==true)
-		{
-			DrawHair();
-		}
-		if(callTaxi==true)
-		{
-			DrawCallTaxi();
-		}
-
+		Animate(angleLeftLeg,15.0);
+		DrawLeftLeg(angleLeftLeg);
 		glPopMatrix();
-		if(walk)
-			walk=false;
-		else
-			angleLeftArm=angleRightArm=angleLeftLeg=angleRightLeg=0;
+
+		glPushMatrix();
+		Animate(angleRightLeg,15.0);
+		DrawRightLeg(angleRightLeg);
+		glPopMatrix();
 	}
+	else
+	{
+		DrawLeftLeg(0);
+		DrawRightLeg(0);
+	}
+
+	DrawBody();
+
+	if(female==true)
+	{
+		DrawSkirt();
+	}
+
+	DrawNeck();
+
+	
+	if(callTaxi==false)
+	{
+		glPushMatrix();
+		Animate(angleLeftArm,15.0);
+		DrawLeftArm(angleLeftArm);
+		glPopMatrix();
+
+		glPushMatrix();
+		Animate(angleRightArm,15.0);
+		DrawRightArm(angleRightArm);
+		glPopMatrix();
+	}
+	else
+	{
+		DrawLeftArm(0);
+		DrawRightArm(0);
+	}
+
+	DrawHead();
+
+	if(female==true)
+	{
+		DrawHair();
+	}
+	if(callTaxi==true)
+	{
+		DrawCallTaxi();
+	}
+
+	glPopMatrix();
+	if(walk)
+		walk=false;
+	else
+		angleLeftArm=angleRightArm=angleLeftLeg=angleRightLeg=0;
 }
 
 void Human::SetCallTaxi(bool callTaxi)
 {
+	if(!callTaxi)
+	{
+		SF3dVector viewTheRoad(limit1,limit2);
+		SetViewDir(viewTheRoad.GetNormalized());
+	}
 	this->callTaxi=callTaxi;
+}
+
+bool Human::GetCallTaxi()
+{
+	return callTaxi;
 }
 
 
