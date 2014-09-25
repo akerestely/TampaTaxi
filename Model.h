@@ -22,7 +22,6 @@ class Model
 
 	std::vector<Collidable *> collidables;
 
-	int playerStreetCollision(Node* node, Point M);
 	int playerMapCollision();
 	
 public:

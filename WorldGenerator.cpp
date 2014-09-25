@@ -28,19 +28,22 @@ void WorldGenerator::Update(Point currentPosition)
 void WorldGenerator::UpdateHumanVector(Point currentPosition)
 {
 	int i=0;
+	long randNumber;
+	int setSize, wayRand, nodeRand, waySize;
 	while(i<invisiblePoolHuman.size())
 	{	
-		int setSize=cityMap->GetWaysToDraw()->size();
-		int wayRand,nodeRand;
-		int waySize;
-		wayRand=rand()%setSize;
+		randNumber = rand();
+		setSize=cityMap->GetWaysToDraw()->size();
+		wayRand,nodeRand;
+		waySize;
+		wayRand = randNumber%setSize;
 		std::set<long>::iterator it=cityMap->GetWaysToDraw()->begin();
-		for(int j=0;j<wayRand;j++)
-			it++;
+		std::advance(it, wayRand);
+
 		Way* currentWay=cityMap->GetWay(*it);
 		waySize=currentWay->GetNodes().size();
-		nodeRand=rand()%(waySize-1);
-		int sideRand=rand()%2;
+		nodeRand = randNumber % (waySize - 1);
+		int sideRand = randNumber % 2;
 		Street* currentStreet;
 		if(sideRand==0)
 			 currentStreet=currentWay->GetLeftSidewalk(nodeRand);
@@ -52,7 +55,7 @@ void WorldGenerator::UpdateHumanVector(Point currentPosition)
 		v1=SF3dVector(currentStreet->corners[1],currentStreet->corners[0]);
 		v2=SF3dVector(currentStreet->corners[1],currentStreet->corners[2]);
 		v1=v1*0.50;
-		v2=v2*(((rand()%41)+30.0)/100.0);
+		v2 = v2*(((randNumber % 41) + 30.0) / 100.0);
 		vr=v1+v2;
 		vr.x+=currentStreet->corners[1].x;
 		vr.y+=currentStreet->corners[1].y;
@@ -74,19 +77,21 @@ void WorldGenerator::UpdateHumanVector(Point currentPosition)
 void WorldGenerator::UpdateCarVector(Point currentPosition)
 {
 	int i=0;
+	int randNumber;
+	int setSize, wayRand, nodeRand, waySize;
 	while(i<invisiblePoolCar.size())
 	{	
-		int setSize=cityMap->GetWaysToDraw()->size();
-		int wayRand,nodeRand;
-		int waySize;
-		wayRand=rand()%setSize;
+		randNumber = rand();
+		setSize=cityMap->GetWaysToDraw()->size();
+		
+		wayRand = randNumber % setSize;
 		std::set<long>::iterator it=cityMap->GetWaysToDraw()->begin();
-		for(int j=0;j<wayRand;j++)
-			it++;
+		std::advance(it, wayRand);
+		
 		Way* currentWay=cityMap->GetWay(*it);
 
 		waySize=currentWay->GetNodes().size();
-		nodeRand=rand()%(waySize-1);
+		nodeRand = randNumber % (waySize - 1);
 
 		Street* currentStreet=currentWay->GetPortionStreet(nodeRand);
 	/*	SF3dVector RESULT(currentWay->GetNode(nodeRand)->GetCenter(),
@@ -98,14 +103,14 @@ void WorldGenerator::UpdateCarVector(Point currentPosition)
 		v1=SF3dVector(currentStreet->corners[1],currentStreet->corners[0]);
 		v2=SF3dVector(currentStreet->corners[1],currentStreet->corners[2]);
 		
-		int heightLevel=rand()%2;
+		int heightLevel = randNumber % 2;
 		if(heightLevel==0)
 			v1=v1*0.15;
 		else
 			if(heightLevel==1)
 				v1=v1*0.85;
 			
-		v2=v2*((rand()%100)/100.0);
+			v2 = v2*((randNumber % 100) / 100.0);
 		vr=v1+v2;
 		vr.x+=currentStreet->corners[1].x;
 		vr.y+=currentStreet->corners[1].y;

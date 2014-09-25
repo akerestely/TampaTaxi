@@ -10,6 +10,7 @@ Map::Map(char *nodesFile, char *buildingsFile)
 	loadNodes(nodesFile);
 	loadBuildings(buildingsFile);
 	initQuadTree();
+	initMinimap();
 }
 void Map::loadNodes(char *nodesFile)
 {
@@ -65,6 +66,16 @@ void Map::initQuadTree()
 		drawableQuadTree->Insert(*buildingIt);
 	}
 }
+void Map::initMinimap()
+{
+	Point minimapCenter;
+
+	minimapCenter.x = (topLeftMapPoint.x + bottomRightPoint.x) / 2;
+	minimapCenter.y = 0;
+	minimapCenter.z = (topLeftMapPoint.z + bottomRightPoint.z) / 2;
+
+	miniMap = new Minimap(ways, minimapCenter);
+}
 void Map::Draw()
 {
 	Point first, second;
@@ -82,6 +93,9 @@ void Map::Update(Point camPosition, double camAngle)
 	std::set<int> visitedQuadrants;
 	std::set<Node*> nodes;
 
+	currentPosition = camPosition;
+	miniMap->UpdateCurrentPosition(camPosition);
+
 	waysToDraw.clear();
 	buildingsToDraw.clear();
 	
@@ -98,8 +112,7 @@ void Map::Update(Point camPosition, double camAngle)
 			Point p = Point(camPosition.x + radius * cos(angle * PIdiv180), camPosition.y, camPosition.z + radius * sin(angle * PIdiv180));
 			int nextPositionIndex = drawableQuadTree->GetNodeIndex(p);
 			if (!visitedQuadrants.count(nextPositionIndex))
-			{
-				
+			{				
 				drawableQuadTree->Retrieve(buildingsToDraw, p);
 				if (radius < 201)
 					drawableQuadTree->Retrieve(nodes, p);
@@ -124,6 +137,78 @@ Way* Map::GetWay(long id)
 std::set<long>* Map::GetWaysToDraw()
 {
 	return &waysToDraw;
+}
+Minimap* Map::GetMinimap()
+{
+	return miniMap;
+}
+
+Point Map::GenerateCheckpoint(double distance)
+{
+	long random = 0;
+	long nodeId;
+	do{
+		random = Tools::LongRand();
+		nodeId = random % nodes.size();
+	} while (SF3dVector(currentPosition, nodes[nodeId]->GetCenter()).GetMagnitude() < distance);
+	
+	std::vector<long> nodeWays = nodes[nodeId]->GetWays();
+	long wayId = nodeWays[random % nodeWays.size()];
+
+	long portionIndex = random & (ways[wayId]->GetNodes().size() - 1);
+
+	Street* street = ways[wayId]->GetRightSidewalk(portionIndex);
+	SF3dVector v1, v2, vr;
+
+	v1 = SF3dVector(street->corners[1], street->corners[0]);
+	v2 = SF3dVector(street->corners[1], street->corners[2]);
+	v1 = v1*0.50;
+	v2 = v2*(((random % 41) + 30.0) / 100.0);
+	vr = v1 + v2;
+	vr.x += street->corners[1].x;
+	vr.y += street->corners[1].y;
+	vr.z += street->corners[1].z;
+	checkPoint = Point(vr.x, vr.y, vr.z);
+	
+	miniMap->UpdateCheckpoint(&checkPoint);
+	return checkPoint;
+}
+char* Map::GetCurrentWayName()
+{
+	return currentWayName;
+}
+
+void Map::StreetCollision(Node *node, Point M, int &insidePoints)
+{
+	Point nodeCenter = node->GetCenter();
+	if (Tools::PointInsideCircle(M, nodeCenter, NODE_DIAMETER / 2))
+	{
+		insidePoints++;
+		return;
+	}
+	
+	std::vector<long> adjacentWays = node->GetWays();
+	for (int adjW = 0; adjW < adjacentWays.size(); adjW++)
+	{
+		Way* adjacentWay = ways[adjacentWays[adjW]];
+		int nodeWayIndex = adjacentWay->GetIndex(node);
+		Street *portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex);
+		if (portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
+		{
+			if (insidePoints == 0)
+				strcpy(currentWayName, adjacentWay->GetName());
+			insidePoints++;
+			return;
+		}
+		portionStreet = adjacentWay->GetPortionStreet(nodeWayIndex - 1);
+		if (portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
+		{
+			if (insidePoints == 0)
+				strcpy(currentWayName, adjacentWay->GetName());
+			insidePoints++;
+			return;
+		}
+	}
 }
 
 Map::~Map(void)

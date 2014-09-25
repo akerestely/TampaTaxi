@@ -16,6 +16,7 @@ enum BallStreetPosition{
 };
 class Tools
 {
+	
 public:
 	/*
 	*Static method which read and store all the coordonates of intersection nodes 
@@ -37,6 +38,8 @@ public:
 
 	static bool PointInsideRectangle(Point point, Point rTopRight, Point rBottomRight, Point rBottomLeft, Point rTopLeft);
 	static bool PointInsideCircle(Point point, Point cCenter, double cRadius);
+
+	static long LongRand();
 };
 
 struct Rectangl{
