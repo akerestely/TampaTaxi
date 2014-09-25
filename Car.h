@@ -8,14 +8,16 @@
 class Car: public Movable, public Drawable
 {
 	double wheelBase;
-	double carHeading;
 	double speed;
 	Wheel **w;
-	unsigned int side;
-
+	
 	SF3dVector fTraction;
 	SF3dVector velocity;
 
+	unsigned int side;
+	unsigned int front;
+	unsigned int back;
+	
 	void turn(double steerAngle);
 
 public:

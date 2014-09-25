@@ -50,10 +50,11 @@ public:
 	GLuint wheelSide;
 	GLuint wheelBase;
 	GLuint carSide;
+	GLuint carFront;
+	GLuint carBack;
 	
 	GLuint hudText;
 	GLuint hudNumbers;
 	GLuint nodeTex;
 	GLuint sidewayTex;
-
 };
