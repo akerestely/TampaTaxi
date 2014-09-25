@@ -37,12 +37,14 @@ int main(int argc, char** argv)
 	try
 	{
 		glutInit(&argc, argv);            // Initialize GLUT
-		glutInitDisplayMode(GLUT_DOUBLE); // Enable double buffered mode
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA); // Enable double buffered mode
 		glutInitWindowSize(1024, 768);   // Set the window's initial width & height
 		glutInitWindowPosition(250, 50); // Position the window's initial top-left corner
 		glutCreateWindow("Taxi Mania");          // Create window with the given title
+
 		init();
-		//glutFullScreen();				// Enter FullScreen. Remove for windowed mode.
+		glutFullScreen();
+
 		glutMainLoop();                 // Enter the infinite event-processing loop
 	}
 	catch(char* message)

@@ -34,4 +34,6 @@ public:
 	**/
 	static int ReadBuildingsFromXML(char* fileName,std::vector<Building*> &buildings);
 	static int Sign(double x);
+	static bool PointInsideRectangle(Point point, Point rTopRight, Point rBottomRight, Point rBottomLeft, Point rTopLeft);
+
 };

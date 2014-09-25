@@ -8,7 +8,8 @@
 
 class Controller
 {
-	bool escPressed,debugWindowPressed;
+	
+	bool debugWindowPressed;
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
 	int windowWidth,windowHeight;
 	Model *model;
@@ -19,7 +20,7 @@ class Controller
 	MainMenu* mainMenu;
 	Controller(void);
 public:
-
+	 bool escPressed;
 	static Controller* GetInstance()
 	{
 		static Controller instance;
@@ -38,8 +39,6 @@ public:
 	static void Timer(int value);
 
 	static void WindowResize(GLsizei width, GLsizei height);
-
-
 
 	~Controller(void);
 };

@@ -7,6 +7,7 @@ Controller::Controller(void)
 	hud = new Hud(Point(),model);
 	debugWindow = new DebugWindow(model);
 	mainMenu = new MainMenu();
+	escPressed=true;
 }
 
 void Controller::RenderDisplay()
@@ -32,17 +33,28 @@ void Controller::RenderDisplay()
 
 void Controller::MouseClicked(int button, int state, int x, int y)
 {
+	Controller *ctrl=Controller::GetInstance();
+	if(ctrl->escPressed) 
+	{
+		ctrl->mainMenu->MouseClicked(button,state,x,y);
+	}
 }
 void Controller::MouseMovedPassive(int x,int y)
 {
 	Controller *ctrl=Controller::GetInstance();
 	if(!ctrl->escPressed) 
 	{
+		glutSetCursor( GLUT_CURSOR_NONE );
 		if(x!=ctrl->windowWidth/2 || y!=ctrl->windowHeight/2)
 		{
 			ctrl->model->MouseMove(-(x-ctrl->windowWidth/2),-(y-ctrl->windowHeight/2));
 			glutWarpPointer( ctrl->windowWidth/2 , ctrl->windowHeight/2 );
 		}
+	}
+	else 
+	{
+		glutSetCursor( GLUT_CURSOR_RIGHT_ARROW );
+		ctrl->mainMenu->MouseMove(x,y);
 	}
 }
 void Controller::KeyPressed (unsigned char key, int x, int y)

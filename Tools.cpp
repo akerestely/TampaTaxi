@@ -148,6 +148,16 @@ int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building*> &building
 	fclose(fo);
 	return 1;
 }
+bool Tools::PointInsideRectangle(Point point, Point rTopRight, Point rBottomRight, Point rBottomLeft, Point rTopLeft)
+{
+	 SF3dVector AM(rTopRight, point), AB(rTopRight, rBottomRight), AD(rTopRight, rTopLeft);
+	 if (((0 <=(AM*AB)) && ((AM*AB) <= (AB*AB))) &&
+		((0 <= (AM*AD)) && ((AM*AD) <= (AD*AD))))
+	 {
+		 return true;
+	 }
+	 return false;
+}
 int Tools::Sign(double x)
 {
 	return x<0?-1:1;
