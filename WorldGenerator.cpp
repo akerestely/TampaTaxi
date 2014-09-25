@@ -135,7 +135,10 @@ void WorldGenerator::UpdateCarVector(Point currentPosition)
 		if(checkDistance.GetMagnitude()>MINIMUM_MAGNITUDE)
 		{
 		double angle=atan2(-v2.z,v2.x)+PI/2;
-		invisiblePoolCar[i]->SetAngle(angle*180/PI+(180*(rand()%2)));
+		if(heightLevel==0)
+			invisiblePoolCar[i]->SetAngle(angle*180/PI+180);
+		else
+			invisiblePoolCar[i]->SetAngle(angle*180/PI);
 		//invisiblePoolCar[i]->SetAngle(resultAngle*180/PI+(180*(rand()%2)));
 		invisiblePoolCar[i]->setCenter(objectCenter);
 		visiblePoolCar.push_back(invisiblePoolCar[i]);
@@ -183,46 +186,6 @@ bool WorldGenerator::CheckVisibles(Point currentPosition)
 	return changed;
 }
 
-std::vector<Collidable*>* WorldGenerator::GetVisibleHumans()
-{
-	return &visiblePoolHuman;
-}
-
-std::vector<Collidable*>* WorldGenerator::GetVisibleCars()
-{
-	return &visiblePoolCar;
-}
-void WorldGenerator::Draw()
-{
-	for(std::vector<Collidable*>::iterator it=visiblePoolHuman.begin();it<visiblePoolHuman.end();++it)
-		((Human*)(*it))->Draw();
-	for(std::vector<Collidable*>::iterator it=visiblePoolCar.begin();it<visiblePoolCar.end();++it)
-		((Car*)(*it))->Draw();
-}
-WorldGenerator::~WorldGenerator()
-{
-	for(int i=0;i<visiblePoolHuman.size();i++)
-	{
-		delete visiblePoolHuman[i];
-	}
-	for(int i=0;i<invisiblePoolHuman.size();i++)
-	{
-		delete invisiblePoolHuman[i];
-	}
-	for(int i=0;i<visiblePoolCar.size();i++)
-	{
-		delete visiblePoolCar[i];
-	}
-	for(int i=0;i<invisiblePoolCar.size();i++)
-	{
-		delete invisiblePoolCar[i];
-	}
-	visiblePoolHuman.clear();
-	invisiblePoolHuman.clear();
-	visiblePoolCar.clear();
-	invisiblePoolCar.clear();
-}
-
 void WorldGenerator::HumanCallTaxi(Player* player)                        
 {
 	for(std::vector<Collidable*>::iterator it=visiblePoolHuman.begin();it<visiblePoolHuman.end();++it)
@@ -256,4 +219,46 @@ void WorldGenerator::HumanCallTaxi(Player* player)
 			((Human*)(*it))->SetCallTaxi(false);
 		}
 	}
+}
+
+std::vector<Collidable*>* WorldGenerator::GetVisibleHumans()
+{
+	return &visiblePoolHuman;
+}
+
+std::vector<Collidable*>* WorldGenerator::GetVisibleCars()
+{
+	return &visiblePoolCar;
+}
+
+void WorldGenerator::Draw()
+{
+	for(std::vector<Collidable*>::iterator it=visiblePoolHuman.begin();it<visiblePoolHuman.end();++it)
+		((Human*)(*it))->Draw();
+	for(std::vector<Collidable*>::iterator it=visiblePoolCar.begin();it<visiblePoolCar.end();++it)
+		((Car*)(*it))->Draw();
+}
+
+WorldGenerator::~WorldGenerator()
+{
+	for(int i=0;i<visiblePoolHuman.size();i++)
+	{
+		delete visiblePoolHuman[i];
+	}
+	for(int i=0;i<invisiblePoolHuman.size();i++)
+	{
+		delete invisiblePoolHuman[i];
+	}
+	for(int i=0;i<visiblePoolCar.size();i++)
+	{
+		delete visiblePoolCar[i];
+	}
+	for(int i=0;i<invisiblePoolCar.size();i++)
+	{
+		delete invisiblePoolCar[i];
+	}
+	visiblePoolHuman.clear();
+	invisiblePoolHuman.clear();
+	visiblePoolCar.clear();
+	invisiblePoolCar.clear();
 }

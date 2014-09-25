@@ -55,6 +55,7 @@ public:
 	
 	GLuint hudText;
 	GLuint hudNumbers;
+	GLuint moneyTex;
 	GLuint nodeTex;
 	GLuint sidewayTex;
 };
