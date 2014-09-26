@@ -30,7 +30,7 @@ void Node::Draw(bool isSidewalk)
 	}
 	
 	glBegin(GL_TRIANGLE_FAN);
-	for(int theta = 0; theta <= 360; theta++)
+	for(int theta = 0; theta <= 360; theta+=18)
 	{
 		glTexCoord2d((cos(theta * PIdiv180) + 1) / 2 * 10,(sin(theta * PIdiv180) + 1) / 2 * 10);
 		glVertex3d(center.x + diameter / 2 * cos(theta * PIdiv180), center.y + dy, center.z + diameter / 2 * sin(theta * PIdiv180));
