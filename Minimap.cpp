@@ -28,10 +28,10 @@ void Minimap::Draw()
 
 	glBegin(GL_QUADS);
 		glColor3f(1, 0, 0);
-		glVertex3d(currentPosition.x - 30, currentPosition.y + 10, currentPosition.z - 30);
-		glVertex3d(currentPosition.x - 30, currentPosition.y + 10, currentPosition.z + 30);
-		glVertex3d(currentPosition.x + 30, currentPosition.y + 10, currentPosition.z + 30);
-		glVertex3d(currentPosition.x + 30, currentPosition.y + 10, currentPosition.z - 30);
+		glVertex3d(currentPosition.x - 30, currentPosition.y , currentPosition.z - 30);
+		glVertex3d(currentPosition.x - 30, currentPosition.y , currentPosition.z + 30);
+		glVertex3d(currentPosition.x + 30, currentPosition.y , currentPosition.z + 30);
+		glVertex3d(currentPosition.x + 30, currentPosition.y , currentPosition.z - 30);
 	glEnd();
 
 	if (checkpoint != NULL)
