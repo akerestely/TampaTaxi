@@ -6,6 +6,7 @@
 class Human : public Movable, public Drawable
 {
 	bool walk;
+	bool hasCollided;
 	GLUquadricObj *quadric;
 	static const double feet_height, feet_radius;
 	static const double leg_height, leg_radius;
