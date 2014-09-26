@@ -479,7 +479,7 @@ Texture::Texture(void)
 	free(buffer);	
 	
 	//buildings textures loading 
-	buffer = esLoadTGA("Texture/Brasov/001.tga", &tWidth, &tHeight);
+	buffer = esLoadTGA("Texture/Brasov/casutaBalcescu2.tga", &tWidth, &tHeight);
 	glGenTextures(1, textures);
 	glBindTexture(GL_TEXTURE_2D, textures[0]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
