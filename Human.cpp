@@ -38,7 +38,7 @@ Human::Human(Point base)
 	
 	random=rand()%6+7;
 	move_speed=random/100.0;
-	anim_speed=random;
+	anim_speed=random/2.;
 
 	random=rand()%2;
 
@@ -111,7 +111,7 @@ void Human::Update()
 {	
 	SF3dVector canWalk(center,limit1);
 	SF3dVector canWalk2(limit2,center);
-    if( (canWalk.GetMagnitude() < 1 || canWalk2.GetMagnitude() < 1))
+    if((canWalk.GetMagnitude() < 2 || canWalk2.GetMagnitude() < 2))
 	{
 		IncrementAngle(180);
 	    WalkForward();
@@ -266,7 +266,7 @@ void Human::Draw()
 
 void Human::SetCallTaxi(bool callTaxi)
 {
-	if(!callTaxi)
+	if(callTaxi==false)
 	{
 		SF3dVector viewTheRoad(limit1,limit2);
 		SetViewDir(viewTheRoad.GetNormalized());
@@ -331,7 +331,7 @@ void Human::DrawLeftLeg(double angleRotation)
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	gluQuadricDrawStyle(quadric, GLU_FILL);
-	gluCylinder(quadric, leg_radius, leg_radius, leg_height, 30, 30);
+	gluCylinder(quadric, leg_radius, leg_radius, leg_height, 5, 1);
 	glPopMatrix();
 
 	//draw left foot
@@ -356,7 +356,7 @@ void Human::DrawLeftLeg(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluQuadricTexture(quadric, GL_TRUE); 
 
-	gluCylinder(quadric, leg_radius, feet_radius, feet_height, 30, 30);
+	gluCylinder(quadric, leg_radius, feet_radius, feet_height, 5, 1);
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(0.51,0.47,0.4);
 	glRotatef(180, 1,0,0);
@@ -390,7 +390,7 @@ void Human::DrawRightLeg(double angleRotation)
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	gluQuadricDrawStyle(quadric, GLU_FILL);
-	gluCylinder(quadric, leg_radius, leg_radius, leg_height, 30, 30);
+	gluCylinder(quadric, leg_radius, leg_radius, leg_height, 5, 1);
 	glPopMatrix();
 
 	//draw right foot
@@ -414,7 +414,7 @@ void Human::DrawRightLeg(double angleRotation)
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	
-	gluCylinder(quadric, leg_radius, feet_radius, feet_height, 30, 30);
+	gluCylinder(quadric, leg_radius, feet_radius, feet_height, 5, 1);
 
 	glDisable(GL_TEXTURE_2D);
 	glColor3f(0.51,0.47,0.4);
@@ -581,7 +581,7 @@ void Human::DrawNeck()
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	gluQuadricDrawStyle(quadric, GLU_FILL);
-	gluCylinder(quadric, neck_radius, neck_radius, neck_height, 30, 30);
+	gluCylinder(quadric, neck_radius, neck_radius, neck_height, 5, 1);
 	glPopMatrix();
 }
 
@@ -603,7 +603,7 @@ void Human::DrawHead()
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	gluQuadricDrawStyle(quadric, GLU_FILL);
-	gluSphere(quadric,head_radius, 30,30); 
+	gluSphere(quadric,head_radius, 5,5); 
 
 	glPopMatrix();
 }
@@ -670,7 +670,7 @@ void Human::DrawLeftArm(double angleRotation)
 	gluQuadricNormals(quadric, GLU_SMOOTH);
 	gluQuadricTexture(quadric, GL_TRUE); 
 	gluQuadricDrawStyle(quadric, GLU_FILL);
-	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 30, 30);
+	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 5, 1);
 
 	glPopMatrix();
 }
@@ -698,7 +698,7 @@ void Human::DrawRightArm(double angleRotation)
 	gluQuadricTexture(quadric, GL_TRUE);
 	gluQuadricDrawStyle(quadric, GLU_FILL);
 
-	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 30, 30);
+	gluCylinder(quadric, arm_radius, arm_radius, arm_height, 5, 1);
 	
 	glPopMatrix();
 }

@@ -219,7 +219,8 @@ void WorldGenerator::HumanCallTaxi(Player* player)
 		}
 		else
 		{
-			((Human*)(*it))->SetCallTaxi(false);
+			if(((Human*)(*it))->GetCallTaxi())
+				((Human*)(*it))->SetCallTaxi(false);
 		}
 	}
 }
