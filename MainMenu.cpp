@@ -119,10 +119,21 @@ void MainMenu::LocationsMenuActions(double dx,double dy)
 	Controller *ctrl = Controller::GetInstance();
 	switch (getRactangleIndex(dx,dy)) 
 	{
-	//case 0:ctrl->escPressed=!ctrl->escPressed;break;
-	//case 1:locationsMenu=false;break;
-	//case 2:locationsMenu=false;break;
-	case 3:locationsMenu=false;break;
+	case 0:
+		model->SetStartingPoint(START_LIVADA);
+		escPressed=false;
+		locationsMenu= false;
+		break;
+	case 1:
+		model->SetStartingPoint(START_MODAROM);
+		escPressed=false;
+		locationsMenu= false;
+		break;
+	case 2:
+		model->SetStartingPoint(START_DRUMUL_VECHI);
+		escPressed=false;
+		locationsMenu= false;
+		break;
 	}
 }
 

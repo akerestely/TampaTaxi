@@ -16,6 +16,7 @@ public:
 	void Draw();
 	Car* GetCar();
 	Point GetPosition();
+	void SetPosition(Point p);
 	Collidable* GetPlayerState();
 	//void SetCheckpoint(Point carCheckpoint, Point humanCheckpoint);
 	//void SetClient(Human* client);

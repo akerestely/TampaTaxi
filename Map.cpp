@@ -10,6 +10,7 @@
 Map::Map(char *nodesFile, char *buildingsFile)
 :Object3d(Point()), topLeftMapPoint(Point(+1000000, 0, +1000000)), bottomRightPoint(Point(-1000000, 0, -100000))
 {
+	currentWayName = NULL;
 	loadNodes(nodesFile);
 	loadBuildings(buildingsFile);
 	initQuadTree();
@@ -18,7 +19,7 @@ Map::Map(char *nodesFile, char *buildingsFile)
 void Map::loadNodes(char *nodesFile)
 {
 	Tools::ReadNodesFromXML(nodesFile, nodes, ways);
-	center = nodes[START_NODE]->GetCenter();
+	center = nodes[START_MODAROM]->GetCenter();
 	for(std::map<long, Node*>::iterator nodesIt = nodes.begin(); nodesIt != nodes.end(); ++nodesIt)
 	{
 		((*nodesIt).second)->Translate(-center.x, 0, -center.z);
@@ -112,6 +113,29 @@ void Map::Draw()
 	{
 		(*buildingIt)->Draw();
 	}
+	
+	Point *checkPoint = miniMap->GetChekcpoint();
+	if (checkPoint)
+	{
+		
+
+		glEnable(GL_BLEND);
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4f(1, 1, 0, 0.5);
+		
+		glPushMatrix();
+		glTranslated(checkPoint->x, checkPoint->y, checkPoint->z);
+		glRotatef(-90, 1,0,0);
+
+		GLUquadricObj* quadric = gluNewQuadric();
+		gluQuadricNormals(quadric, GLU_SMOOTH);
+		gluQuadricTexture(quadric, GL_TRUE); 
+		gluQuadricDrawStyle(quadric, GLU_FILL);
+		gluCylinder(quadric, NODE_DIAMETER, NODE_DIAMETER, 100, 5, 1);
+
+		glPopMatrix();
+		glDisable(GL_BLEND);
+	}
 
 }
 void Map::Update(Point camPosition, double camAngle)
@@ -171,7 +195,7 @@ Minimap* Map::GetMinimap()
 
 void Map::GenerateCheckpoint(double distance, Point &carCheckpoint, Point &humanCheckpoint)
 {
-	long random = 0;
+	/*long random = 0;
 	long nodeId, nodePos;
 	do{
 		random = Tools::LongRand();
@@ -180,7 +204,9 @@ void Map::GenerateCheckpoint(double distance, Point &carCheckpoint, Point &human
 		std::advance(it, nodePos);
 		nodeId = (*it).first;
 	} while (SF3dVector(currentPosition, nodes[nodeId]->GetCenter()).GetMagnitude() < distance);
-	
+	*/
+	long random =73370; //72224;
+	long nodeId = random;
 	std::vector<long> nodeWays = nodes[nodeId]->GetWays();
 	long wayId = nodeWays[random % nodeWays.size()];
 
@@ -249,7 +275,13 @@ void Map::StreetCollision(Node *node, Point M, int &insidePoints)
 		if (portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
 		{
 			if (insidePoints == 0)
+			{
+				if (currentWayName == NULL)
+				{
+					currentWayName = new char[70];
+				}
 				strcpy(currentWayName, adjacentWay->GetName());
+			}
 			insidePoints++;
 			return;
 		}
@@ -257,7 +289,13 @@ void Map::StreetCollision(Node *node, Point M, int &insidePoints)
 		if (portionStreet != NULL && Tools::PointInsideRectangle(M, portionStreet->corners[0], portionStreet->corners[1], portionStreet->corners[2], portionStreet->corners[3]))
 		{
 			if (insidePoints == 0)
+			{
+				if (currentWayName == NULL)
+				{
+					currentWayName = new char[70];
+				}
 				strcpy(currentWayName, adjacentWay->GetName());
+			}
 			insidePoints++;
 			return;
 		}

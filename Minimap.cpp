@@ -15,6 +15,10 @@ void Minimap::UpdateCheckpoint(Point* newCheckPoint)
 {
 	checkpoint = newCheckPoint;
 }
+Point* Minimap::GetChekcpoint()
+{
+	return checkpoint;
+}
 void Minimap::Draw()
 {
 	glPushMatrix();
@@ -38,10 +42,10 @@ void Minimap::Draw()
 	{
 		glBegin(GL_QUADS);
 			glColor3f(1, 1, 0);
-			glVertex3d(checkpoint->x - 10, checkpoint->y, checkpoint->z - 10);
-			glVertex3d(checkpoint->x - 10, checkpoint->y, checkpoint->z + 10);
-			glVertex3d(checkpoint->x + 10, checkpoint->y, checkpoint->z + 10);
-			glVertex3d(checkpoint->x + 10, checkpoint->y, checkpoint->z - 10);
+			glVertex3d(checkpoint->x - 30, checkpoint->y, checkpoint->z - 30);
+			glVertex3d(checkpoint->x - 30, checkpoint->y, checkpoint->z + 30);
+			glVertex3d(checkpoint->x + 30, checkpoint->y, checkpoint->z + 30);
+			glVertex3d(checkpoint->x + 30, checkpoint->y, checkpoint->z - 30);
 		glEnd();
 	}
 

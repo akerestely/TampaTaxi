@@ -32,6 +32,7 @@ public:
 	void MoveLeft();
 	void MoveRight();
 	void MouseMove(double dx,double dy);
+	void SetStartingPoint(long id);
 	Map* GetMap();
 	~Model(void);
 };

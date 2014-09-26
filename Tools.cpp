@@ -1,4 +1,6 @@
 #include "Tools.h"
+#include "fstream"
+
 int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map<long,Way*>& ways)
 {
 	
@@ -170,4 +172,18 @@ long Tools::LongRand()
 	static long next = 0;
 	next = next * 1103515245 + 12345;
 	return ((next / 65536) % 32768);
+}
+
+void Tools::WriteHadoopStreetsFiles(std::vector<char*> wayNames)
+{
+	static int streetsFilesCount = 0;
+	char name[70];
+	sprintf(name, "%s%d%s","hadoopFiles/", streetsFilesCount, ".txt");
+	std::ofstream fout(name,std::ios::app);
+
+	for(std::vector<char*>::iterator it = wayNames.begin(); it != wayNames.end(); ++it)
+		fout<<(*it)<<"\n";
+
+	fout.close();
+	streetsFilesCount++;
 }

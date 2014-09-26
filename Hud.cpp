@@ -260,7 +260,6 @@ void Hud::Update(char* streetName)
 	Car *car=model->GetPlayer()->GetCar();
 	if(model->GetPlayer()->HasClient && !isHudBusy)
 	{
-		setFeeDigits(0.0);
 		showFeeDigits=true;
 		clientKilometersIn=totalKilometers;
 		isHudBusy=true;
@@ -276,7 +275,8 @@ void Hud::Update(char* streetName)
 
 		totalFees+=(clientKilometersOut-clientKilometersIn)*TAX_PER_KM;
 		isHudBusy=false;
-		setFeeDigits(0.);
+		for(int i=0;i<feeDigits.size();i++)
+			feeDigits[i].setDigit(0);
 		showFeeDigits=false;
 		updateTotalFeesDigits();
 

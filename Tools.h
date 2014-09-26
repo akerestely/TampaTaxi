@@ -6,14 +6,6 @@
 #include"Way.h"
 #include "Building.h"
 
-/*Enum used to notate ball position when rolling on the street
-*@param Inside between street markers
-*@param Outside outside street markers
-**/
-enum BallStreetPosition{
-	Inside,
-	Outside,
-};
 class Tools
 {	
 public:
@@ -39,6 +31,8 @@ public:
 	static bool PointInsideCircle(Point point, Point cCenter, double cRadius);
 
 	static long LongRand();
+
+	static void WriteHadoopStreetsFiles(std::vector<char*> wayNames);
 };
 
 struct Rectangl{

@@ -14,7 +14,7 @@ Model::Model(void)
 	car->colliders=worldGenerator->GetVisibleCars();
 
 	player = new Player(car);
-	player->LastVisitedNodeIndex = START_NODE;
+	SetStartingPoint(START_MODAROM);
 }
 
 void Model::Update()
@@ -34,13 +34,15 @@ void Model::Update()
 	skyCube.SetPoz(player->GetPosition());
 	brasovMap->Update(player->GetPosition(), camera->GetRotY());
 
-	if(player->GetPosition() == player->CarCheckpoint && car->GetSpeed() == 0 && player->HasClient == true)
+	if(SF3dVector(player->GetPosition(), player->CarCheckpoint).GetMagnitude() < 20 && car->GetSpeed() > -0.08&& car->GetSpeed()<0.08 && player->HasClient == true)
 	{
 		player->HasClient = false;
 		player->CheckpointGenerated = false;
 		Human *client = player->Client;
 		client->setCenter(player->HumanCheckpoint);
+		client->SetInTaxi(false);
 		player->Client = NULL;
+		brasovMap->GetMinimap()->UpdateCheckpoint(NULL);
 		
 	}
 	worldGenerator->Update(player->GetPosition());
@@ -152,6 +154,13 @@ Player* Model::GetPlayer()
 Map* Model::GetMap()
 {
 	return brasovMap;
+}
+
+void Model::SetStartingPoint(long id)
+{
+	Point position = brasovMap->GetNode(id)->GetCenter();
+	player->SetPosition(position);
+	player->LastVisitedNodeIndex = id;
 }
 
 Model::~Model(void)

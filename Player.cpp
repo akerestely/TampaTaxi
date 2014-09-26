@@ -33,6 +33,12 @@ Point Player::GetPosition()
 		return car->GetCenter();
 	return Point();
 }
+void Player::SetPosition(Point p)
+{
+	if(car != NULL)
+		car->setCenter(p);
+	//human->setCenter(p);
+}
 //void SetCheckpoint(Point carCheckpoint, Point humanCheckpoint)
 //{
 //

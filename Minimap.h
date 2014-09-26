@@ -15,6 +15,7 @@ public:
 	void UpdateCurrentPosition(Point newPosition);
 	void UpdateCheckpoint(Point* newCheckPoint);
 	void Draw() override;
+	Point* GetChekcpoint();
 	~Minimap();
 };
 

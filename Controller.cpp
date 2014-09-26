@@ -5,6 +5,7 @@ Controller::Controller(void)
 	model = new Model;
 	scene = new Scene(model);
 	hud = new Hud(Point(),model);
+	
 	debugWindow = new DebugWindow(model);
 	mainMenu = new MainMenu(model);
 	lastWayName = new char[70];
@@ -149,16 +150,31 @@ void Controller::Timer(int value)
 	}
 	ctrl->model->Update();
 	char *currentWayName = ctrl->model->GetMap()->GetCurrentWayName();
-	if(strcmp(currentWayName, ctrl->lastWayName) == 0 && strcmp(currentWayName, "unknown") != 0)
+	if(currentWayName)
 	{
-		ctrl->waysNames.push_back(currentWayName);
-		strcpy(ctrl->lastWayName, currentWayName);
-		if((ctrl->waysNames).size() > 5)
+		if(strcmp(currentWayName, ctrl->lastWayName) != 0 && strcmp(currentWayName, "unknown") != 0)
 		{
-			int ok  = 1;
+			strcpy(ctrl->lastWayName, currentWayName);
+			char *p = new char[70];
+			strcpy(p, currentWayName);
+			ctrl->waysNames.push_back(p);
+			if((ctrl->waysNames).size() > 5)
+			{
+				Tools::WriteHadoopStreetsFiles(ctrl->waysNames);
+				ctrl->waysNames.clear();
+			}
 		}
+		ctrl->hud->Update(currentWayName);
 	}
-	ctrl->hud->Update(currentWayName);
+	else
+	{
+		if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_MODAROM)
+			ctrl->hud->Update("Modarom");
+		if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_LIVADA)
+			ctrl->hud->Update("Livada Postei");
+		if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_DRUMUL_VECHI)
+			ctrl->hud->Update("Drumul vechi");
+	}
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)

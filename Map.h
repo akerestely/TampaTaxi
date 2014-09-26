@@ -4,7 +4,9 @@
 #include "Minimap.h"
 #include "QuadTree.h"
 
-#define START_NODE 73806
+#define START_MODAROM 73806
+#define START_LIVADA 73370
+#define START_DRUMUL_VECHI 73384
 
 class Map : public Object3d, public Drawable
 {
@@ -24,7 +26,7 @@ private:
 	Point checkPoint;
 	Point currentPosition;
 
-	char currentWayName[40];
+	char *currentWayName;
 	
 	void loadNodes(char* nodesFile);
 	void loadBuildings(char* buildingsFile);
@@ -37,7 +39,6 @@ public:
 	void AddBuildings(std::vector<Building>& building);
 	void Draw() override;
 	void Update(Point camPosition, double camAngle);
-	void SetCheckpoint(Point newCheckpoint);
 	Node* GetNode(long id);
 	Way* GetWay(long id);
 	std::set<long>* GetWaysToDraw();

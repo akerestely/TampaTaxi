@@ -6,13 +6,13 @@
 
 #define CAR_SCALE 0.35
 
-#define ACCELERATION 0.002
+#define ACCELERATION 0.002 //0.002
 #define BREAK -0.004
 #define FS 0.0001
 
-#define ENGINFORCE 50.0
+#define ENGINFORCE 70.0
 #define BREAKING 250.0
-#define REVERSE 8.0
+#define REVERSE 20.0
 #define AIR_DRAG  0.3257
 #define ROLLING_DRAG 20.8
 #define MASS 6000
