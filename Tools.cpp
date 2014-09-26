@@ -1,5 +1,4 @@
 #include "Tools.h"
-
 int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map<long,Way*>& ways)
 {
 	

@@ -7,6 +7,8 @@
 
 class Car: public Movable, public Drawable
 {
+	Point oldLocation;
+
 	double wheelBase;
 	double speed;
 	double steerAngle;
@@ -31,6 +33,7 @@ public:
 	void TurnLeft();
 	void TurnRight();
 	void Update();
+	void Undo();
 	void Draw();
 	~Car();
 };

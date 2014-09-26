@@ -12,7 +12,7 @@ class Model
 {
 	std::vector<Drawable*> sceneObjects;
 	SkyCube skyCube;
-	CCamera camera;
+	CCamera *camera;
 	Map* brasovMap;
 	Car* car;
 	Player* player;

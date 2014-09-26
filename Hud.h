@@ -14,8 +14,10 @@ class Hud :  public Object3d, public Drawable
 	double needleAngle;
 	std::vector<HudDigit> digits;
 	std::vector<HudDigit> feeDigits;
+	std::vector<HudDigit> totalFeesDigits;
 	bool showFeeDigits;
 	double totalKilometers;
+	double totalFees;
 	int clientKilometersIn,clientKilometersOut;
 	bool isHudBusy;
 
@@ -23,6 +25,8 @@ class Hud :  public Object3d, public Drawable
 	char* streetName;
 	void setSpeed(double speed);
 	void setFeeDigits(double value);
+	void updateTotalFeesDigits();
+
 public:
 	Hud(Point center, Model *model);
 
@@ -34,6 +38,7 @@ public:
 	void DrawKilometers();
 	void DrawCurrentStreet();
 	void DrawFeeDigits();
+	void DrawTotalFeesDigits();
 
 	void Update(char* streetName);
 

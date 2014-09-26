@@ -4,7 +4,7 @@
 #include "Minimap.h"
 #include "QuadTree.h"
 
-#define START_NODE 171561
+#define START_NODE 73806
 
 class Map : public Object3d, public Drawable
 {
@@ -30,6 +30,8 @@ private:
 	void loadBuildings(char* buildingsFile);
 	void initQuadTree();
 	void initMinimap();
+
+	void drawGround();
 public:
 	Map(char* nodesFile, char* buildingsFile);
 	void AddBuildings(std::vector<Building>& building);
