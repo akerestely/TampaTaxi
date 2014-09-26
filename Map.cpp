@@ -102,7 +102,7 @@ void Map::Update(Point camPosition, double camAngle)
 	drawableQuadTree->Retrieve(buildingsToDraw, camPosition);
 	drawableQuadTree->Retrieve(nodes, camPosition);
 	
-	int camPositionIndex = drawableQuadTree->GetNodeIndex(camPosition);
+	/*int camPositionIndex = drawableQuadTree->GetNodeIndex(camPosition);
 	visitedQuadrants.insert(camPositionIndex);
 	double angle = camAngle - 90;
 	for (double radius = 50; radius < 500; radius += 150)
@@ -119,7 +119,7 @@ void Map::Update(Point camPosition, double camAngle)
 				visitedQuadrants.insert(nextPositionIndex);
 			}
 		}
-	}
+	}*/
 
 	for(std::set<Node*>::iterator nodesIt = nodes.begin(); nodesIt != nodes.end(); ++nodesIt)
 	{

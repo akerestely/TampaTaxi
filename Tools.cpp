@@ -123,7 +123,7 @@ int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building*> &building
 			strcpy(buffer, strstr(buffer, "='"));
 			sscanf(buffer, "%*c%*c%ld", &id);
 			fgets(buffer,200,fo);
-			while(!strstr(buffer,tag))
+			while(!strstr(buffer,tag) && !strstr(buffer, "</"))
 			{
 				if(strstr(buffer,"<nd"))
 				{
