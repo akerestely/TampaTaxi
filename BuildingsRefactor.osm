@@ -26965,8 +26965,6 @@
     <nd ref='-107814' />
     <nd ref='-119550' />
     <nd ref='-111532' />
-    <tag k='amenity' v='hospital' />
-    <tag k='name' v='Spitalul de Pneumoftiziologie Brașov' />
   </way>
   <way id='-133153'>
     <nd ref='-119429' />
@@ -32717,7 +32715,6 @@
     <nd ref='-129433' />
     <nd ref='-120177' />
     <nd ref='-119444' />
-    <tag k='name' v='Tribune' />
   </way>
   <way id='-132662'>
     <nd ref='-116481' />
@@ -35243,7 +35240,6 @@
     <nd ref='-110268' />
     <nd ref='-124650' />
     <nd ref='-113610' />
-    <tag k='amenity' v='cafe' />
   </way>
   <way id='-132443'>
     <nd ref='-125743' />
@@ -37964,7 +37960,6 @@
     <nd ref='-127841' />
     <nd ref='-103853' />
     <nd ref='-115355' />
-    <tag k='name' v='Cercul Militar' />
   </way>
   <way id='-132213'>
     <nd ref='-111862' />
@@ -38003,10 +37998,6 @@
     <nd ref='-122037' />
     <nd ref='-111753' />
     <nd ref='-122077' />
-    <tag k='addr:housenumber' v='8' />
-    <tag k='addr:street' v='Bulevardul Eroilor' />
-    <tag k='amenity' v='townhall' />
-    <tag k='name' v='Primăria Municipiului Brașov' />
   </way>
   <way id='-132209'>
     <nd ref='-123562' />
@@ -43068,7 +43059,6 @@
     <nd ref='-112499' />
     <nd ref='-107638' />
     <nd ref='-110254' />
-    <tag k='name' v='Modarom' />
   </way>
   <way id='-131768'>
     <nd ref='-125169' />
@@ -43616,7 +43606,6 @@
     <nd ref='-124510' />
     <nd ref='-109404' />
     <nd ref='-105035' />
-    <tag k='name' v='Poarta Ecaterinei' />
   </way>
   <way id='-131719'>
     <nd ref='-117374' />
@@ -44165,8 +44154,6 @@
     <nd ref='-129258' />
     <nd ref='-112190' />
     <nd ref='-112487' />
-    <tag k='amenity' v='library' />
-    <tag k='name' v='Centrul Multicultural &quot;George Barițiu&quot;' />
   </way>
   <way id='-131668'>
     <nd ref='-125626' />
@@ -45658,7 +45645,6 @@
     <nd ref='-127172' />
     <nd ref='-112258' />
     <nd ref='-113430' />
-    <tag k='amenity' v='college' />
   </way>
   <way id='-131537'>
     <nd ref='-110986' />
@@ -47463,8 +47449,6 @@
     <nd ref='-116110' />
     <nd ref='-115589' />
     <nd ref='-112443' />
-    <tag k='amenity' v='post_office' />
-    <tag k='name' v='Oficiul Poștal 1' />
   </way>
   <way id='-131382'>
     <nd ref='-120975' />
@@ -47697,8 +47681,6 @@
     <nd ref='-116023' />
     <nd ref='-129575' />
     <nd ref='-123997' />
-    <tag k='amenity' v='pub' />
-    <tag k='name' v='Times' />
   </way>
   <way id='-131365'>
     <nd ref='-107217' />
@@ -47869,7 +47851,6 @@
     <nd ref='-113188' />
     <nd ref='-113369' />
     <nd ref='-115317' />
-    <tag k='name' v='STAR' />
   </way>
   <way id='-131349'>
     <nd ref='-118044' />
@@ -51913,7 +51894,6 @@
     <nd ref='-109466' />
     <nd ref='-114338' />
     <nd ref='-128869' />
-    <tag k='name' v='Casa Sfatului' />
   </way>
   <way id='-131002'>
     <nd ref='-105991' />
@@ -52525,8 +52505,6 @@
     <nd ref='-115398' />
     <nd ref='-124912' />
     <nd ref='-112131' />
-    <tag k='amenity' v='hospital' />
-    <tag k='name' v='Maternitate' />
   </way>
   <way id='-130948'>
     <nd ref='-107436' />
@@ -53079,8 +53057,6 @@
     <nd ref='-103836' />
     <nd ref='-113973' />
     <nd ref='-111858' />
-    <tag k='amenity' v='college' />
-    <tag k='name' v='Colegiul Național „Unirea” Brașov' />
   </way>
   <way id='-130904'>
     <nd ref='-121149' />
@@ -57543,8 +57519,6 @@
     <nd ref='-123382' />
     <nd ref='-104801' />
     <nd ref='-109854' />
-    <tag k='amenity' v='university' />
-    <tag k='name' v='Universitatea Transilvania din Brasov  Corp K' />
   </way>
   <way id='-130529'>
     <nd ref='-125112' />
@@ -60812,8 +60786,6 @@
     <nd ref='-127136' />
     <nd ref='-121907' />
     <nd ref='-120615' />
-    <tag k='amenity' v='library' />
-    <tag k='name' v='Biblioteca Județeană &quot;Gheorghe Barițiu&quot;' />
   </way>
   <way id='-130257'>
     <nd ref='-126236' />
@@ -63070,8 +63042,6 @@
     <nd ref='-128891' />
     <nd ref='-123443' />
     <nd ref='-115324' />
-    <tag k='amenity' v='university' />
-    <tag k='name' v='Universitatea Transilvania Corp N' />
   </way>
   <way id='-130062'>
     <nd ref='-116735' />
@@ -63634,9 +63604,6 @@
     <nd ref='-114800' />
     <nd ref='-114792' />
     <nd ref='-110189' />
-    <tag k='addr:housenumber' v='7' />
-    <tag k='addr:street' v='Piața Sfatului' />
-    <tag k='name' v='Casa Mandl' />
   </way>
   <way id='-130013'>
     <nd ref='-106537' />
@@ -63880,10 +63847,7 @@
     <nd ref='-117866' />
     <nd ref='-107972' />
     <nd ref='-125440' />
-    <tag k='amenity' v='place_of_worship' />
-    <tag k='name' v='Biserica Neagră' />
-    <tag k='name:en' v='Black Church' />
-  </way>
+ </way>
   <way id='-129993'>
     <nd ref='-117686' />
     <nd ref='-117920' />
@@ -65158,4 +65122,5 @@
     <nd ref='-126348' />
     <nd ref='-119456' />
     <nd ref='-129859' />
-  </
+  </way>
+</osm>
