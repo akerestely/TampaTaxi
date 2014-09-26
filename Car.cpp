@@ -43,6 +43,7 @@ Car::Car(Point center)
 	side = tex.carSide;
 	front = tex.carFront;
 	back = tex.carBack;
+	windshield = tex.carWindshields;
 }
 
 double Car::GetSpeed()
@@ -268,7 +269,11 @@ void Car::Draw()
 		glTexCoord2f(0.725, 0.486); glVertex3f(0.0, 2.36, -3.07);
 		glTexCoord2f(0.820, 0.486); glVertex3f(0.0, 2.36, -4.37);//middle front fender
 		glTexCoord2f(0.820, 0.482); glVertex3f(-0.01, 2.34, -4.37);//middle front fender
-		glTexCoord2f(0.820, 0.231); glVertex3f(-0.1, 1.12, -4.37);
+		glTexCoord2f(0.820, 0.466); glVertex3f(-0.01, 2.26, -4.37);
+		glTexCoord2f(0.787, 0.449); glVertex3f(-0.01, 2.18, -3.91);
+		glTexCoord2f(0.763, 0.401); glVertex3f(-0.01, 1.95, -3.59);
+		glTexCoord2f(0.748, 0.339); glVertex3f(-0.01, 1.65, -3.39);
+		glTexCoord2f(0.738, 0.243); glVertex3f(-0.01, 1.18, -3.25);
 		glTexCoord2f(0.725, 0.150); glVertex3f(0.0, 0.73, -3.07);
 	}
 	glEnd();
@@ -279,7 +284,11 @@ void Car::Draw()
 		glTexCoord2f(0.866, 0.486); glVertex3f(0.0, 2.36, -4.99);//upper right front fender
 		glTexCoord2f(0.820, 0.486); glVertex3f(0.0, 2.36, -4.37);//middle upper front fender
 		glTexCoord2f(0.820, 0.482); glVertex3f(-0.01, 2.34, -4.37);//middle upper front fender
-		glTexCoord2f(0.820, 0.231); glVertex3f(-0.1, 1.12, -4.37);
+		glTexCoord2f(0.820, 0.466); glVertex3f(-0.01, 2.26, -4.37);
+		glTexCoord2f(0.853, 0.438); glVertex3f(-0.01, 2.13, -4.82);
+		glTexCoord2f(0.877, 0.383); glVertex3f(-0.01, 1.86, -5.15);
+		glTexCoord2f(0.893, 0.301); glVertex3f(-0.01, 1.46, -5.37);
+		glTexCoord2f(0.897, 0.234); glVertex3f(-0.01, 1.13, -5.42);
 		glTexCoord2f(0.907, 0.144); glVertex3f(0.0, 0.70, -5.55);
 	}
 	glEnd();
@@ -473,7 +482,11 @@ void Car::Draw()
 		glTexCoord2f(0.725, 0.486); glVertex3f(0.0, 2.36, -3.07);
 		glTexCoord2f(0.820, 0.486); glVertex3f(0.0, 2.36, -4.37);//middle front fender
 		glTexCoord2f(0.820, 0.482); glVertex3f(0.01, 2.34, -4.37);//middle front fender
-		glTexCoord2f(0.820, 0.231); glVertex3f(0.1, 1.12, -4.37);
+		glTexCoord2f(0.820, 0.466); glVertex3f(0.01, 2.26, -4.37);
+		glTexCoord2f(0.787, 0.449); glVertex3f(0.01, 2.18, -3.91);
+		glTexCoord2f(0.763, 0.401); glVertex3f(0.01, 1.95, -3.59);
+		glTexCoord2f(0.748, 0.339); glVertex3f(0.01, 1.65, -3.39);
+		glTexCoord2f(0.738, 0.243); glVertex3f(0.01, 1.18, -3.25);
 		glTexCoord2f(0.725, 0.150); glVertex3f(0.0, 0.73, -3.07);
 	}
 	glEnd();
@@ -484,7 +497,11 @@ void Car::Draw()
 		glTexCoord2f(0.866, 0.486); glVertex3f(0.0, 2.36, -4.99);//upper right front fender
 		glTexCoord2f(0.820, 0.486); glVertex3f(0.0, 2.36, -4.37);//middle upper front fender
 		glTexCoord2f(0.820, 0.482); glVertex3f(0.01, 2.34, -4.37);//middle upper front fender
-		glTexCoord2f(0.820, 0.231); glVertex3f(0.1, 1.12, -4.37);
+		glTexCoord2f(0.820, 0.466); glVertex3f(0.01, 2.26, -4.37);
+		glTexCoord2f(0.853, 0.438); glVertex3f(0.01, 2.13, -4.82);
+		glTexCoord2f(0.877, 0.383); glVertex3f(0.01, 1.86, -5.15);
+		glTexCoord2f(0.893, 0.301); glVertex3f(0.01, 1.46, -5.37);
+		glTexCoord2f(0.897, 0.234); glVertex3f(0.01, 1.13, -5.42);
 		glTexCoord2f(0.907, 0.144); glVertex3f(0.0, 0.70, -5.55);
 	}
 	glEnd();
@@ -661,10 +678,10 @@ void Car::Draw()
 		glTexCoord2f(0.905, 0.690); glVertex3f(6.15, 3.19, 6.44);
 
 
-		glTexCoord2f(0.118, 0.729); glVertex3f(0.43, 3.44, 6.24);//trunk door
-		glTexCoord2f(0.187, 0.930); glVertex3f(0.70, 4.41, 5.34);
-		glTexCoord2f(0.809, 0.930); glVertex3f(5.90, 4.41, 5.34);
-		glTexCoord2f(0.890, 0.724); glVertex3f(6.17, 3.44, 6.24);//trunk door
+		//glTexCoord2f(0.118, 0.729); glVertex3f(0.43, 3.44, 6.24);//trunk door
+		//glTexCoord2f(0.187, 0.930); glVertex3f(0.70, 4.41, 5.34);
+		//glTexCoord2f(0.809, 0.930); glVertex3f(5.90, 4.41, 5.34);
+		//glTexCoord2f(0.890, 0.724); glVertex3f(6.17, 3.44, 6.24);//trunk door
 
 		//	glVertex3f(0.60, 3.97, 5.80);
 		//	glVertex3f(0.70, 4.41, 5.34);
@@ -677,7 +694,28 @@ void Car::Draw()
 		glTexCoord2f(0.809, 0.930); glVertex3f(5.90, 4.41, 5.34);
 	}
 	glEnd();
-		
+
+	//rear windshield
+	glBindTexture(GL_TEXTURE_2D, windshield);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2f(0.894, 0.601);  glVertex3f(0.43, 3.44, 6.24);//trunk door
+		glTexCoord2f(0.783, 0.974); glVertex3f(0.70, 4.41, 5.34);
+		glTexCoord2f(0.254, 0.974); glVertex3f(5.90, 4.41, 5.34);
+		glTexCoord2f(0.108, 0.601); glVertex3f(6.17, 3.44, 6.24);//trunk door
+	}
+	glEnd();
+
+	//front windshield
+	glBindTexture(GL_TEXTURE_2D, windshield);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2f(0.804, 0.431);  glVertex3f(0.72, 4.51, -0.83);//windscreen
+		glTexCoord2f(0.961, 0.044); glVertex3f(0.43, 3.34, -3.11);//bonet
+		glTexCoord2f(0.022, 0.044); glVertex3f(6.17, 3.34, -3.11);//bonet
+		glTexCoord2f(0.179, 0.431);  glVertex3f(5.88, 4.51, -0.83);//windscreen
+	}
+	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, front);
 	glBegin(GL_QUADS);
@@ -687,11 +725,7 @@ void Car::Draw()
 		//	glVertex3f(6.0, 4.07, -1.81);
 		//	glVertex3f(5.88, 4.51, -0.83);//windscreen
 
-		glTexCoord2f(0.763, 0.944); glVertex3f(0.72, 4.51, -0.83);//windscreen
-		glTexCoord2f(0.848, 0.738); glVertex3f(0.43, 3.34, -3.11);//bonet
-		glTexCoord2f(0.142, 0.738); glVertex3f(6.17, 3.34, -3.11);//bonet
-		glTexCoord2f(0.228, 0.944); glVertex3f(5.88, 4.51, -0.83);//windscreen
-
+	
 		glTexCoord2f(0.878, 0.728); glVertex3f(0.43, 3.34, -3.11);//bonet
 		glTexCoord2f(0.853, 0.673); glVertex3f(0.5, 3.25, -4.07);
 		glTexCoord2f(0.137, 0.673); glVertex3f(6.1, 3.25, -4.07);
