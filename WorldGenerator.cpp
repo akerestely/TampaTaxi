@@ -1,5 +1,8 @@
 #include "WorldGenerator.h"
 #include<math.h>
+
+#define MINIMUM_MAGNITUDE 150
+#define OBJECT_DENSITY 15
 #define MAX_DISTANCE 50
 #define MIN_DISTANCE 5
 

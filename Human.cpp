@@ -82,9 +82,11 @@ bool Human::WalkForward()
 		if(MoveWith(-move_speed))
 		{
 			walk=true;
+			hasCollided =false;
 			return true;
 		}
 	}
+	hasCollided = true;
 	return false;
 }
 
@@ -95,9 +97,11 @@ bool Human::WalkBackward()
 		if(MoveWith(move_speed))
 		{
 			walk=true;
+			hasCollided=false;
 			return true;
 		}
 	}
+	hasCollided=true;
 	return false;
 }
 
@@ -111,65 +115,58 @@ void Human::Update()
 {	
 	SF3dVector canWalk(center,limit1);
 	SF3dVector canWalk2(limit2,center);
-    if((canWalk.GetMagnitude() < 2 || canWalk2.GetMagnitude() < 2))
+	
+    if((canWalk.GetMagnitude() < 2 || canWalk2.GetMagnitude() < 2 ))
 	{
 		IncrementAngle(180);
-	    WalkForward();
 	}
-	if(WalkForward()==false && callTaxi==false){
+	WalkForward();
+	if( hasCollided == true && callTaxi==false && !right_change_direction && !left_change_direction ){
 		if(position_on_sidewalk==0)
-			{
-				int random=rand()%2;
-				if(random==0)
-				{
-					right_change_direction=true;
-					IncrementAngle(90);
-					position_on_sidewalk+=1;
-					return;
-				}
-				if(random==1)
-				{
-					left_change_direction=true;
-					IncrementAngle(-90);
-					position_on_sidewalk-=1;
-					return;
-				}
-			}
-			if(position_on_sidewalk==1)
-			{
-				left_change_direction=true;
-				IncrementAngle(-90);
-				position_on_sidewalk-=1;
-				return;
-			}
-			if(position_on_sidewalk==-1)
+		{
+			int random=rand()%2;
+			if(random==0)
 			{
 				right_change_direction=true;
-				IncrementAngle(90);
-				position_on_sidewalk+=1;
-				return;
+				IncrementAngle(-90);
 			}
+			if(random==1)
+			{
+				left_change_direction=true;
+				IncrementAngle(90);
+			}
+		}
+		else if(position_on_sidewalk==1)
+		{
+			left_change_direction=true;
+			IncrementAngle(90);
+		}
+		else if(position_on_sidewalk==-1)
+		{
+			right_change_direction=true;
+			IncrementAngle(-90);
+		}
 	}
 	if(right_change_direction==true || left_change_direction==true)
 	{
 		collision_speed+=move_speed;
-		if(collision_speed <= body_width)
-			WalkForward();
-		else
+		if(collision_speed > body_width)
 		{
 			if(right_change_direction==true)
+			{
+				IncrementAngle(90);
+				collision_speed=0;
+				right_change_direction=false;
+				left_change_direction=false;
+				position_on_sidewalk++;
+			}
+			else if(left_change_direction==true)
 			{
 				IncrementAngle(-90);
 				collision_speed=0;
 				right_change_direction=false;
-				return;
-			}
-			if(left_change_direction==true)
-			{
-				IncrementAngle(+90);
-				collision_speed=0;
 				left_change_direction=false;
-				return;
+				position_on_sidewalk--;
 			}
 		}
 	}
