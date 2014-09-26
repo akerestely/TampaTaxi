@@ -1,8 +1,11 @@
+#include "Texture.h"
 #include "Map.h"
 #include "Tools.h"
 
 #include "cmath"
 #include "glut.h"
+
+#define SIZE_OF_GROUND 10000
 
 Map::Map(char *nodesFile, char *buildingsFile)
 :Object3d(Point()), topLeftMapPoint(Point(+1000000, 0, +1000000)), bottomRightPoint(Point(-1000000, 0, -100000))
@@ -76,8 +79,31 @@ void Map::initMinimap()
 
 	miniMap = new Minimap(ways, minimapCenter);
 }
+void Map::drawGround()
+{
+	//Ground
+	glEnable(GL_TEXTURE_2D);
+	glPushMatrix();
+	glScalef(SIZE_OF_GROUND,1,SIZE_OF_GROUND);
+		glMatrixMode(GL_TEXTURE);
+		glPushMatrix();
+		glScaled(SIZE_OF_GROUND/2,SIZE_OF_GROUND/2,1);
+		glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().skyCube[5]);
+			glBegin(GL_QUADS);
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( -1.0f, -0.10f, -1.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( -1.0f, -0.1f, +1.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( +1.0f, -0.10f, +1.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( +1.0f, -0.10f, -1.0f);
+			glEnd();
+		glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+}
 void Map::Draw()
 {
+	glEnable(GL_BLEND);
+	drawGround();
 	Point first, second;
 
 	for(std::set<long>::iterator waysIt = waysToDraw.begin(); waysIt != waysToDraw.end(); ++waysIt)

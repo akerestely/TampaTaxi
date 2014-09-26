@@ -30,6 +30,8 @@ private:
 	void loadBuildings(char* buildingsFile);
 	void initQuadTree();
 	void initMinimap();
+
+	void drawGround();
 public:
 	Map(char* nodesFile, char* buildingsFile);
 	void AddBuildings(std::vector<Building>& building);
