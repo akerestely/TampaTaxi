@@ -3,7 +3,10 @@
 #include<cmath>
 #define GAUGE_RADIUS 0.6
 #define STREET_NAME_POSITION Point(0.0,-0.95,0.0)
-#define TAX_PER_KM 0.50
+#define TAX_PER_KM 1.35
+#define	FEE_DIGIT_LIMIT 999
+#define TOTAL_FEE_DIGIT_LIMIT 99999
+#define KILOMETERS_LIMIT 9999
 Hud::Hud(Point center,Model* model)
 :Object3d(center),model(model)
 {	
@@ -13,13 +16,21 @@ Hud::Hud(Point center,Model* model)
 	digits.push_back(HudDigit(Point(GAUGE_RADIUS/10,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 	digits.push_back(HudDigit(Point(-GAUGE_RADIUS/10,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 	digits.push_back(HudDigit(Point(-3*GAUGE_RADIUS/10,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
+	
 	feeDigits.push_back(HudDigit(Point(-4.76,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 	feeDigits.push_back(HudDigit(Point(-4.88,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 	feeDigits.push_back(HudDigit(Point(-5,-GAUGE_RADIUS/1.35,0.0),0,GAUGE_RADIUS));
 
+	totalFeesDigits.push_back(HudDigit(Point(4*GAUGE_RADIUS/10,GAUGE_RADIUS*1.1,0.0),0,GAUGE_RADIUS));
+	totalFeesDigits.push_back(HudDigit(Point(2*GAUGE_RADIUS/10,GAUGE_RADIUS*1.1,0.0),0,GAUGE_RADIUS));
+	totalFeesDigits.push_back(HudDigit(Point(0.0,GAUGE_RADIUS*1.1,0.0),0,GAUGE_RADIUS));
+	totalFeesDigits.push_back(HudDigit(Point(-2*GAUGE_RADIUS/10,GAUGE_RADIUS*1.1,0.0),0,GAUGE_RADIUS));
+	totalFeesDigits.push_back(HudDigit(Point(-4*GAUGE_RADIUS/10,GAUGE_RADIUS*1.1,0.0),0,GAUGE_RADIUS));
+
 	totalKilometers=0;	
 	clientKilometersIn=0;
 	clientKilometersOut=0;
+	totalFees=0;
 	showFeeDigits=false;
 	isHudBusy=false;
 	streetName=new char[70];
@@ -31,6 +42,12 @@ void Hud::setSpeed(double speed)
 	{
 		needleAngle=speed/MAX_SPEED*270;
 		totalKilometers+=speed/100;
+		if(totalKilometers>KILOMETERS_LIMIT)
+		{
+			totalKilometers=0;
+			for(int i=0;i<digits.size();i++)
+				digits[i].setDigit(0);
+		}
 		int aux=(int)totalKilometers;
 		int digitPos=-1;
 		while(aux!=0)
@@ -46,13 +63,44 @@ void Hud::setSpeed(double speed)
 
 void Hud::setFeeDigits(double value)
 {
-	int aux=(int)value;
+	if(value>FEE_DIGIT_LIMIT)
+	{
+		value=0;
+		for(int i=0;i<feeDigits.size();i++)
+			feeDigits[i].setDigit(0);
+		clientKilometersIn=clientKilometersOut;
+	}
+	else
+	{
+		int aux=(int)value;
+		int digitPos=-1;
+		while(aux!=0)
+		{
+			feeDigits[++digitPos].setDigit(aux%10);
+			aux=aux/10;	
+		}
+	}
+}
+
+void Hud::updateTotalFeesDigits()
+{
+	if(totalFees>TOTAL_FEE_DIGIT_LIMIT)
+	{
+		totalFees=0;
+		for(int i=0;i<totalFeesDigits.size();i++)
+			totalFeesDigits[i].setDigit(0);
+	}
+	else
+	{
+	int aux=(int)totalFees;
 	int digitPos=-1;
 	while(aux!=0)
 	{
-		feeDigits[++digitPos].setDigit(aux);
-		aux=aux/10;	
+		totalFeesDigits[++digitPos].setDigit(aux%10);
+		aux=aux/10;
 	}
+	}
+
 }
 
 void Hud::Draw()
@@ -69,6 +117,7 @@ void Hud::Draw()
 	DrawCurrentStreet();
 	for(int i=0;i<digits.size();i++)
 		digits.at(i).Draw();
+	DrawTotalFeesDigits();
 	if(showFeeDigits)
 		DrawFeeDigits();
 	DrawNeedle(GAUGE_RADIUS);
@@ -146,7 +195,13 @@ void Hud::DrawCurrentStreet()
 	for (c=streetName; *c != '\0'; c++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
 	}
-
+	char* TotalFees;
+		TotalFees=new char[10];
+		strcpy(TotalFees,"TotalFees");
+		glRasterPos3f(0.70,-0.4,0.);
+		for (c=TotalFees; *c != '\0'; c++) {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+		}
 	if(isHudBusy)
 	{
 		char* TaxiFee;
@@ -157,58 +212,82 @@ void Hud::DrawCurrentStreet()
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
 		}
 	}
-		glPopMatrix();
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void Hud::DrawFeeDigits()
+{
+	for(int i=0;i<feeDigits.size();i++)
+		feeDigits[i].Draw();
+	glPushMatrix();
+	glTranslatef(-4.64,-GAUGE_RADIUS/1.35,0.0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().moneyTex);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0);glVertex3f(-GAUGE_RADIUS/10,-GAUGE_RADIUS/10,0.0);
+	glTexCoord2d(1.0,0.0);glVertex3f(GAUGE_RADIUS/10,-GAUGE_RADIUS/10,0.);
+	glTexCoord2d(1.0,1.0);glVertex3f(GAUGE_RADIUS/10,GAUGE_RADIUS/10,0.);
+	glTexCoord2d(0.0,1.0);glVertex3f(-GAUGE_RADIUS/10,GAUGE_RADIUS/10,0.);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+
+}
+
+void Hud::DrawTotalFeesDigits()
+{
+	for(int i=0;i<totalFeesDigits.size();i++)
+		totalFeesDigits[i].Draw();
+	glPushMatrix();
+	glTranslatef(6*GAUGE_RADIUS/10,GAUGE_RADIUS*1.1,0.0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().moneyTex);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0);glVertex3f(-GAUGE_RADIUS/10,-GAUGE_RADIUS/10,0.0);
+	glTexCoord2d(1.0,0.0);glVertex3f(GAUGE_RADIUS/10,-GAUGE_RADIUS/10,0.);
+	glTexCoord2d(1.0,1.0);glVertex3f(GAUGE_RADIUS/10,GAUGE_RADIUS/10,0.);
+	glTexCoord2d(0.0,1.0);glVertex3f(-GAUGE_RADIUS/10,GAUGE_RADIUS/10,0.);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+void Hud::Update(char* streetName)
+{
+	strcpy(this->streetName,streetName);
+	Car *car=model->GetPlayer()->GetCar();
+	if(model->GetPlayer()->HasClient && !isHudBusy)
+	{
+		setFeeDigits(0.0);
+		showFeeDigits=true;
+		clientKilometersIn=totalKilometers;
+		isHudBusy=true;
+	}
+	if(isHudBusy)
+	{
+		clientKilometersOut=totalKilometers;
+		setFeeDigits((clientKilometersOut-clientKilometersIn)*TAX_PER_KM);	
 	}
 
-	void Hud::DrawFeeDigits()
+	if(isHudBusy && !model->GetPlayer()->HasClient)
 	{
-		for(int i=0;i<feeDigits.size();i++)
-			feeDigits[i].Draw();
-		glPushMatrix();
-		glTranslatef(-4.64,-GAUGE_RADIUS/1.35,0.0);
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D,Texture::GetInstance().moneyTex);
-		glBegin(GL_QUADS);
-		glTexCoord2d(0.0, 0.0);glVertex3f(-GAUGE_RADIUS/10,-GAUGE_RADIUS/10,0.0);
-		glTexCoord2d(1.0,0.0);glVertex3f(GAUGE_RADIUS/10,-GAUGE_RADIUS/10,0.);
-		glTexCoord2d(1.0,1.0);glVertex3f(GAUGE_RADIUS/10,GAUGE_RADIUS/10,0.);
-		glTexCoord2d(0.0,1.0);glVertex3f(-GAUGE_RADIUS/10,GAUGE_RADIUS/10,0.);
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
-		glPopMatrix();
+
+		totalFees+=(clientKilometersOut-clientKilometersIn)*TAX_PER_KM;
+		isHudBusy=false;
+		setFeeDigits(0.);
+		showFeeDigits=false;
+		updateTotalFeesDigits();
 
 	}
-	void Hud::Update(char* streetName)
-	{
-		strcpy(this->streetName,streetName);
-		Car *car=model->GetPlayer()->GetCar();
-		if(model->GetPlayer()->HasClient && !isHudBusy)
-		{
-			setFeeDigits(0.0);
-			showFeeDigits=true;
-			clientKilometersIn=totalKilometers;
-			isHudBusy=true;
-		}
-		if(isHudBusy)
-		{
-			clientKilometersOut=totalKilometers;
-			setFeeDigits((clientKilometersOut-clientKilometersIn)*TAX_PER_KM);
-		}
 
-		if(isHudBusy && !model->GetPlayer()->HasClient)
-		{
-			isHudBusy=false;
-		}
-		
-		if(car != NULL)
-		{
-			setSpeed(car->GetSpeed());
-		}
-	}
-	Hud::~Hud(void)
+	if(car != NULL)
 	{
-		delete[] streetName;
+		setSpeed(car->GetSpeed());
 	}
+}
+Hud::~Hud(void)
+{
+	delete[] streetName;
+}
