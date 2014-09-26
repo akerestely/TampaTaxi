@@ -56,6 +56,7 @@ public:
 	GLuint carSide;
 	GLuint carFront;
 	GLuint carBack;
+	GLuint carWindshields;
 	
 	GLuint hudText;
 	GLuint hudNumbers;

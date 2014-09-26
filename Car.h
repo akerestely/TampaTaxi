@@ -21,6 +21,7 @@ class Car: public Movable, public Drawable
 	unsigned int side;
 	unsigned int front;
 	unsigned int back;
+	unsigned int windshield;
 	
 	void turn(double steerAngle);
 	void computeSteerAngle(int direction);
