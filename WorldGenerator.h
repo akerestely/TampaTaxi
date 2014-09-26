@@ -11,6 +11,10 @@
 #include<vector>
 #include<ctime>
 
+
+#define MINIMUM_MAGNITUDE 150
+#define OBJECT_DENSITY 15
+
 class WorldGenerator :
 	public Drawable
 {

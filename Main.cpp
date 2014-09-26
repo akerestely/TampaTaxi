@@ -40,14 +40,14 @@ int main(int argc, char** argv)
 		glutInitWindowSize(1024, 768);   // Set the window's initial width & height
 		glutInitWindowPosition(250, 50); // Position the window's initial top-left corner
 		glutCreateWindow("Taxi Mania");          // Create window with the given title
-
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		init();
-		glutFullScreen();
+		//glutFullScreen();
 
 		glutMainLoop();                 // Enter the infinite event-processing loop
 	}
 	catch(char* message)
-	{
+{	
 		std::cout<<message<<"\n";
 	}
 	catch(...)
