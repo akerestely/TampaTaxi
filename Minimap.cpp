@@ -18,16 +18,20 @@ void Minimap::UpdateCheckpoint(Point* newCheckPoint)
 void Minimap::Draw()
 {
 	glPushMatrix();
+	glLoadIdentity();
 	
-	glTranslated(center.x, center.y, center.z);
+	glTranslated(0, -20, -120);
+	glRotated(90,1,0,0);
+	glRotated(45,0,1,0);
 	glScaled(0.01, 1, 0.01);
+	glTranslated(-center.x, 0, -center.z);
 
 	glBegin(GL_QUADS);
 		glColor3f(1, 0, 0);
-		glVertex3d(currentPosition.x - 10, currentPosition.y, currentPosition.z - 10);
-		glVertex3d(currentPosition.x - 10, currentPosition.y, currentPosition.z + 10);
-		glVertex3d(currentPosition.x + 10, currentPosition.y, currentPosition.z + 10);
-		glVertex3d(currentPosition.x + 10, currentPosition.y, currentPosition.z - 10);
+		glVertex3d(currentPosition.x - 30, currentPosition.y + 10, currentPosition.z - 30);
+		glVertex3d(currentPosition.x - 30, currentPosition.y + 10, currentPosition.z + 30);
+		glVertex3d(currentPosition.x + 30, currentPosition.y + 10, currentPosition.z + 30);
+		glVertex3d(currentPosition.x + 30, currentPosition.y + 10, currentPosition.z - 30);
 	glEnd();
 
 	if (checkpoint != NULL)

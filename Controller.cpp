@@ -6,8 +6,7 @@ Controller::Controller(void)
 	scene = new Scene(model);
 	hud = new Hud(Point(),model);
 	debugWindow = new DebugWindow(model);
-	mainMenu = new MainMenu();
-	escPressed=true;
+	mainMenu = new MainMenu(model);
 	lastWayName = new char[70];
 }
 
@@ -19,17 +18,22 @@ void Controller::RenderDisplay()
 	
 	Controller *ctrl=Controller::GetInstance();
 	glLoadIdentity();
-	ctrl->scene->Render();
-	glLoadIdentity();
-	
-	ctrl->hud->Draw();
-	if(ctrl->escPressed) 
-	{
-		ctrl->mainMenu->Draw();
+	if(!ctrl->mainMenu->GetMapMenu()) {
+		ctrl->scene->Render();
+		glLoadIdentity();
+		
+		ctrl->hud->Draw();
+		if(ctrl->mainMenu->GetEscPressed()) 
+		{
+			ctrl->mainMenu->Draw();
+		}
+		if(ctrl->debugWindowPressed) 
+		{
+			ctrl->debugWindow->Draw();
+		}
 	}
-	if(ctrl->debugWindowPressed) 
-	{
-		ctrl->debugWindow->Draw();
+	else {
+		ctrl->model->GetMap()->GetMinimap()->Draw();
 	}
 	glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
 }
@@ -37,7 +41,7 @@ void Controller::RenderDisplay()
 void Controller::MouseClicked(int button, int state, int x, int y)
 {
 	Controller *ctrl=Controller::GetInstance();
-	if(ctrl->escPressed) 
+	if(ctrl->mainMenu->GetEscPressed()) 
 	{
 		ctrl->mainMenu->MouseClicked(button,state,x,y);
 	}
@@ -45,7 +49,7 @@ void Controller::MouseClicked(int button, int state, int x, int y)
 void Controller::MouseMovedPassive(int x,int y)
 {
 	Controller *ctrl=Controller::GetInstance();
-	if(!ctrl->escPressed) 
+	if(!ctrl->mainMenu->GetEscPressed()) 
 	{
 		glutSetCursor( GLUT_CURSOR_NONE );
 		if(x!=ctrl->windowWidth/2 || y!=ctrl->windowHeight/2)
@@ -67,7 +71,7 @@ void Controller::KeyPressed (unsigned char key, int x, int y)
 	{
 	case 'q':
 	case 'Q':exit(1);
-	case 27:ctrl->escPressed=!ctrl->escPressed;break;
+	case 27:ctrl->mainMenu->EscPressed();break;
 	case 'w':ctrl->up=true;break;
 	case 's':ctrl->down=true;break;
 	case 'a':ctrl->left=true; break;
@@ -124,7 +128,7 @@ void Controller::Timer(int value)
 	glutTimerFunc(25, Timer, 0);
 	glutPostRedisplay();
 	Controller *ctrl=Controller::GetInstance();
-	if(!ctrl->escPressed) 
+	if(!ctrl->mainMenu->GetEscPressed()) 
 	{
 		if (ctrl->left)
 			ctrl->model->MoveLeft();		

@@ -2,7 +2,8 @@
 #include "Tools.h"
 #include "Controller.h"
 
-MainMenu::MainMenu(void)
+MainMenu::MainMenu(Model *model)
+	:model(model)
 {
 	menuPoints.push_back( Point(0.0,0.7,0));
 	menuPoints.push_back( Point(0.,0.4,0));
@@ -25,6 +26,8 @@ MainMenu::MainMenu(void)
 	h=0.08;
 	locationsMenu=false;
 	controlsMenu=false;
+	mapMenu=false;
+	escPressed=true;
 }
 void MainMenu::MouseMove(double dx,double dy)
 {
@@ -58,7 +61,7 @@ void MainMenu::MouseClicked(int button,int state,double dx,double dy)
 	
 	
 	if(state==1) {
-		if(!controlsMenu && !locationsMenu ) 
+		if(!controlsMenu && !locationsMenu && !mapMenu) 
 			MainMenuActions(dx,dy);
 		else 
 		{
@@ -69,6 +72,10 @@ void MainMenu::MouseClicked(int button,int state,double dx,double dy)
 			if(locationsMenu) 
 			{
 				LocationsMenuActions(dx,dy);
+			}
+			if(mapMenu)
+			{
+				MapMenuActions(dx,dy);
 			}
 		}
 	
@@ -82,16 +89,26 @@ void MainMenu::MainMenuActions(double dx,double dy)
 	{
 	case 0:locationsMenu=true;break;
 	case 1:controlsMenu=true;break;
+	case 2:mapMenu = true;break;
 	case 3:exit(1);break;
 	}
 }
 
+void MainMenu::MapMenuActions(double dx,double dy) 
+{
+	Controller *ctrl = Controller::GetInstance();
+	switch (getRactangleIndex(dx,dy)) 
+	{
+	
+	case 3:mapMenu=false;break;
+	}
+}
 void MainMenu::ControlsMenuActions(double dx,double dy) 
 {
 	Controller *ctrl = Controller::GetInstance();
 	switch (getRactangleIndex(dx,dy)) 
 	{
-	case 0:ctrl->escPressed=!ctrl->escPressed;break;
+	case 0:escPressed=!escPressed;break;
 	case 1:controlsMenu=false;break;
 	case 2:controlsMenu=false;break;
 	case 3:controlsMenu=false;break;
@@ -228,6 +245,27 @@ void MainMenu::DrawLocationsMenu()
 	glDisable(GL_TEXTURE_2D); 
 }
 
+void MainMenu::DrawMapMenu() 
+{
+	glLoadIdentity();
+	model->GetMap()->GetMinimap()->Draw();
+	
+	Texture tex=Texture::GetInstance();
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tex.secondMenu[0]);
+	
+	if(getRactangleIndex(xMouse,yMouse)==3){
+		glBindTexture(GL_TEXTURE_2D, tex.secondMenu[1]);
+		DrawQuad(menuPoints[3],w,h);
+	}
+	else
+	{
+		glBindTexture(GL_TEXTURE_2D, tex.secondMenu[0]);
+		DrawQuad(menuPoints[3],w,h);
+	}
+	
+	glDisable(GL_TEXTURE_2D); 
+}
 void MainMenu::DrawControlsMenu() 
 {
 	glColor3f(1,1,1);
@@ -254,7 +292,7 @@ void MainMenu::DrawControlsMenu()
 
 void MainMenu::Draw() {
 	DrawBackground();
-	if(!controlsMenu && !locationsMenu) {
+	if(!controlsMenu && !locationsMenu && !mapMenu) {
 		DrawMainMenu();
 	}
 	
@@ -266,6 +304,36 @@ void MainMenu::Draw() {
 	{
 		DrawLocationsMenu();
 	}
+	if(mapMenu) 
+	{
+		DrawMapMenu();
+	}
+}
+void MainMenu::EscPressed() 
+{
+	if(locationsMenu) {
+		locationsMenu=false;
+		return;
+	}
+	if(controlsMenu)
+	{
+		controlsMenu=false;
+		return;
+	}
+	if(mapMenu)
+	{
+		mapMenu=false;
+		return;
+	}
+	escPressed= !escPressed;
+}
+bool MainMenu::GetEscPressed() 
+{
+	return this->escPressed;
+}
+bool MainMenu::GetMapMenu() 
+{
+	return this->mapMenu;
 }
 MainMenu::~MainMenu(void)
 {

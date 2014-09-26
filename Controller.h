@@ -14,14 +14,14 @@ class Controller
 	bool up,down,left,right,climbUp,climbDown,rotLeft,rotRight,jump;
 	int windowWidth,windowHeight;
 	Model *model;
-
+	
 	Scene* scene;
 	Hud* hud;
 	DebugWindow* debugWindow;
 	MainMenu* mainMenu;
 	Controller(void);
 public:
-	bool escPressed;
+	
 	static Controller* GetInstance()
 	{
 		static Controller instance;

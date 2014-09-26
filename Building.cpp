@@ -27,11 +27,6 @@ Building::Building(std::vector<Point> buildingPoints, int constRand)
 
 void Building::Draw() 
 {
-	glBegin(GL_POLYGON);
-	for(std::vector<Point>::iterator it=buildingPoints.begin();it!=buildingPoints.end();++it) 
-		glVertex3f( (*it).x, height, (*it).z);
-	glEnd();
-	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
