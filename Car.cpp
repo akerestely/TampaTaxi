@@ -4,7 +4,7 @@
 #include "Car.h"
 #include "Tools.h"
 
-#define CAR_SCALE 0.35
+#define CAR_SCALE 0.25
 
 #define ACCELERATION 0.002 //0.002
 #define BREAK -0.004
@@ -56,9 +56,12 @@ void Car::Accelerate()
 {
 	fTraction = viewDir * ENGINFORCE;
 }
-void Car::Break()
+void Car::Break(bool handBreak)
 {
-	fTraction = viewDir * -BREAKING;
+	if (handBreak)
+		fTraction = viewDir * -BREAKING * 1.3;
+	else
+		fTraction = viewDir * -BREAKING;
 }
 void Car::Reverse()
 {

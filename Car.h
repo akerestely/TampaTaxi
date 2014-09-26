@@ -28,7 +28,7 @@ public:
 	Car(Point center);
 	double GetSpeed();
 	void Accelerate();
-	void Break();
+	void Break(bool handbreak=false);
 	void Reverse();
 	void TurnLeft();
 	void TurnRight();

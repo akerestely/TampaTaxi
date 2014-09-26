@@ -31,6 +31,7 @@ public:
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
+	void Jump();
 	void MouseMove(double dx,double dy);
 	void SetStartingPoint(long id);
 	Map* GetMap();

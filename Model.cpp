@@ -4,7 +4,7 @@
 
 Model::Model(void)
 {
-	camera = new CCamera(20.0);
+	camera = new CCamera(10.0);
 
 	brasovMap = new Map("StreetsRefactor.osm", "BuildingsRefactor.osm");
 	worldGenerator = new WorldGenerator(brasovMap);
@@ -22,9 +22,8 @@ void Model::Update()
 	sceneObjects.clear();
 	sceneObjects.push_back(&skyCube);
 	sceneObjects.push_back(car);
-	sceneObjects.push_back(brasovMap);
 	sceneObjects.push_back(worldGenerator);
-	
+	sceneObjects.push_back(brasovMap);
 	camera->SetPosition(player->GetPosition());
 
 	car->Update();
@@ -34,7 +33,7 @@ void Model::Update()
 	skyCube.SetPoz(player->GetPosition());
 	brasovMap->Update(player->GetPosition(), camera->GetRotY());
 
-	if(SF3dVector(player->GetPosition(), player->CarCheckpoint).GetMagnitude() < 20 && car->GetSpeed() > -0.08&& car->GetSpeed()<0.08 && player->HasClient == true)
+	if(SF3dVector(player->GetPosition(), player->CarCheckpoint).GetMagnitude() < 10 && car->GetSpeed() > -0.08&& car->GetSpeed()<0.08 && player->HasClient == true)
 	{
 		player->HasClient = false;
 		player->CheckpointGenerated = false;
@@ -50,7 +49,7 @@ void Model::Update()
 	if (player->HasClient && player->CheckpointGenerated == false)
 	{
 		Point carCheckpoint, humanCheckpoint;
-		brasovMap->GenerateCheckpoint(2000, carCheckpoint, humanCheckpoint);
+		brasovMap->GenerateCheckpoint(500, carCheckpoint, humanCheckpoint);
 		player->CarCheckpoint = carCheckpoint;
 		player->HumanCheckpoint = humanCheckpoint;
 		player->CheckpointGenerated = true;
@@ -73,6 +72,10 @@ void Model::MoveLeft()
 void Model::MoveRight()
 {
 	car->TurnRight();
+}
+void Model::Jump()
+{
+	car->Break(true);
 }
 void Model::MouseMove(double dx,double dy)
 {
@@ -125,7 +128,9 @@ int Model::playerMapCollision()
 						player->LastVisitedNodeIndex = node->GetId();
 				}
 				else
+				{
 					player->LastVisitedNodeIndex = node->GetId();
+				}
 			}
 		}
 		if (insidePoints != i + 1)

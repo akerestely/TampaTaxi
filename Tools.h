@@ -33,6 +33,8 @@ public:
 	static long LongRand();
 
 	static void WriteHadoopStreetsFiles(std::vector<char*> wayNames);
+	static void WriteIntersectionsFiles(std::vector<long> inters);
+	static void UpdateIntersections(long id);
 };
 
 struct Rectangl{

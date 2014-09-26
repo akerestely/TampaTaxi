@@ -199,14 +199,19 @@ void WorldGenerator::HumanCallTaxi(Player* player)
 			double distance=distHumanTaxi.GetMagnitude();
 			if( distance > MIN_DISTANCE && distance < MAX_DISTANCE )
 			{
-				SF3dVector viewThePlayer((*it)->GetCenter(),player->GetPosition());
-				((Human*)(*it))->SetViewDir(viewThePlayer.GetNormalized());
+				
 				if(((Human*)(*it))->GetCallTaxi()==false)
 				{
-					((Human*)(*it))->SetCallTaxi(true);
+					if (rand() % 1000 == 1)
+						((Human*)(*it))->SetCallTaxi(true);
+				}
+				if(((Human*)(*it))->GetCallTaxi()==true)
+				{
+					SF3dVector viewThePlayer((*it)->GetCenter(),player->GetPosition());
+					((Human*)(*it))->SetViewDir(viewThePlayer.GetNormalized());
 				}
 			}
-			else if(distance <= MIN_DISTANCE)
+			else if(distance <= MIN_DISTANCE && player->GetCar()->GetSpeed() < 0.05 && player->GetCar()->GetSpeed() > -0.05)
 			{
 				Human* client = (Human*)(*it);
 				client->SetInTaxi(true);

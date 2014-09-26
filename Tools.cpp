@@ -187,3 +187,27 @@ void Tools::WriteHadoopStreetsFiles(std::vector<char*> wayNames)
 	fout.close();
 	streetsFilesCount++;
 }
+void Tools::WriteIntersectionsFiles(std::vector<long> inters)
+{
+	static int intersFilesCount = 0;
+	char name[70];
+	sprintf(name, "%s%d%s","hadoopIntersFiles/", intersFilesCount, ".txt");
+	std::ofstream fout(name,std::ios::app);
+
+	for(std::vector<long>::iterator it = inters.begin(); it != inters.end(); ++it)
+		fout<<(*it)<<"\n";
+
+	fout.close();
+	intersFilesCount++;
+}
+void Tools::UpdateIntersections(long id)
+{
+	static std::vector<long> intersections;
+
+	intersections.push_back(id);
+
+	if (intersections.size() > 5)
+	{
+		WriteIntersectionsFiles(intersections);
+	}
+}

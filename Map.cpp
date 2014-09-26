@@ -131,7 +131,7 @@ void Map::Draw()
 		gluQuadricNormals(quadric, GLU_SMOOTH);
 		gluQuadricTexture(quadric, GL_TRUE); 
 		gluQuadricDrawStyle(quadric, GLU_FILL);
-		gluCylinder(quadric, NODE_DIAMETER, NODE_DIAMETER, 100, 5, 1);
+		gluCylinder(quadric, NODE_DIAMETER, NODE_DIAMETER, 100, 20, 1);
 
 		glPopMatrix();
 		glDisable(GL_BLEND);
@@ -195,22 +195,21 @@ Minimap* Map::GetMinimap()
 
 void Map::GenerateCheckpoint(double distance, Point &carCheckpoint, Point &humanCheckpoint)
 {
-	/*long random = 0;
+	long random = 0;
 	long nodeId, nodePos;
 	do{
-		random = Tools::LongRand();
+		random = rand();
 		nodePos = random % nodes.size();
 		std::map<long, Node*>::iterator it = nodes.begin();
 		std::advance(it, nodePos);
 		nodeId = (*it).first;
-	} while (SF3dVector(currentPosition, nodes[nodeId]->GetCenter()).GetMagnitude() < distance);
-	*/
-	long random =73370; //72224;
-	long nodeId = random;
+	} while (SF3dVector(currentPosition, nodes[nodeId]->GetCenter()).GetMagnitude() > distance);
+	
+	
 	std::vector<long> nodeWays = nodes[nodeId]->GetWays();
 	long wayId = nodeWays[random % nodeWays.size()];
 
-	long portionIndex = random & (ways[wayId]->GetNodes().size() - 1);
+	long portionIndex = random % (ways[wayId]->GetNodes().size() - 1);
 
 	Street* street = ways[wayId]->GetRightSidewalk(portionIndex);
 	SF3dVector v1, v2, vr;
@@ -260,13 +259,22 @@ void Map::StreetCollision(Node *node, Point M, int &insidePoints)
 	if (node == NULL)
 		return;
 	Point nodeCenter = node->GetCenter();
+	std::vector<long> adjacentWays = node->GetWays();
 	if (Tools::PointInsideCircle(M, nodeCenter, NODE_DIAMETER / 2))
 	{
 		insidePoints++;
+		for (int adjW = 0; adjW < adjacentWays.size(); adjW++)
+		{
+			int index = ways[adjacentWays[adjW]]->GetIndex(node);
+			int size = ways[adjacentWays[adjW]]->GetNodes().size();
+			if ((index == 0 || index == size - 1) && insidePoints == 0)
+			{
+				Tools::UpdateIntersections(node->GetId());
+			}
+		}
 		return;
 	}
 	
-	std::vector<long> adjacentWays = node->GetWays();
 	for (int adjW = 0; adjW < adjacentWays.size(); adjW++)
 	{
 		Way* adjacentWay = ways[adjacentWays[adjW]];

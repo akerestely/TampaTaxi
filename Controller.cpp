@@ -23,10 +23,14 @@ void Controller::RenderDisplay()
 		ctrl->scene->Render();
 		glLoadIdentity();
 		
-		ctrl->hud->Draw();
+		
 		if(ctrl->mainMenu->GetEscPressed()) 
 		{
 			ctrl->mainMenu->Draw();
+		}
+		else
+		{
+			ctrl->hud->Draw();
 		}
 		if(ctrl->debugWindowPressed) 
 		{
@@ -79,12 +83,7 @@ void Controller::KeyPressed (unsigned char key, int x, int y)
 	case 'd':ctrl->right=true; break;
 	case 'l':glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); break;
 	case 'L':glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); break;
-	case ' ':
-	if(!glutGetModifiers())
-		ctrl->climbUp=true; 
-	else
-		ctrl->climbDown=true;
-	break;
+	case ' ':ctrl->jump=true; break;
 	}
 }
 void Controller::KeyReleased (unsigned char key, int x, int y)
@@ -96,7 +95,7 @@ void Controller::KeyReleased (unsigned char key, int x, int y)
 	case 's':ctrl->down=false;break;
 	case 'a':ctrl->left=false; break;
 	case 'd':ctrl->right=false; break;
-	case ' ':ctrl->climbUp=ctrl->climbDown=false; break;
+	case ' ':ctrl->jump=false; break;
 	}
 }
 
@@ -139,42 +138,37 @@ void Controller::Timer(int value)
 			ctrl->model->MoveUp();
 		if (ctrl->down)		 
 			ctrl->model->MoveDown();
-		/*if(climbUp)
-		{		
-			cam.Move(SF3dVector(0,SPEED,0));
-		}
-		if(climbDown)
-		{		
-			cam.Move(SF3dVector(0,-SPEED,0));
-		}*/
-	}
-	ctrl->model->Update();
-	char *currentWayName = ctrl->model->GetMap()->GetCurrentWayName();
-	if(currentWayName)
-	{
-		if(strcmp(currentWayName, ctrl->lastWayName) != 0 && strcmp(currentWayName, "unknown") != 0)
+		if (ctrl->jump)
+			ctrl->model->Jump();
+		ctrl->model->Update();
+		char *currentWayName = ctrl->model->GetMap()->GetCurrentWayName();
+		if(currentWayName)
 		{
-			strcpy(ctrl->lastWayName, currentWayName);
-			char *p = new char[70];
-			strcpy(p, currentWayName);
-			ctrl->waysNames.push_back(p);
-			if((ctrl->waysNames).size() > 5)
+			if(strcmp(currentWayName, ctrl->lastWayName) != 0 && strcmp(currentWayName, "unknown") != 0)
 			{
-				Tools::WriteHadoopStreetsFiles(ctrl->waysNames);
-				ctrl->waysNames.clear();
+				strcpy(ctrl->lastWayName, currentWayName);
+				char *p = new char[70];
+				strcpy(p, currentWayName);
+				ctrl->waysNames.push_back(p);
+				if((ctrl->waysNames).size() > 5)
+				{
+					Tools::WriteHadoopStreetsFiles(ctrl->waysNames);
+					ctrl->waysNames.clear();
+				}
 			}
+			ctrl->hud->Update(currentWayName);
 		}
-		ctrl->hud->Update(currentWayName);
+		else
+		{
+			if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_MODAROM)
+				ctrl->hud->Update("Modarom");
+			if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_LIVADA)
+				ctrl->hud->Update("Livada Postei");
+			if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_DRUMUL_VECHI)
+				ctrl->hud->Update("Drumul vechi");
+		}
 	}
-	else
-	{
-		if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_MODAROM)
-			ctrl->hud->Update("Modarom");
-		if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_LIVADA)
-			ctrl->hud->Update("Livada Postei");
-		if (ctrl->model->GetPlayer()->LastVisitedNodeIndex == START_DRUMUL_VECHI)
-			ctrl->hud->Update("Drumul vechi");
-	}
+	
 }
 
 void Controller::WindowResize(GLsizei width, GLsizei height)
