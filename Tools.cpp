@@ -1,5 +1,4 @@
 #include "Tools.h"
-#include "iostream"
 int Tools::ReadNodesFromXML(char *fileName, std::map<long,Node*>& nodes,std::map<long,Way*>& ways)
 {
 	
@@ -122,7 +121,6 @@ int Tools::ReadBuildingsFromXML(char *fileName, std::vector<Building*> &building
 		{
 			strcpy(buffer, strstr(buffer, "='"));
 			sscanf(buffer, "%*c%*c%ld", &id);
-			std::cout << id << "\n";
 			fgets(buffer,200,fo);
 			while(!strstr(buffer,tag))
 			{
